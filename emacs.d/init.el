@@ -56,6 +56,16 @@
 (setq ido-everywhere t)
 (ido-mode 1)
 
+;; Automatic find file customizations:
+;;
+;; Stop IDO mode find file by typing C-f
+;;
+;; Slow down time delay for automatic file search
+;; (setq ido-auto-merge-delay-time 9)
+;;
+;; Completely disable automatic find file
+(setq ido-auto-merge-work-directories-length -1)
+
 
 ;; disable the toolbar
 (tool-bar-mode -1)
