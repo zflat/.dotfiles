@@ -4,8 +4,8 @@
 Load and install "dotfiles"
 ----------------------
 
-`cd ~/ && git clone https://github.com/zflat/.dotfiles.git`
-`./.dotfiles/install`
+      cd ~/ && git clone https://github.com/zflat/.dotfiles.git
+      ./.dotfiles/install
 
 Dotbot
 ------
