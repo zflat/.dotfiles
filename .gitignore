@@ -1,0 +1,6 @@
+*~
+.#*
+*#
+#*.lock
+*.DS_Store
+emacs.d/auto-save-list
