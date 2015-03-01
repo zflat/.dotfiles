@@ -4,15 +4,23 @@
 Load and install "dotfiles"
 ----------------------
 
-      cd ~/ && git clone https://github.com/zflat/.dotfiles.git
-      ./.dotfiles/install
+ * Clone the repo into .dotfiles
+ * Run the [dotbot] setup script
+
+        .dotfiles/install
+
+ * Re-run the setup script after any changes to install.config.yaml
+  * Changes are idempotent so running multiple times is safe
 
 Dotbot
 ------
 
 Linking and configuration done automatically with [dotbot].
 
-To upgrade your submodules to their latest versions, you could periodically run
+Upgrade dotbot:
+`git submodule update --remote dotbot`
+
+Upgrade submodules to their latest versions:
 `git submodule update --init --remote`.
 
 
