@@ -1,0 +1,5 @@
+- clean: ['~']
+- link:
+   ~/.emacs.d: 
+      path: "emacs.d/"
+      force: true
