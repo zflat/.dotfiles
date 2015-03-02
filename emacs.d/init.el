@@ -70,9 +70,41 @@
 ;; disable the toolbar
 (tool-bar-mode -1)
 
-;; tabbar.el downloaded from:
-;; sudo apt-get install emacs-goodies-el 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                  PACKAGES
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'cask "~/.cask/cask.el")
+(cask-initialize)
+
+;; consider also using pallet 
+;; https://github.com/rdallasgray/pallet
+
+
+;;; Packages configuration / Initialization
+
+(smex-initialize)
+
+
+(tabbar-mode)
 (global-set-key (kbd "C-M-p") 'tabbar-backward-group)
 (global-set-key (kbd "C-M-n") 'tabbar-forward-group)
 (global-set-key (kbd "C-<") 'tabbar-backward)
 (global-set-key (kbd "C->") 'tabbar-forward) ;; tabbar.el, put all the buffers on the tabs.
+
+
+(require 'web-mode) 
+(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode)) 
+(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode)) 
+(add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode)) 
+(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode)) 
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode)) 
+(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode)) 
+(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+(setq web-mode-engines-alist '
+      (("php" . "\\.phtml\\'")
+       ("blade" . "\\.blade\\."))
+      )
