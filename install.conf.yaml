@@ -3,3 +3,5 @@
    ~/.emacs.d: 
       path: "emacs.d/"
       force: true
+- shell:
+   - cask install --path ./emacs.d
