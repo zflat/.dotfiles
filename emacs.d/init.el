@@ -7,10 +7,10 @@
 ;; disable splash screen
 (load "~/elisp/autoloads" 'install)
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(ecb-options-version "2.32")
  '(inhibit-startup-screen t))
 
@@ -43,11 +43,11 @@
 
 (set-frame-size-according-to-resolution)
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- )
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple "" :background "linen" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
 
 
 ;; Enable IDO 
@@ -90,8 +90,8 @@
 
 
 (tabbar-mode)
-(global-set-key (kbd "C-M-p") 'tabbar-backward-group)
-(global-set-key (kbd "C-M-n") 'tabbar-forward-group)
+(global-set-key (kbd "C-M->") 'tabbar-backward-group)
+(global-set-key (kbd "C-M-<") 'tabbar-forward-group)
 (global-set-key (kbd "C-<") 'tabbar-backward)
 (global-set-key (kbd "C->") 'tabbar-forward) ;; tabbar.el, put all the buffers on the tabs.
 
@@ -108,3 +108,11 @@
       (("php" . "\\.phtml\\'")
        ("blade" . "\\.blade\\."))
       )
+; web-mode customization
+(setq web-mode-markup-indent-offset 2)
+(defun my-web-mode-hook ()
+  "Hooks for Web mode." 
+  (setq web-mode-markup-indent-offset 2) ) 
+(add-hook 'web-mode-hook 'my-web-mode-hook)
+(set-face-attribute 'web-mode-symbol-face nil :foreground "SeaGreen")
+
