@@ -2,7 +2,7 @@
 
 ;; Set font
 ;; http://askubuntu.com/questions/23603/how-to-change-font-size-in-emacs
-(set-face-attribute 'default nil :height 120)
+(set-face-attribute 'default nil :height 160)
 
 ;; disable splash screen
 (load "~/elisp/autoloads" 'install)
@@ -16,6 +16,9 @@
 
 ;; current buffer name in title bar
 (setq frame-title-format "%b")
+
+;; All indentation made with spaces
+; (setq indent-tabs-mode nil)
 
 
 ;;;;;;;;;;;;;
