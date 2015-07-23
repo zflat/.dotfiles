@@ -1,9 +1,11 @@
-(source gnu)
-(source melpa)
+(source gnu) ; https://elpa.gnu.org/
+(source melpa) ; melpa.org
 
 (depends-on "dash")
 (depends-on "cask")
 (depends-on "expand-region")
+(depends-on "company")
+(depends-on "company-web")
 (depends-on "f")
 (depends-on "flycheck")
 (depends-on "flycheck-cask")
@@ -21,5 +23,6 @@
 (depends-on "smex")
 (depends-on "use-package")
 (depends-on "web-mode")
+(depends-on "php-mode")
 (depends-on "tabbar")
-
+(depends-on "ack") ; grep replacement for source code, also install ack on system

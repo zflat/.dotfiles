@@ -5,8 +5,9 @@ Load and install "dotfiles"
 ----------------------
 
  * Prerequisites
-  * Python
+  * Python 2.7
   * Emacs24
+    * ack
   * Cask http://cask.readthedocs.org/
  * Clone the repo into .dotfiles
  * Run the [dotbot] setup script

@@ -1,27 +1,33 @@
 ;; Configure emacs
+;; Also can invoke `M-x Custom`
+
+
+;;;;;;;;;;;;;
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ecb-options-version "2.32")
+ '(inhibit-startup-screen t)
+ '(split-height-threshold 10)
+ '(split-width-threshold 30))
+;;;;;;;;;;;;;;
+
 
 ;; Set font
 ;; http://askubuntu.com/questions/23603/how-to-change-font-size-in-emacs
 (set-face-attribute 'default nil :height 160)
 
-;; disable splash screen
-(load "~/elisp/autoloads" 'install)
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(ecb-options-version "2.32")
- '(inhibit-startup-screen t))
 
 ;; current buffer name in title bar
 (setq frame-title-format "%b")
 
 ;; All indentation made with spaces
-; (setq indent-tabs-mode nil)
-
-
-;;;;;;;;;;;;;
+(setq-default indent-tabs-mode nil) ;; setq vs setq-default? 
+(setq tab-width 2)
+(setq default-tab-width 2)
+(setq js-indent-level 2) ;; Use 2 spaces for javascript files
 
 
 ;; Start emacs to fill the screen
@@ -46,11 +52,44 @@
 
 (set-frame-size-according-to-resolution)
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  )
+
+
+
+;; Setup windows splitting preferences
+;; 
+;; `customize-group [RET] Windows`
+;; Split Height Threshold:
+;;   default: 80
+;;   always split horizontal: nil 
+;; Split Width Threshold 
+;;   default: 160
+;;   always split horizontal: 0
+
+
+(when (fboundp 'windmove-default-keybindings)
+  (windmove-default-keybindings))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                  PACKAGES
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'cask "~/.cask/cask.el")
+(cask-initialize)
+
+
+
+;; consider also using pallet 
+;; https://github.com/rdallasgray/pallet
+
+
+;;; Packages configuration / Initialization
 
 
 ;; Enable IDO 
@@ -74,21 +113,6 @@
 (tool-bar-mode -1)
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                  PACKAGES
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(require 'cask "~/.cask/cask.el")
-(cask-initialize)
-
-;; consider also using pallet 
-;; https://github.com/rdallasgray/pallet
-
-
-;;; Packages configuration / Initialization
-
 (smex-initialize)
 
 
@@ -111,3 +135,28 @@
       (("php" . "\\.phtml\\'")
        ("blade" . "\\.blade\\."))
       )
+
+(require 'php-mode)
+(add-hook 'php-mode-hook 'php-enable-psr2-coding-style)
+
+(require 'company)
+(add-hook 'after-init-hook 'global-company-mode)
+
+(require 'ack)
+
+;; Keybindings Notes
+;;
+;; Zoom in/out with
+; C-x C-+
+; C-x C--
+;; Tabbar explained
+;; C-Alt-p 'tabbar-backward-group
+;; C-Alt-n 'tabbar-forward-group
+;;
+;; Jump to beginning/end of file
+;; C-Home
+;; C-End
+;;
+;; List matching lines for `isearch-...`
+;; Shows list in new buffer
+;; Alt-s o

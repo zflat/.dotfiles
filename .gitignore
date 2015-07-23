@@ -26,3 +26,4 @@ emacs.d/auto-save-list/*
 /emacs.d/tramp
 /emacs.d/url
 /emacs.d/smex-items
+/emacs.d/ido.last
