@@ -71,6 +71,7 @@
 ;;   always split horizontal: 0
 
 
+;; Move cursor to different Panes by Arrow
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
 
@@ -98,6 +99,12 @@
 (setq ido-everywhere t)
 (ido-mode 1)
 
+;; flx match support in ido mode
+(require 'flx-ido)
+(flx-ido-mode 1)
+;; disable ido faces to see flx highlights.
+(setq ido-use-faces nil)
+
 ;; Automatic find file customizations:
 ;;
 ;; Stop IDO mode find file by typing C-f
@@ -107,6 +114,10 @@
 ;;
 ;; Completely disable automatic find file
 (setq ido-auto-merge-work-directories-length -1)
+
+
+(require 'neotree)
+(global-set-key [f8] 'neotree-toggle)
 
 
 ;; disable the toolbar
@@ -146,6 +157,8 @@
 
 ;; Keybindings Notes
 ;;
+;; Note: 'C-M-...' can be captured as '<esc>, C-...'
+;;
 ;; Zoom in/out with
 ; C-x C-+
 ; C-x C--
@@ -160,3 +173,15 @@
 ;; List matching lines for `isearch-...`
 ;; Shows list in new buffer
 ;; Alt-s o
+;;
+;; Move cursor to different panes
+;;
+;; [Shift]+[Up Arrow]
+;; [Shift]+[Down Arrow]
+;; [Shift]+[Left Arrow]
+;; [Shift]+[Right Arrow]
+;;
+;; Move to parenthesis pair
+;; C-M-right ;; Also can be <esc>, C+right
+;; C-M-left ;; Also can be <esc>, C+left
+
