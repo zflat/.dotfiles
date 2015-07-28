@@ -16,7 +16,7 @@
 (depends-on "magit")
 (depends-on "multiple-cursors")
 (depends-on "nyan-mode")
-; (depends-on "neotree")
+(depends-on "neotree")
 (depends-on "pallet")
 (depends-on "popwin")
 (depends-on "prodigy")
@@ -28,3 +28,8 @@
 (depends-on "web-mode")
 (depends-on "php-mode")
 (depends-on "tabbar")
+
+; Themes
+(depends-on "zenburn-theme")
+(depends-on "color-theme-solarized") 
+; (depends-on "solarized-theme") 
