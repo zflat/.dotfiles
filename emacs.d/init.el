@@ -10,14 +10,31 @@
  ;; If there is more than one, they won't work right.
  '(ecb-options-version "2.32")
  '(inhibit-startup-screen t)
- '(split-height-threshold 10)
- '(split-width-threshold 30))
+
+;; '(split-height-threshold nil)
+;; '(split-width-threshold 0)
+
+)
+
+;; Setup windows splitting preferences
+;; 
+;; `customize-group [RET] Windows`
+;; Split Height Threshold:
+;;   default: 80
+;;   always split horizontal: nil 
+;; Split Width Threshold 
+;;   default: 160
+;;   always split horizontal: 0
+
+
+
 ;;;;;;;;;;;;;;
+
 
 
 ;; Set font
 ;; http://askubuntu.com/questions/23603/how-to-change-font-size-in-emacs
-(set-face-attribute 'default nil :height 160)
+(set-face-attribute 'default nil :height 140)
 
 
 ;; current buffer name in title bar
@@ -58,22 +75,33 @@
  ;; If there is more than one, they won't work right.
  )
 
-
-
-;; Setup windows splitting preferences
-;; 
-;; `customize-group [RET] Windows`
-;; Split Height Threshold:
-;;   default: 80
-;;   always split horizontal: nil 
-;; Split Width Threshold 
-;;   default: 160
-;;   always split horizontal: 0
-
-
 ;; Move cursor to different Panes by Arrow
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
+
+;; store all backup and autosave files in the tmp dir
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
+
+;; disable the toolbar
+(tool-bar-mode -1)
+
+
+;; show the current directory in the frame bar
+;; see http://stackoverflow.com/a/8945306
+(setq frame-title-format '((:eval default-directory)))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                  MINOR MODES
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; (global-linum-mode 1) ; always show line numbers
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -89,8 +117,9 @@
 ;; consider also using pallet 
 ;; https://github.com/rdallasgray/pallet
 
-
+;;;
 ;;; Packages configuration / Initialization
+;;;
 
 
 ;; Enable IDO 
@@ -113,19 +142,22 @@
 ;; (setq ido-auto-merge-delay-time 9)
 ;;
 ;; Completely disable automatic find file
-(setq ido-auto-merge-work-directories-length -1)
+;; (setq ido-auto-merge-work-directories-length -1)
 
 
 (require 'neotree)
 (global-set-key [f8] 'neotree-toggle)
 
+;; TODO: Show the buffer directory in the mode-line
+;; http://www.emacswiki.org/emacs/ModeLineDirtrack
 
-;; disable the toolbar
-(tool-bar-mode -1)
-
-
+;; Like IDO for running commands (M-x <...>|<..>|...)
+(require 'smex)
 (smex-initialize)
-
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+;; This is the old M-x.
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 (tabbar-mode)
 (global-set-key (kbd "C-M-p") 'tabbar-backward-group)
@@ -155,7 +187,15 @@
 
 (require 'ack)
 
-;; Keybindings Notes
+
+;; Color Themes
+;;
+;; Change with M-x load-theme RET {themename}
+(load-theme 'zenburn t)
+; (load-theme 'solarized-dark t)
+
+
+;;  Keybindings Notes
 ;;
 ;; Note: 'C-M-...' can be captured as '<esc>, C-...'
 ;;
@@ -184,4 +224,9 @@
 ;; Move to parenthesis pair
 ;; C-M-right ;; Also can be <esc>, C+right
 ;; C-M-left ;; Also can be <esc>, C+left
-
+;;
+;;
+;; Commands notes
+;;
+;; After M-x cd stops emacs from tracking directories, run: M-x dirtrack-mode
+;;

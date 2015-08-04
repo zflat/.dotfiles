@@ -28,8 +28,8 @@
 (depends-on "web-mode")
 (depends-on "php-mode")
 (depends-on "tabbar")
+; (depends-on "uniquify")
 
 ; Themes
 (depends-on "zenburn-theme")
 (depends-on "color-theme-solarized") 
-; (depends-on "solarized-theme") 
