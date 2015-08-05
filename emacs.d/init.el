@@ -122,6 +122,14 @@
 ;;;
 
 
+;; Enable Projectile
+;;
+;; list of commands: C-c p C-h
+(require 'projectile)
+(projectile-global-mode)
+(setq projectile-enable-caching t)
+
+
 ;; Enable IDO 
 ;; http://www.masteringemacs.org/article/introduction-to-ido-mode
 (setq ido-enable-flex-matching t)
@@ -159,6 +167,8 @@
 ;; This is the old M-x.
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
+
+;; (setq tabbar-use-images nil) ; http://stackoverflow.com/a/8617726
 (tabbar-mode)
 (global-set-key (kbd "C-M-p") 'tabbar-backward-group)
 (global-set-key (kbd "C-M-n") 'tabbar-forward-group)
@@ -186,13 +196,14 @@
 (add-hook 'after-init-hook 'global-company-mode)
 
 (require 'ack)
+(require 'smooth-scrolling)
 
 
 ;; Color Themes
 ;;
 ;; Change with M-x load-theme RET {themename}
 (load-theme 'zenburn t)
-; (load-theme 'solarized-dark t)
+;; (load-theme 'solarized-dark t)
 
 
 ;;  Keybindings Notes
@@ -200,8 +211,8 @@
 ;; Note: 'C-M-...' can be captured as '<esc>, C-...'
 ;;
 ;; Zoom in/out with
-; C-x C-+
-; C-x C--
+;; C-x C-+
+;; C-x C--
 ;; Tabbar explained
 ;; C-Alt-p 'tabbar-backward-group
 ;; C-Alt-n 'tabbar-forward-group
