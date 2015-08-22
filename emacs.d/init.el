@@ -70,6 +70,25 @@
 (tool-bar-mode -1)
 
 
+;; parenthesis customization
+;; consider also http://www.emacswiki.org/emacs/HighlightParentheses
+(setq show-paren-delay 0)
+(show-paren-mode 1)
+
+;; How to show the matching paren when it is offscreen
+(defadvice show-paren-function
+  (after show-matching-paren-offscreen activate)
+  "If the matching paren is offscreen, show the matching line in the
+        echo area. Has no effect if the character before point is not of
+        the syntax class ')'."
+  (interactive)
+  (let* ((cb (char-before (point)))
+	 (matching-text (and cb
+			     (char-equal (char-syntax cb) ?\) )
+			     (blink-matching-open))))
+    (when matching-text (message matching-text))))
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                  PACKAGES
@@ -89,10 +108,11 @@
 
 (smex-initialize)
 
-
 (require 'helm-config)
 (require 'helm)
 (global-set-key (kbd "M-x") 'helm-M-x)
+(setq helm-M-x-fuzzy-match t) ;; optional fuzzy matching for helm-M-x
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
 (helm-autoresize-mode 1)
 (helm-mode 1)
 
