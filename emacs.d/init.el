@@ -49,12 +49,11 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple "" :background "linen" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
 
-
 ;; Enable IDO 
 ;; http://www.masteringemacs.org/article/introduction-to-ido-mode
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
-(ido-mode 1)
+;(setq ido-enable-flex-matching t)
+;(setq ido-everywhere t)
+;(ido-mode 1)
 
 ;; Automatic find file customizations:
 ;;
@@ -64,7 +63,7 @@
 ;; (setq ido-auto-merge-delay-time 9)
 ;;
 ;; Completely disable automatic find file
-(setq ido-auto-merge-work-directories-length -1)
+;(setq ido-auto-merge-work-directories-length -1)
 
 
 ;; disable the toolbar
@@ -86,8 +85,26 @@
 
 ;;; Packages configuration / Initialization
 
+(require 'ag)
+
 (smex-initialize)
 
+
+(require 'helm-config)
+(require 'helm)
+(global-set-key (kbd "M-x") 'helm-M-x)
+(helm-autoresize-mode 1)
+(helm-mode 1)
+
+(projectile-global-mode)
+;; (setq helm-projectile-fuzzy-match nil)
+(require 'helm-projectile)
+(helm-projectile-on)
+
+(define-key projectile-mode-map [?\s-d] 'helm-projectile-find-dir)
+(define-key projectile-mode-map [?\s-p] 'helm-projectile-switch-project)
+(define-key projectile-mode-map [?\s-f] 'helm-projectile-find-file)
+(define-key projectile-mode-map [?\s-s] 'helm-do-ag-project-root)
 
 (tabbar-mode)
 (global-set-key (kbd "C-M->") 'tabbar-backward-group)
