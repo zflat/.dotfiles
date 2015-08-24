@@ -89,10 +89,15 @@
 ;; disable the toolbar
 (tool-bar-mode -1)
 
+;; disable the scroll bar
+(scroll-bar-mode -1)
+
 
 ;; show the current directory in the frame bar
 ;; see http://stackoverflow.com/a/8945306
 (setq frame-title-format '((:eval default-directory)))
+
+(show-paren-mode t)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -102,6 +107,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; (global-linum-mode 1) ; always show line numbers
+
+(delete-selection-mode 1) ; Replace highlighted text with typed characters
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -121,6 +128,9 @@
 ;;; Packages configuration / Initialization
 ;;;
 
+(require 'geben)
+(autoload 'geben "geben" "DBGp protocol frontend, a script debugger" t)
+(global-set-key [f5] 'geben)
 
 ;; Enable Projectile
 ;;
@@ -141,6 +151,30 @@
 (flx-ido-mode 1)
 ;; disable ido faces to see flx highlights.
 (setq ido-use-faces nil)
+
+
+;; Muliple cursors
+(require 'multiple-cursors)
+; Cursor at each line in selected region
+; Note: <S> is shift
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines) 
+; Use arrow keys to quickly mark/skip next/previous occurances.
+(global-set-key (kbd "C-S-c C-s") 'mc/mark-more-like-this-extended) 
+
+;; Expand region
+(require 'expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
+
+;; Line duplication
+(global-set-key (kbd "M-<up>") 'md/move-lines-up)
+(global-set-key (kbd "M-<down>") 'md/move-lines-down)
+(global-set-key (kbd "C-M-<up>") 'md/duplicate-up)
+(global-set-key (kbd "C-M-<down>") 'md/duplicate-down)
+
+
+;; Code folding
+(require 'origami)
+
 
 ;; Automatic find file customizations:
 ;;
@@ -169,11 +203,17 @@
 
 
 ;; (setq tabbar-use-images nil) ; http://stackoverflow.com/a/8617726
-(tabbar-mode)
-(global-set-key (kbd "C-M-p") 'tabbar-backward-group)
-(global-set-key (kbd "C-M-n") 'tabbar-forward-group)
-(global-set-key (kbd "C-<") 'tabbar-backward)
-(global-set-key (kbd "C->") 'tabbar-forward) ;; tabbar.el, put all the buffers on the tabs.
+;; (tabbar-mode)
+;; (global-set-key (kbd "C-M-p") 'tabbar-backward-group)
+;; (global-set-key (kbd "C-M-n") 'tabbar-forward-group)
+;; (global-set-key (kbd "C-<") 'tabbar-backward)
+;; (global-set-key (kbd "C->") 'tabbar-forward) ;; tabbar.el, put all the buffers on the tabs.
+
+;; Visual Bookmarks
+(require 'bm)
+(global-set-key (kbd "<C-f2>") 'bm-toggle)
+(global-set-key (kbd "<f2>")   'bm-next)
+(global-set-key (kbd "<S-f2>") 'bm-previous)
 
 
 (require 'web-mode) 
@@ -197,6 +237,8 @@
 
 (require 'ack)
 (require 'smooth-scrolling)
+;; Also increase speed by changing X-window repeat rate
+;; xset r rate 500 75
 
 
 ;; Color Themes
@@ -236,8 +278,14 @@
 ;; C-M-right ;; Also can be <esc>, C+right
 ;; C-M-left ;; Also can be <esc>, C+left
 ;;
+;; C-x b<RET> ;; Opens the last edited buffer
 ;;
 ;; Commands notes
 ;;
 ;; After M-x cd stops emacs from tracking directories, run: M-x dirtrack-mode
 ;;
+
+
+;;
+;; Load additional init files
+(load "~/.emacs.d/util.el")

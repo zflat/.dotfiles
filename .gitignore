@@ -18,6 +18,7 @@ emacs.d/auto-save-list/*
 /emacs.d/eshell/history
 /emacs.d/eshell/lastdir
 /emacs.d/extern/cask/
+/emacs.d/geben/
 /emacs.d/local.el
 /emacs.d/info/
 /emacs.d/projectile*
