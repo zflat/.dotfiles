@@ -110,6 +110,27 @@
 
 (delete-selection-mode 1) ; Replace highlighted text with typed characters
 
+(electric-pair-mode 1) ; Provides a way to easily insert matching delimiters
+
+;; parenthesis customization
+;; consider also http://www.emacswiki.org/emacs/HighlightParentheses
+(setq show-paren-delay 0)
+(show-paren-mode 1)
+
+;; How to show the matching paren when it is offscreen
+(defadvice show-paren-function
+  (after show-matching-paren-offscreen activate)
+  "If the matching paren is offscreen, show the matching line in the
+        echo area. Has no effect if the character before point is not of
+        the syntax class ')'."
+  (interactive)
+  (let* ((cb (char-before (point)))
+	 (matching-text (and cb
+			     (char-equal (char-syntax cb) ?\) )
+			     (blink-matching-open))))
+    (when matching-text (message matching-text))))
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                  PACKAGES
@@ -131,27 +152,6 @@
 (require 'geben)
 (autoload 'geben "geben" "DBGp protocol frontend, a script debugger" t)
 (global-set-key [f5] 'geben)
-
-;; Enable Projectile
-;;
-;; list of commands: C-c p C-h
-(require 'projectile)
-(projectile-global-mode)
-(setq projectile-enable-caching t)
-
-
-;; Enable IDO 
-;; http://www.masteringemacs.org/article/introduction-to-ido-mode
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
-(ido-mode 1)
-
-;; flx match support in ido mode
-(require 'flx-ido)
-(flx-ido-mode 1)
-;; disable ido faces to see flx highlights.
-(setq ido-use-faces nil)
-
 
 ;; Muliple cursors
 (require 'multiple-cursors)
@@ -193,21 +193,9 @@
 ;; TODO: Show the buffer directory in the mode-line
 ;; http://www.emacswiki.org/emacs/ModeLineDirtrack
 
-;; Like IDO for running commands (M-x <...>|<..>|...)
-(require 'smex)
-(smex-initialize)
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-;; This is the old M-x.
-(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+; (require 'ag)
 
 
-;; (setq tabbar-use-images nil) ; http://stackoverflow.com/a/8617726
-;; (tabbar-mode)
-;; (global-set-key (kbd "C-M-p") 'tabbar-backward-group)
-;; (global-set-key (kbd "C-M-n") 'tabbar-forward-group)
-;; (global-set-key (kbd "C-<") 'tabbar-backward)
-;; (global-set-key (kbd "C->") 'tabbar-forward) ;; tabbar.el, put all the buffers on the tabs.
 
 ;; Visual Bookmarks
 (require 'bm)
@@ -215,6 +203,27 @@
 (global-set-key (kbd "<f2>")   'bm-next)
 (global-set-key (kbd "<S-f2>") 'bm-previous)
 
+(require 'helm-config)
+(require 'helm)
+(global-set-key (kbd "M-x") 'helm-M-x)
+;; This is the old M-x.
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+(setq helm-M-x-fuzzy-match t) ;; optional fuzzy matching for helm-M-x
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(helm-autoresize-mode 1)
+(helm-mode 1)
+
+;; Enable Projectile
+;;
+;; list of commands: C-c p C-h
+(require 'projectile)
+(require 'helm-projectile)
+(projectile-global-mode)
+(setq projectile-enable-caching t)
+(helm-projectile-on)
+;; (setq helm-projectile-fuzzy-match nil)
+(global-set-key (kbd "C-c C-s") 'helm-do-ag-project-root)
+(global-set-key (kbd "C-c C-f") 'helm-projectile-find-file)
 
 (require 'web-mode) 
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode)) 
@@ -228,6 +237,14 @@
       (("php" . "\\.phtml\\'")
        ("blade" . "\\.blade\\."))
       )
+; web-mode customization
+(setq web-mode-markup-indent-offset 2)
+(defun my-web-mode-hook ()
+  "Hooks for Web mode." 
+  (setq web-mode-markup-indent-offset 2) ) 
+(add-hook 'web-mode-hook 'my-web-mode-hook)
+(set-face-attribute 'web-mode-symbol-face nil :foreground "SeaGreen")
+
 
 (require 'php-mode)
 (add-hook 'php-mode-hook 'php-enable-psr2-coding-style)
@@ -235,7 +252,6 @@
 (require 'company)
 (add-hook 'after-init-hook 'global-company-mode)
 
-(require 'ack)
 (require 'smooth-scrolling)
 ;; Also increase speed by changing X-window repeat rate
 ;; xset r rate 500 75

@@ -1,5 +1,7 @@
 - clean: ['~']
 - link:
+   ~/.config/git: 
+      path: "config/git"
    ~/.emacs.d: 
       path: "emacs.d/"
       force: true

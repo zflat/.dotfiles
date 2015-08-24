@@ -1,6 +1,7 @@
 (source gnu) ; https://elpa.gnu.org/
 (source melpa) ; melpa.org
 
+(depends-on "ag")
 (depends-on "bm") ; visual bookmarks
 (depends-on "dash")
 (depends-on "cask")
@@ -8,10 +9,12 @@
 (depends-on "company")
 (depends-on "company-web")
 (depends-on "f")
-(depends-on "flx-ido") ; Fuzzy matching for Emacs ...
-(depends-on "flycheck")
-(depends-on "flycheck-cask")
+;(depends-on "flycheck")
+;(depends-on "flycheck-cask")
 (depends-on "geben")
+(depends-on "helm")
+(depends-on "helm-projectile")
+(depends-on "helm-ag")
 (depends-on "htmlize")
 (depends-on "idle-highlight-mode")
 (depends-on "magit")
@@ -25,13 +28,10 @@
 (depends-on "prodigy")
 (depends-on "projectile")
 (depends-on "s")
-(depends-on "smartparens")
-(depends-on "smex")
 (depends-on "smooth-scrolling")
 (depends-on "use-package")
 (depends-on "web-mode")
 (depends-on "php-mode")
-; (depends-on "uniquify")
 
 ; Themes
 (depends-on "zenburn-theme")
