@@ -112,6 +112,10 @@
 (require 'helm)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (setq helm-M-x-fuzzy-match t) ;; optional fuzzy matching for helm-M-x
+(custom-set-variables '(helm-recentf-fuzzy-match t)
+		      '(helm-find-files-fuzzy-match t)
+		      '(helm-buffers-list-fuzzy-match t)
+		      '(helm-imenu-fuzzy-match t))
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (helm-autoresize-mode 1)
 (helm-mode 1)
