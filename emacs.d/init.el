@@ -168,8 +168,8 @@
 ;; Line duplication
 (global-set-key (kbd "M-<up>") 'md/move-lines-up)
 (global-set-key (kbd "M-<down>") 'md/move-lines-down)
-(global-set-key (kbd "C-M-<up>") 'md/duplicate-up)
-(global-set-key (kbd "C-M-<down>") 'md/duplicate-down)
+(global-set-key (kbd "C-S-d <down>") 'md/duplicate-down)
+(global-set-key (kbd "C-S-d <up>") 'md/duplicate-up)
 
 
 ;; Code folding
@@ -203,12 +203,15 @@
 (global-set-key (kbd "<f2>")   'bm-next)
 (global-set-key (kbd "<S-f2>") 'bm-previous)
 
-(require 'helm-config)
 (require 'helm)
+(require 'helm-config)
 (global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x b") 'helm-mini)
 ;; This is the old M-x.
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
-(setq helm-M-x-fuzzy-match t) ;; optional fuzzy matching for helm-M-x
+;; optional fuzzy matching for helm-M-x
+(setq helm-buffers-fuzzy-matching t
+      helm-recentf-fuzzy-match    t)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (helm-autoresize-mode 1)
 (helm-mode 1)
@@ -222,8 +225,8 @@
 (setq projectile-enable-caching t)
 (helm-projectile-on)
 ;; (setq helm-projectile-fuzzy-match nil)
-(global-set-key (kbd "C-c C-s") 'helm-do-ag-project-root)
-(global-set-key (kbd "C-c C-f") 'helm-projectile-find-file)
+(global-set-key [f9] 'helm-do-ag-project-root)
+(global-set-key (kbd "C-c p f") 'helm-projectile-find-file)
 
 (require 'web-mode) 
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode)) 

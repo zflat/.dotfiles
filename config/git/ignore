@@ -1,3 +1,6 @@
 # ignore emacs projectile files
 *.projectile
+# ignore ag ignore settings
+*.agignore
 *~
+*.\#*
