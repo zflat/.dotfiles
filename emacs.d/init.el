@@ -289,7 +289,9 @@
 ;; Also increase speed by changing X-window repeat rate
 ;; xset r rate 500 75
 
+(global-set-key (kbd "C-x g") 'magit-status)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Color Themes
 ;;
 ;; Change with M-x load-theme RET {themename}
