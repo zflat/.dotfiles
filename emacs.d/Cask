@@ -1,7 +1,7 @@
 (source gnu) ; https://elpa.gnu.org/
 (source melpa) ; melpa.org
 
-(depends-on "ag")
+; (depends-on "ag")
 (depends-on "bm") ; visual bookmarks
 (depends-on "dash")
 (depends-on "cask")

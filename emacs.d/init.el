@@ -100,6 +100,29 @@
 (show-paren-mode t)
 
 
+;; Customizing backup settings
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
+(message "Deleting old backup files...")
+(let ((week (* 60 60 24 7))
+      (current (float-time (current-time))))
+  (dolist (file (directory-files temporary-file-directory t))
+    (when (and (backup-file-name-p file)
+               (> (- current (float-time (nth 5 (file-attributes file))))
+                  week))
+      (message "%s" file)
+      (delete-file file))))
+
+;;; coding systems
+(setq locale-coding-system 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-selection-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                  MINOR MODES
@@ -108,9 +131,11 @@
 
 ; (global-linum-mode 1) ; always show line numbers
 
-(delete-selection-mode 1) ; Replace highlighted text with typed characters
+(transient-mark-mode t) ; Standard selection-highlighting behavior of other editors.
 
 (electric-pair-mode 1) ; Provides a way to easily insert matching delimiters
+
+(global-hl-line-mode t) ; highlgiht
 
 ;; parenthesis customization
 ;; consider also http://www.emacswiki.org/emacs/HighlightParentheses
@@ -206,12 +231,17 @@
 (require 'helm)
 (require 'helm-config)
 (global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "C-x b") 'helm-mini)
 ;; This is the old M-x.
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
-;; optional fuzzy matching for helm-M-x
-(setq helm-buffers-fuzzy-matching t
-      helm-recentf-fuzzy-match    t)
+(global-set-key (kbd "C-x b") 'helm-mini)
+;; optional fuzzy matching 
+(setq helm-M-x-fuzzy-match t)
+(custom-set-variables '(helm-recentf-fuzzy-match t)
+                      '(helm-mini-fuzzy-matching t)
+                      '(helm-buffers-fuzzy-matching t)
+                      '(helm-find-files-fuzzy-match t)
+                      '(helm-buffers-list-fuzzy-match t)
+                      '(helm-imenu-fuzzy-match t))
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (helm-autoresize-mode 1)
 (helm-mode 1)
@@ -227,6 +257,7 @@
 ;; (setq helm-projectile-fuzzy-match nil)
 (global-set-key [f9] 'helm-do-ag-project-root)
 (global-set-key (kbd "C-c p f") 'helm-projectile-find-file)
+
 
 (require 'web-mode) 
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode)) 
@@ -247,7 +278,6 @@
   (setq web-mode-markup-indent-offset 2) ) 
 (add-hook 'web-mode-hook 'my-web-mode-hook)
 (set-face-attribute 'web-mode-symbol-face nil :foreground "SeaGreen")
-
 
 (require 'php-mode)
 (add-hook 'php-mode-hook 'php-enable-psr2-coding-style)
@@ -303,8 +333,14 @@
 ;;
 ;; After M-x cd stops emacs from tracking directories, run: M-x dirtrack-mode
 ;;
+;;
+;; C-x TAB ;; (indent-rigidly)
+;; Adjust the text indentation in the region
+;; <left>, <right>, <S-left>, and <S-right> 
 
 
 ;;
 ;; Load additional init files
 (load "~/.emacs.d/util.el")
+
+
