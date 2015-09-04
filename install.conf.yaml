@@ -2,6 +2,10 @@
 - link:
    ~/.config/git: 
       path: "config/git"
+   ~/.vagrant.d/Vagrantfile: 
+      path: "config/Vagrant/Vagrantfile"
+   ~/.vagrant.d/scripts: 
+      path: "config/Vagrant/scripts"
    ~/.emacs.d: 
       path: "emacs.d/"
       force: true

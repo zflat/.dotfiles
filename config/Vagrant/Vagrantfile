@@ -1,0 +1,5 @@
+# see https://mkrmr.wordpress.com/2012/08/12/add-your-own-customization-to-vagrant-boxes/
+Vagrant.configure("2") do |config|
+  config.vm.synced_folder File.expand_path("~/.dotfiles"), "/home/vagrant/.dotfiles" 
+  config.vm.provision :shell, :path => File.join(File.dirname(__FILE__), "scripts", "provision")
+end
