@@ -3,20 +3,28 @@
 
 
 ;;;;;;;;;;;;;
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ecb-options-version "2.32")
- '(inhibit-startup-screen t)
+ '(helm-buffers-fuzzy-matching t)
+ '(helm-buffers-list-fuzzy-match t)
+ '(helm-find-files-fuzzy-match t)
+ '(helm-imenu-fuzzy-match t)
+ '(helm-mini-fuzzy-matching t)
+ '(helm-recentf-fuzzy-match t)
+ '(inhibit-startup-screen t))
 
-;; '(split-height-threshold nil)
-;; '(split-width-threshold 0)
-
-)
-
-;; Setup windows splitting preferences
+;; Note: Setup windows splitting preferences
 ;; 
 ;; `customize-group [RET] Windows`
 ;; Split Height Threshold:
@@ -51,7 +59,7 @@
 ;; http://stackoverflow.com/questions/92971/how-do-i-set-the-size-of-emacs-window
 (defun set-frame-size-according-to-resolution ()
   (interactive)
-  (if window-system
+  (if window-system ; see also http://stackoverflow.com/a/5795518
   (progn
     ;; use 120 char wide window for largeish displays
     ;; and smaller 80 column windows for smaller displays
@@ -73,7 +81,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(hi-blue ((t (:background "light blue" :foreground "black"))))
+ '(hi-blue-b ((t (:foreground "light blue" :weight bold))))
+ '(hi-green ((t (:background "light green" :foreground "black"))))
+ '(hi-pink ((t (:background "pink" :foreground "black"))))
+ '(hi-red-b ((t (:background "dark red" :foreground "white" :weight bold))))
+ '(hi-yellow ((t (:foreground "yellow1" :weight bold)))))
 
 ;; Move cursor to different Panes by Arrow
 (when (fboundp 'windmove-default-keybindings)
@@ -85,20 +98,9 @@
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
-
-;; disable the toolbar
-(tool-bar-mode -1)
-
-;; disable the scroll bar
-(scroll-bar-mode -1)
-
-
 ;; show the current directory in the frame bar
 ;; see http://stackoverflow.com/a/8945306
 (setq frame-title-format '((:eval default-directory)))
-
-(show-paren-mode t)
-
 
 ;; Customizing backup settings
 (setq backup-directory-alist
@@ -114,7 +116,8 @@
                (> (- current (float-time (nth 5 (file-attributes file))))
                   week))
       (message "%s" file)
-      (delete-file file))))
+      (ignore-errors 
+        (delete-file file)))))
 
 ;;; coding systems
 (setq locale-coding-system 'utf-8)
@@ -122,6 +125,20 @@
 (set-keyboard-coding-system 'utf-8)
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
+
+;; disable the toolbar
+(if (boundp 'tool-bar-mode) (tool-bar-mode -1))
+;; disable the scrollbar
+(if (boundp 'scroll-bar-mode)
+    (scroll-bar-mode -1)
+  (if (boundp 'toggle-scroll-bar)
+      (toggle-scroll-bar -1)))
+
+;; disable the menu bar
+;; Can get the meny with C-<mouse-3>
+(if (boundp 'menu-bar-mode) (menu-bar-mode -1))
+
+(show-paren-mode t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -133,8 +150,11 @@
 
 (transient-mark-mode t) ; Standard selection-highlighting behavior of other editors.
 
-(electric-pair-mode 1) ; Provides a way to easily insert matching delimiters
-
+(if (and
+     (>= emacs-major-version 24)
+     (>= emacs-minor-version 4))
+    (electric-pair-mode 1) ; Provides a way to easily insert matching delimiters
+)
 (global-hl-line-mode t) ; highlgiht
 
 ;; parenthesis customization
@@ -173,6 +193,10 @@
 ;;;
 ;;; Packages configuration / Initialization
 ;;;
+
+
+(require 'recentf)
+(recentf-mode t)
 
 (require 'geben)
 (autoload 'geben "geben" "DBGp protocol frontend, a script debugger" t)
@@ -213,7 +237,7 @@
 
 
 (require 'neotree)
-(global-set-key [f8] 'neotree-toggle)
+(global-set-key [f7] 'neotree-toggle)
 
 ;; TODO: Show the buffer directory in the mode-line
 ;; http://www.emacswiki.org/emacs/ModeLineDirtrack
@@ -236,14 +260,10 @@
 (global-set-key (kbd "C-x b") 'helm-mini)
 ;; optional fuzzy matching 
 (setq helm-M-x-fuzzy-match t)
-(custom-set-variables '(helm-recentf-fuzzy-match t)
-                      '(helm-mini-fuzzy-matching t)
-                      '(helm-buffers-fuzzy-matching t)
-                      '(helm-find-files-fuzzy-match t)
-                      '(helm-buffers-list-fuzzy-match t)
-                      '(helm-imenu-fuzzy-match t))
+
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (helm-autoresize-mode 1)
+(setq helm-buffer-max-length nil)
 (helm-mode 1)
 
 ;; Enable Projectile
@@ -256,7 +276,9 @@
 (helm-projectile-on)
 ;; (setq helm-projectile-fuzzy-match nil)
 (global-set-key [f9] 'helm-do-ag-project-root)
-(global-set-key (kbd "C-c p f") 'helm-projectile-find-file)
+;(global-set-key (kbd "C-c p f") 'helm-projectile-find-file)
+(global-set-key [f8] 'helm-projectile-find-file)
+;; Note: Invalidate Projectile cache with  [C-c p i]
 
 
 (require 'web-mode) 
@@ -338,7 +360,12 @@
 ;;
 ;; C-x TAB ;; (indent-rigidly)
 ;; Adjust the text indentation in the region
-;; <left>, <right>, <S-left>, and <S-right> 
+;; <left>, <right>, <S-left>, and <S-right>
+;;
+;; Git Blame
+;; C-x v g
+;; Or
+;; M-x magit-blame 
 
 
 ;;

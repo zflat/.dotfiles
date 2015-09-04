@@ -1,6 +1,18 @@
 ;; Utility functions
 
 
+(defun window-and-buffer-kill ()
+  "Kill the active buffer and its window pane"
+  (interactive)
+  ;; Window selection is used because point goes to a different window
+  ;; if more than 2 windows are present
+  (let ((win-curr (selected-window))
+        (win-other (next-window)))
+    (select-window win-other)
+    (kill-this-buffer)
+    (select-window win-curr)))
+
+
 ;; http://emacsredux.com/blog/2013/03/27/copy-filename-to-the-clipboard/
 (defun copy-file-name-to-clipboard ()
   "Copy the current buffer file name to the clipboard."
@@ -61,3 +73,40 @@ point reaches the beginning or end of the buffer, stop there."
 ;; remap C-a to `smarter-move-beginning-of-line'
 (global-set-key [remap move-beginning-of-line]
                 'smarter-move-beginning-of-line)
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Javadoc helper
+;; http://stackoverflow.com/a/19567306
+(defun prefix-javadoc-return () 
+  "Advanced C-m for Javadoc multiline comments.   
+Inserts `*' at the beggining of the new line if 
+unless return was pressed outside the comment"
+  (interactive)
+  (setq last (point))
+  (setq is-inside
+        (if (search-backward "*/" nil t)
+        ;; there are some comment endings - search forward
+            (search-forward "/*" last t)
+          ;; it's the only comment - search backward
+          (goto-char last)
+          (search-backward "/*" nil t)
+      )
+    )
+  ;; go to last char position
+  (goto-char last)
+  ;; the point is inside some comment, insert `* '
+  (if is-inside
+      (progn 
+    (insert "\n* ")
+    (indent-for-tab-command))
+    ;; else insert only new-line
+    (insert "\n")))
+(add-hook 'c-mode-common-hook (lambda () 
+  (local-set-key "\r" 'prefix-javadoc-return)))
+(add-hook 'php-mode-hook (lambda () 
+  (local-set-key "\r" 'prefix-javadoc-return)))
+(add-hook 'js-mode-hook (lambda () 
+  (local-set-key "\r" 'prefix-javadoc-return)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
