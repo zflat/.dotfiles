@@ -304,6 +304,9 @@
 (require 'php-mode)
 (add-hook 'php-mode-hook 'php-enable-psr2-coding-style)
 
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+
 (require 'company)
 (add-hook 'after-init-hook 'global-company-mode)
 
