@@ -1,5 +1,11 @@
 ;; Utility functions
 
+(defun sudo-shell-command (command)
+  (interactive "MShell command (root): ")
+  (with-temp-buffer
+    (cd "/sudo::/")
+    (async-shell-command command)))
+
 
 (defun window-and-buffer-kill ()
   "Kill the active buffer and its window pane"
@@ -110,3 +116,4 @@ unless return was pressed outside the comment"
 (add-hook 'js-mode-hook (lambda () 
   (local-set-key "\r" 'prefix-javadoc-return)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+

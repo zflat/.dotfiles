@@ -1,6 +1,10 @@
 ;; Configure emacs
 ;; Also can invoke `M-x Custom`
-
+;;
+;; Usefull init options
+;; http://www.gnu.org/software/emacs/manual/html_node/emacs/Initial-Options.html
+;; -q Do not load any initialization file
+;; --debug-init Enable the Emacs List Debugger
 
 ;;;;;;;;;;;;;
 
@@ -9,6 +13,16 @@
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
 (package-initialize)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Color Themes
+;;
+;; Change with M-x load-theme RET {themename}
+(load-theme 'zenburn t)
+;;(load-theme 'solarized-dark t)
+
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -22,7 +36,8 @@
  '(helm-imenu-fuzzy-match t)
  '(helm-mini-fuzzy-matching t)
  '(helm-recentf-fuzzy-match t)
- '(inhibit-startup-screen t))
+ '(inhibit-startup-screen t)
+ '(tramp-mode nil))
 
 ;; Note: Setup windows splitting preferences
 ;; 
@@ -42,7 +57,8 @@
 
 ;; Set font
 ;; http://askubuntu.com/questions/23603/how-to-change-font-size-in-emacs
-(set-face-attribute 'default nil :height 140)
+; (set-default-font "DejaVu Sans Mono 12")
+(set-face-attribute 'default nil :height 130)
 
 
 ;; current buffer name in title bar
@@ -81,10 +97,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(hi-blue ((t (:background "light blue" :foreground "black"))))
- '(hi-blue-b ((t (:foreground "light blue" :weight bold))))
- '(hi-green ((t (:background "light green" :foreground "black"))))
- '(hi-pink ((t (:background "pink" :foreground "black"))))
+ '(hi-blue ((t (:foreground "light blue" :background "MidnightBlue"))))
+ '(hi-blue-b ((t (:foreground "light blue" :background "MidnightBlue" :weight bold))))
+ '(hi-green ((t (:foreground "PaleGreen1" :background "DarkOliveGreen"))))
+ '(hi-pink ((t (:foreground "pink" :background "gray20"))))
  '(hi-red-b ((t (:background "dark red" :foreground "white" :weight bold))))
  '(hi-yellow ((t (:foreground "yellow1" :weight bold)))))
 
@@ -176,6 +192,24 @@
     (when matching-text (message matching-text))))
 
 
+(desktop-save-mode 1)
+
+(when (fboundp 'winner-mode)
+  (winner-mode 1)) ; C-c <left> ; for prev window layout
+
+
+;; For M-x align
+;; See also M-x align-regexp
+;; and adding an "alignment rule" to the
+;; variable align-rules-list
+;; Align with spaces only
+;; http://stackoverflow.com/a/8129994
+(defadvice align-regexp (around align-regexp-with-spaces)
+  "Never use tabs for alignment."
+  (let ((indent-tabs-mode nil))
+    ad-do-it))
+(ad-activate 'align-regexp)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                  PACKAGES
@@ -185,7 +219,12 @@
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
 
+; (setq tramp-default-method "ftp")
+;(eval-after-load "tramp"
+;  '(debug))
 
+(require 'company)
+(add-hook 'after-init-hook 'global-company-mode)
 
 ;; consider also using pallet 
 ;; https://github.com/rdallasgray/pallet
@@ -196,6 +235,7 @@
 
 
 (require 'recentf)
+(setq recentf-auto-cleanup 'never) ;; disable before we start recentf!
 (recentf-mode t)
 
 (require 'geben)
@@ -209,6 +249,7 @@
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines) 
 ; Use arrow keys to quickly mark/skip next/previous occurances.
 (global-set-key (kbd "C-S-c C-s") 'mc/mark-more-like-this-extended) 
+(global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
 
 ;; Expand region
 (require 'expand-region)
@@ -223,6 +264,9 @@
 
 ;; Code folding
 (require 'origami)
+
+;; Transpose Frame
+(require 'transpose-frame)
 
 
 ;; Automatic find file customizations:
@@ -252,6 +296,7 @@
 (global-set-key (kbd "<f2>")   'bm-next)
 (global-set-key (kbd "<S-f2>") 'bm-previous)
 
+(require 'ag)
 (require 'helm)
 (require 'helm-config)
 (global-set-key (kbd "M-x") 'helm-M-x)
@@ -280,6 +325,9 @@
 (global-set-key [f8] 'helm-projectile-find-file)
 ;; Note: Invalidate Projectile cache with  [C-c p i]
 
+(require 'helm-gtags)
+(helm-gtags-mode 1)
+
 
 (require 'web-mode) 
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode)) 
@@ -300,26 +348,37 @@
   (setq web-mode-markup-indent-offset 2) ) 
 (add-hook 'web-mode-hook 'my-web-mode-hook)
 (set-face-attribute 'web-mode-symbol-face nil :foreground "SeaGreen")
+(setq web-mode-ac-sources-alist
+      '(("css" . (ac-source-words-in-buffer ac-source-css-property))
+        ("html" . (ac-source-words-in-buffer ac-source-abbrev))
+        ("php" . (ac-source-words-in-buffer
+                  ac-source-words-in-same-mode-buffers
+                  ac-source-dictionary))))
+
+(add-hook 'js-mode-hook 'js2-minor-mode)
+(add-hook 'js2-mode-hook 'ac-js2-mode)
 
 (require 'php-mode)
+(require 'php-extras)
 (add-hook 'php-mode-hook 'php-enable-psr2-coding-style)
+(add-hook 'php-mode-hook (lambda()(ggtags-mode 1)))
+;(eval-after-load 'php-mode
+;  (require 'php-extras))
 
-(require 'company)
-(add-hook 'after-init-hook 'global-company-mode)
+(require 'sass-mode)
+(add-to-list 'auto-mode-alist '("\\.scss\\'" . web-mode))
+
+(require 'editorconfig)
 
 (require 'smooth-scrolling)
 ;; Also increase speed by changing X-window repeat rate
 ;; xset r rate 500 75
 
+
 (global-set-key (kbd "C-x g") 'magit-status)
+(global-magit-file-mode t)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Color Themes
-;;
-;; Change with M-x load-theme RET {themename}
-(load-theme 'zenburn t)
-;; (load-theme 'solarized-dark t)
-
+(setq tramp-mode nil)
 
 ;;  Keybindings Notes
 ;;
@@ -365,11 +424,17 @@
 ;; Git Blame
 ;; C-x v g
 ;; Or
-;; M-x magit-blame 
+;; M-x magit-blame
+;;
+;; Paste from cliboard
+;; [Shift]+[Insert]
+;;
+;; Shell mode
+;;
+;; previous command M-p
+;; next command M-n
 
 
 ;;
 ;; Load additional init files
 (load "~/.emacs.d/util.el")
-
-

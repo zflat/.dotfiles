@@ -1,6 +1,13 @@
-# ignore emacs projectile files
+# emacs projectile files
 *.projectile
-# ignore ag ignore settings
+
+# ag ignore settings
 *.agignore
+
 *~
 *.\#*
+
+# GNU Global TAGS
+GPATH
+GRTAGS
+GTAGS

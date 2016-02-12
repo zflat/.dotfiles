@@ -7,8 +7,10 @@ Load and install "dotfiles"
  * Prerequisites
   * Python 2.7
   * Emacs24
-    * ack
-    * ag (silversearcher-ag)
+    * (apt-get) ack
+    * ag (apt-get silversearcher-ag)
+    * (apt-get) editorconfig
+    * [GNU Global with ctags]
   * Cask http://cask.readthedocs.org/
  * Clone the repo into .dotfiles
  * Run the [dotbot] setup script
@@ -37,3 +39,4 @@ This software is hereby released into the public domain. That means you can do
 whatever you want with it without restriction.
 
 [dotbot]: https://github.com/anishathalye/dotbot
+[GNU Global with ctags]: https://github.com/leoliu/ggtags/wiki/Install-Global-with-support-for-exuberant-ctags
