@@ -1,5 +1,13 @@
 ;; Utility functions
 
+;; Pull from PRIMARY (same as middle mouse click)
+;; http://stackoverflow.com/a/29793391
+(defun paste-primary-selection ()
+  (interactive)
+  (insert
+   (x-get-selection 'PRIMARY)))
+(global-set-key (kbd "S-<insert>") 'paste-primary-selection)
+
 (defun sudo-shell-command (command)
   (interactive "MShell command (root): ")
   (with-temp-buffer
