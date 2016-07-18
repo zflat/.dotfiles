@@ -4,6 +4,9 @@
 # ag ignore settings
 *.agignore
 
+# ac-php config settings (per project setting)
+.ac-php-conf.json
+
 *~
 *.\#*
 

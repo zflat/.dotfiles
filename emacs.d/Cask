@@ -5,13 +5,12 @@
 (depends-on "ag") ; needed for projectile-ag
 (depends-on "bm") ; visual bookmarks
 (depends-on "cask")
-(depends-on "company-mode")
 (depends-on "dash")
 (depends-on "epl")
 (depends-on "expand-region")
 (depends-on "editorconfig")
+(depends-on "auto-complete")
 (depends-on "company")
-(depends-on "company-web")
 (depends-on "f")
 ;(depends-on "flycheck")
 ;(depends-on "flycheck-cask")
@@ -24,7 +23,6 @@
 (depends-on "htmlize")
 (depends-on "idle-highlight-mode")
 (depends-on "js2-mode")
-(depends-on "ac-js2")
 (depends-on "magit")
 (depends-on "multiple-cursors")
 (depends-on "move-dup") ; Copy/move line(s) up or down
@@ -33,7 +31,7 @@
 (depends-on "origami")
 (depends-on "pallet")
 (depends-on "php-mode")
-(depends-on "php-extras")
+(depends-on "ac-php")
 (depends-on "popwin")
 (depends-on "prodigy")
 (depends-on "projectile")

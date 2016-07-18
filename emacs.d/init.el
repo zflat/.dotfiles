@@ -57,7 +57,7 @@
 
 ;; Set font
 ;; http://askubuntu.com/questions/23603/how-to-change-font-size-in-emacs
-; (set-default-font "DejaVu Sans Mono 12")
+(set-default-font "DejaVu Sans Mono 12")
 (set-face-attribute 'default nil :height 130)
 
 
@@ -69,6 +69,10 @@
 (setq tab-width 2)
 (setq default-tab-width 2)
 (setq js-indent-level 2) ;; Use 2 spaces for javascript files
+(setq js2-basic-offset 2) ;; Use 2 spaces for javascript files in js2-mode?
+(setq js2-strict-missing-semi-warning nil)
+(setq js2-missing-semi-one-line-override nil)
+(setq js2-strict-trailing-comma-warning nil)
 
 
 ;; Start emacs to fill the screen
@@ -191,7 +195,6 @@
 			     (blink-matching-open))))
     (when matching-text (message matching-text))))
 
-
 (desktop-save-mode 1)
 
 (when (fboundp 'winner-mode)
@@ -216,15 +219,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(setq emacs-config-dir (file-name-directory
+                        (or (buffer-file-name) load-file-name)))
+
+
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
 
 ; (setq tramp-default-method "ftp")
 ;(eval-after-load "tramp"
 ;  '(debug))
-
-(require 'company)
-(add-hook 'after-init-hook 'global-company-mode)
 
 ;; consider also using pallet 
 ;; https://github.com/rdallasgray/pallet
@@ -268,6 +272,11 @@
 ;; Transpose Frame
 (require 'transpose-frame)
 
+;; Close popup windows with C-g
+(require 'popwin)
+(popwin-mode 1)
+(push '(ag-mode :dedicated t :stick t :position bottom) popwin:special-display-config)
+;(pop popwin:special-display-config)
 
 ;; Automatic find file customizations:
 ;;
@@ -285,10 +294,6 @@
 
 ;; TODO: Show the buffer directory in the mode-line
 ;; http://www.emacswiki.org/emacs/ModeLineDirtrack
-
-; (require 'ag)
-
-
 
 ;; Visual Bookmarks
 (require 'bm)
@@ -329,7 +334,22 @@
 (helm-gtags-mode 1)
 
 
+;; Auto-complete
+(require 'auto-complete-config)
+;;  Loading dictionary based on directory location...
+;;  https://github.com/lehoff/emacs-cask/blob/master/configs/init-auto-complete.el
+(add-to-list 'ac-dictionary-directories
+             "~/.emacs.d/.cask/24.4.1/elpa/auto-complete-20160107.8/dict")
+; Use dictionaries by default
+(setq-default ac-sources (add-to-list 'ac-sources 'ac-source-dictionary))
+(global-auto-complete-mode t)
+; Start auto-completion after 4 characters of a word
+(setq ac-auto-start 4)
+; case sensitivity is important when finding matches
+(setq ac-ignore-case nil)
+
 (require 'web-mode) 
+(add-to-list 'auto-mode-alist '("\\.tag\\'" . web-mode)) 
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode)) 
 (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode)) 
 (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode)) 
@@ -345,7 +365,9 @@
 (setq web-mode-markup-indent-offset 2)
 (defun my-web-mode-hook ()
   "Hooks for Web mode." 
-  (setq web-mode-markup-indent-offset 2) ) 
+  (setq web-mode-markup-indent-offset 2)
+  ; (editorconfig-apply)
+  ) 
 (add-hook 'web-mode-hook 'my-web-mode-hook)
 (set-face-attribute 'web-mode-symbol-face nil :foreground "SeaGreen")
 (setq web-mode-ac-sources-alist
@@ -353,22 +375,31 @@
         ("html" . (ac-source-words-in-buffer ac-source-abbrev))
         ("php" . (ac-source-words-in-buffer
                   ac-source-words-in-same-mode-buffers
-                  ac-source-dictionary))))
+                  ac-source-dictionary))
+        ))
 
+
+(require 'js2-mode)
 (add-hook 'js-mode-hook 'js2-minor-mode)
-(add-hook 'js2-mode-hook 'ac-js2-mode)
 
 (require 'php-mode)
-(require 'php-extras)
 (add-hook 'php-mode-hook 'php-enable-psr2-coding-style)
 (add-hook 'php-mode-hook (lambda()(ggtags-mode 1)))
-;(eval-after-load 'php-mode
-;  (require 'php-extras))
+(add-hook 'php-mode-hook
+          '(lambda ()
+             (require 'ac-php)
+             ;(company-mode 0)
+             (auto-complete-mode t)
+             (setq ac-sources  '(ac-source-php ) )
+             ;(add-to-list 'company-backends 'company-ac-php-backend )
+             ))
+             
 
 (require 'sass-mode)
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . web-mode))
 
 (require 'editorconfig)
+(editorconfig-mode 1)
 
 (require 'smooth-scrolling)
 ;; Also increase speed by changing X-window repeat rate
@@ -379,6 +410,11 @@
 (global-magit-file-mode t)
 
 (setq tramp-mode nil)
+
+(add-hook 'web-mode-hook '(lambda ()
+  (local-set-key (kbd "RET") 'newline-and-indent)))
+(add-hook 'php-mode-hook '(lambda ()
+  (local-set-key (kbd "RET") 'newline-and-indent)))
 
 ;;  Keybindings Notes
 ;;
@@ -412,6 +448,8 @@
 ;;
 ;; C-x b<RET> ;; Opens the last edited buffer
 ;;
+;; M-/ ;; Dyanmic Abbreviations (pressed multiple times to cycle)
+;;
 ;; Commands notes
 ;;
 ;; After M-x cd stops emacs from tracking directories, run: M-x dirtrack-mode
@@ -433,8 +471,20 @@
 ;;
 ;; previous command M-p
 ;; next command M-n
+;;
+;; ANSI mode
+;;
+;; C-c C-j to go into line mode
+;; C-c C-k to get back into char mode
 
 
 ;;
 ;; Load additional init files
 (load "~/.emacs.d/util.el")
+
+
+;; emacs paste hang workaround, kinda (still need to restart)
+;; 2015-07-04 bug of pasting in emacs.
+;; http://debbugs.gnu.org/cgi/bugreport.cgi?bug=16737#17
+;; http://ergoemacs.org/misc/emacs_bug_cant_paste_2015.html
+(setq x-selection-timeout 300)
