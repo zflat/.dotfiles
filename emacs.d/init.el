@@ -290,7 +290,8 @@
 
 
 (require 'neotree)
-(global-set-key [f7] 'neotree-toggle)
+(global-set-key [f7] 'neotree-find)
+(global-set-key (kbd "<S-f7>") 'neotree-toggle)
 
 ;; TODO: Show the buffer directory in the mode-line
 ;; http://www.emacswiki.org/emacs/ModeLineDirtrack
@@ -315,6 +316,8 @@
 (helm-autoresize-mode 1)
 (setq helm-buffer-max-length nil)
 (helm-mode 1)
+
+(require `helm-swoop)
 
 ;; Enable Projectile
 ;;
@@ -397,6 +400,9 @@
 
 (require 'sass-mode)
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . web-mode))
+
+(require 'emmet-mode)
+(add-hook 'web-mode-hook  'emmet-mode)
 
 (require 'editorconfig)
 (editorconfig-mode 1)
