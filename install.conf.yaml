@@ -9,5 +9,8 @@
    ~/.emacs.d: 
       path: "emacs.d/"
       force: true
+   ~/.Xmodmap: 
+      path: "config/X11/.Xmodmap"
+      force: true
 - shell:
    - cask install --path ./emacs.d
