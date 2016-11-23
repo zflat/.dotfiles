@@ -3,13 +3,15 @@
 ; (source marmalade) ; "https://marmalade-repo.org/packages/"
 
 (depends-on "ag") ; needed for projectile-ag
+(depends-on "auto-complete")
+(depends-on "avy")
 (depends-on "bm") ; visual bookmarks
 (depends-on "cask")
 (depends-on "dash")
+(depends-on "diminish")
 (depends-on "epl")
 (depends-on "expand-region")
 (depends-on "editorconfig")
-(depends-on "auto-complete")
 (depends-on "company")
 (depends-on "emmet-mode")
 (depends-on "f")
@@ -24,7 +26,9 @@
 (depends-on "helm-projectile")
 (depends-on "helm-swoop")
 (depends-on "htmlize")
-(depends-on "idle-highlight-mode")
+(depends-on "idle-highlight-mode") ; needs configuration. also consider http://emacsblog.org/2007/04/17/quick-tip-light-symbol-mode/ ?
+; TODO: http://oremacs.com/2015/04/16/ivy-mode/
+(depends-on "iedit")
 (depends-on "js2-mode")
 (depends-on "magit")
 (depends-on "markdown-mode")
@@ -33,7 +37,7 @@
 (depends-on "nyan-mode")
 (depends-on "neotree")
 (depends-on "origami")
-(depends-on "pallet")
+; (depends-on "pallet")
 (depends-on "php-mode")
 (depends-on "ac-php")
 (depends-on "popwin")
@@ -44,7 +48,9 @@
 (depends-on "smooth-scrolling")
 (depends-on "transpose-frame")
 (depends-on "use-package")
+(depends-on "vlf")
 (depends-on "web-mode")
+(depends-on "yasnippet")
 
 ; Themes
 (depends-on "zenburn-theme")

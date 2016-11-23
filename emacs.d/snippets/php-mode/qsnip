@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: qsnip
+# key: qsnip
+# --
+{
+$qsnippet = $$0;
+$pvalsnippet = $qsnippet->getParams();
+$strvalsnippet = (string)$qsnippet;
+while(!empty($pvalsnippet)) {
+  $currvalsnippet = "'".array_shift($pvalsnippet)."'";
+  $currpossnippet = strpos($strvalsnippet, '?');
+  $strvalsnippet = substr_replace($strvalsnippet, $currvalsnippet, $currpossnippet, 1);
+}
+tel($strvalsnippet.';');
+}

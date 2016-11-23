@@ -101,6 +101,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(bm-face ((t (:background "gray20" :foreground "gold"))))
  '(hi-blue ((t (:foreground "light blue" :background "MidnightBlue"))))
  '(hi-blue-b ((t (:foreground "light blue" :background "MidnightBlue" :weight bold))))
  '(hi-green ((t (:foreground "PaleGreen1" :background "DarkOliveGreen"))))
@@ -255,7 +256,10 @@
 (global-set-key (kbd "C-S-c C-s") 'mc/mark-more-like-this-extended) 
 (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
 
-;; Expand region
+;; Iedit - Edit multiple regions in the same way simultaneously
+(require 'iedit)
+
+;; expand region
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 
@@ -319,6 +323,7 @@
 
 (require `helm-swoop)
 
+
 ;; Enable Projectile
 ;;
 ;; list of commands: C-c p C-h
@@ -329,13 +334,14 @@
 (helm-projectile-on)
 ;; (setq helm-projectile-fuzzy-match nil)
 (global-set-key [f9] 'helm-do-ag-project-root)
+(global-set-key (kbd "C-<f6> s") 'helm-do-ag-project-root)
 ;(global-set-key (kbd "C-c p f") 'helm-projectile-find-file)
 (global-set-key [f8] 'helm-projectile-find-file)
+(global-set-key (kbd "C-<f6> f") 'helm-projectile-find-file)
 ;; Note: Invalidate Projectile cache with  [C-c p i]
 
 (require 'helm-gtags)
 (helm-gtags-mode 1)
-
 
 ;; Auto-complete
 (require 'auto-complete-config)
@@ -350,6 +356,7 @@
 (setq ac-auto-start 4)
 ; case sensitivity is important when finding matches
 (setq ac-ignore-case nil)
+
 
 (require 'web-mode) 
 (add-to-list 'auto-mode-alist '("\\.tag\\'" . web-mode)) 
@@ -411,6 +418,10 @@
 ;; Also increase speed by changing X-window repeat rate
 ;; xset r rate 500 75
 
+;; Getting markdown preview to work...
+;; http://www.maheshsubramaniya.com/article/install-markdown-for-emacs.html
+(require 'markdown-mode)
+(setq markdown-command "multimarkdown")
 
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-magit-file-mode t)
@@ -421,6 +432,17 @@
   (local-set-key (kbd "RET") 'newline-and-indent)))
 (add-hook 'php-mode-hook '(lambda ()
   (local-set-key (kbd "RET") 'newline-and-indent)))
+
+(require 'yasnippet)
+(yas-global-mode 1)
+(setq yas-snippet-dirs
+      '("~/.emacs.d/snippets"                 ;; personal snippets
+        "~/.emacs.d/snippets-official"        ;; Collection from "official" submodule
+        ))
+
+(global-set-key (kbd "\M-/") 'hippie-expand)
+(global-set-key (kbd "<f6>") 'hippie-expand)
+(setq hippie-expand-try-functions-list '(try-expand-dabbrev try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill try-complete-file-name-partially try-complete-file-name try-expand-all-abbrevs try-expand-list try-expand-line try-complete-lisp-symbol-partially try-complete-lisp-symbol))
 
 ;;  Keybindings Notes
 ;;
@@ -494,3 +516,12 @@
 ;; http://debbugs.gnu.org/cgi/bugreport.cgi?bug=16737#17
 ;; http://ergoemacs.org/misc/emacs_bug_cant_paste_2015.html
 (setq x-selection-timeout 300)
+
+;; Setup diminish after all modes have finished initializing
+(require 'diminish)
+(diminish 'auto-revert-mode)
+(diminish 'abbrev-mode "Abv")
+(diminish 'auto-complete-mode)
+(diminish 'helm-gtags-mode)
+(diminish 'projectile)
+(diminish 'helm-mode)
