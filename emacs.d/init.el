@@ -358,6 +358,11 @@
 (setq ac-ignore-case nil)
 
 
+(require 'avy)
+(global-set-key (kbd "M-s") 'avy-goto-char)
+(setq avy-background t)
+
+
 (require 'web-mode) 
 (add-to-list 'auto-mode-alist '("\\.tag\\'" . web-mode)) 
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode)) 
@@ -492,8 +497,12 @@
 ;; Or
 ;; M-x magit-blame
 ;;
-;; Paste from cliboard
+;; Copy/Paste from cliboard
+;; See also https://shreevatsa.wordpress.com/2006/10/22/emacs-copypaste-and-x/
 ;; [Shift]+[Insert]
+;; M-x clipboard-yank
+;; Copy to clipboard
+;; M-x clipboard-kill-ring-save
 ;;
 ;; Shell mode
 ;;
@@ -518,6 +527,7 @@
 (setq x-selection-timeout 300)
 
 ;; Setup diminish after all modes have finished initializing
+;; To list minor modes: M-x describe-mode 
 (require 'diminish)
 (diminish 'auto-revert-mode)
 (diminish 'abbrev-mode "Abv")
@@ -525,3 +535,4 @@
 (diminish 'helm-gtags-mode)
 (diminish 'projectile)
 (diminish 'helm-mode)
+(diminish 'yas-minor-mode)

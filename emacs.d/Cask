@@ -1,3 +1,4 @@
+;; -*- mode: Lisp; -*-
 (source gnu) ; https://elpa.gnu.org/
 (source melpa) ; melpa.org
 ; (source marmalade) ; "https://marmalade-repo.org/packages/"

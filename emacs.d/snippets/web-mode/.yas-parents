@@ -1,0 +1,3 @@
+js-mode
+# see also .yas-parents in snippets-official/web-mode
+# Consider adding parent modes using hook like https://github.com/joaotavora/yasnippet/issues/619
