@@ -47,6 +47,8 @@
 (depends-on "s")
 (depends-on "sass-mode")
 (depends-on "smooth-scrolling")
+(depends-on "tern")
+(depends-on "tern-auto-complete")
 (depends-on "transpose-frame")
 (depends-on "use-package")
 (depends-on "vlf")

@@ -23,7 +23,6 @@
 ;;(load-theme 'solarized-dark t)
 
 
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -409,6 +408,16 @@
              ;(add-to-list 'company-backends 'company-ac-php-backend )
              ))
              
+;; http://prak5190.github.io/p/jsemacs/
+;; npm install -g tern
+(require 'tern)
+(eval-after-load 'tern
+    '(progn
+    (require 'tern-auto-complete)
+    (tern-ac-setup)))
+(add-to-list 'tern-command "--no-port-file" 'append) ;; from https://github.com/syl20bnr/spacemacs/pull/3465
+(add-hook 'js2-mode-hook 'tern-mode)
+(add-hook 'js-mode-hook 'tern-mode)
 
 (require 'sass-mode)
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . web-mode))
