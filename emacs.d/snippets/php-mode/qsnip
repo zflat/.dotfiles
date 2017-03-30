@@ -1,14 +1,14 @@
-# -*- mode: snippet -*-
+# -*- mode: snippet; require-final-newline: nil -*-
 # name: qsnip
 # key: qsnip
 # tel((string)$sql.' -- '.implode(',', $sql->getParams()));
+# NOTE: use TAB to the next field
 # --
 {
-    $qsnippet      = $$0;
-    $pvalsnippet   = $qsnippet->getParams();
-    $strvalsnippet = (string)$qsnippet;
-    while($currvalsnippet=array_shift($pvalsnippet)) {
+    $pvalsnippet   = $${1:q}->getParams();
+    $strvalsnippet = (string)$$1;
+    while(($currvalsnippet=array_shift($pvalsnippet)) !== null) {
         $strvalsnippet  = substr_replace($strvalsnippet, "'".$currvalsnippet."'", strpos($strvalsnippet, '?'), 1);
     }
-    tel($strvalsnippet.';');
+    ${2:tel}($strvalsnippet.';');
 }

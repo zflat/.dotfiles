@@ -53,6 +53,7 @@
 (depends-on "use-package")
 (depends-on "vlf")
 (depends-on "web-mode")
+(depends-on "wolfram") ; https://github.com/hsjunnesson/wolfram.el
 (depends-on "yasnippet")
 
 ; Themes
