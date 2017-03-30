@@ -125,3 +125,13 @@ unless return was pressed outside the comment"
   (local-set-key "\r" 'prefix-javadoc-return)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun sql-format-region (beg end)
+  "Beautify SQL in region between beg and END."
+  (interactive "r")
+  (save-excursion
+    (shell-command-on-region beg end "fsqlf --config-file ~/.dotfiles/config/fsqlf/formatting.conf" nil t)))
+
+(defun sql-beautify-buffer ()
+ "Beautify SQL in buffer."
+ (interactive)
+ (sql-beautify-region (point-min) (point-max)))
