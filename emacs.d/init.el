@@ -9,8 +9,7 @@
   ;; -q Do not load any initialization file
   ;; --debug-init Enable the Emacs List Debugger
 
-;;;;;;;;;;;;;
-
+  ;;;;;;;;;;;;;
   ;; Added by Package.el.  This must come before configurations of
   ;; installed packages.  Don't delete this line.  If you don't want it,
   ;; just comment it out by adding a semicolon to the start of the line.
@@ -18,21 +17,9 @@
   (package-initialize)
 
 
-;;;;;;;;;;;;;;
-
-
-
-  ;; Set font
-  ;; http://askubuntu.com/questions/23603/how-to-change-font-size-in-emacs
-  (set-default-font "DejaVu Sans Mono 12")
-  (set-face-attribute 'default nil :height 130)
-
-
-  ;; current buffer name in title bar
-  (setq frame-title-format "%b")
-
+  ;;;;;;;;;;;;;;
   ;; All indentation made with spaces
-  (setq-default indent-tabs-mode nil) ;; setq vs setq-default? 
+  (setq-default indent-tabs-mode nil)
   (setq tab-width 2)
   (setq default-tab-width 2)
   (setq js-indent-level 2) ;; Use 2 spaces for javascript files
@@ -41,28 +28,6 @@
   (setq js2-missing-semi-one-line-override nil)
   (setq js2-strict-trailing-comma-warning nil)
 
-
-  ;; Start emacs to fill the screen
-  ;; http://stackoverflow.com/questions/92971/how-do-i-set-the-size-of-emacs-window
-  (defun set-frame-size-according-to-resolution ()
-    (interactive)
-    (if window-system ; see also http://stackoverflow.com/a/5795518
-        (progn
-          ;; use 120 char wide window for largeish displays
-          ;; and smaller 80 column windows for smaller displays
-          ;; pick whatever numbers make sense for you
-          (if (> (x-display-pixel-width) 1280)
-              (add-to-list 'default-frame-alist (cons 'width 120))
-            (add-to-list 'default-frame-alist (cons 'width 100)))
-          ;; for the height, subtract a couple hundred pixels
-          ;; from the screen height (for panels, menubars and
-          ;; whatnot), then divide by the height of a char to
-          ;; get the height we want
-          (add-to-list 'default-frame-alist 
-                       (cons 'height (/ (- (x-display-pixel-height) 200)
-                                        (frame-char-height)))))))
-
-  (set-frame-size-according-to-resolution)
   (custom-set-faces
    ;; custom-set-faces was added by Custom.
    ;; If you edit it by hand, you could mess it up, so be careful.
@@ -80,17 +45,14 @@
   (when (fboundp 'windmove-default-keybindings)
     (windmove-default-keybindings))
 
-  ;; store all backup and autosave files in the tmp dir
-  (setq backup-directory-alist
-        `((".*" . ,temporary-file-directory)))
-  (setq auto-save-file-name-transforms
-        `((".*" ,temporary-file-directory t)))
 
   ;; show the current directory in the frame bar
   ;; see http://stackoverflow.com/a/8945306
   (setq frame-title-format '((:eval default-directory)))
 
+
   ;; Customizing backup settings
+  ;; store all backup and autosave files in the tmp dir
   (setq backup-directory-alist
         `((".*" . ,temporary-file-directory)))
   (setq auto-save-file-name-transforms
@@ -133,8 +95,6 @@
   ;;                  MINOR MODES
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-                                        ; (global-linum-mode 1) ; always show line numbers
 
   (transient-mark-mode t) ; Standard selection-highlighting behavior of other editors.
 
@@ -194,12 +154,6 @@
   (require 'cask "~/.cask/cask.el")
   (cask-initialize)
 
-                                        ; (setq tramp-default-method "ftp")
-                                        ;(eval-after-load "tramp"
-                                        ;  '(debug))
-
-  ;; consider also using pallet 
-  ;; https://github.com/rdallasgray/pallet
 
 ;;;
 ;;; Packages configuration / Initialization
@@ -210,9 +164,6 @@
   (setq recentf-auto-cleanup 'never) ;; disable before we start recentf!
   (recentf-mode t)
 
-  ;; (require 'geben)
-  ;; (autoload 'geben "geben" "DBGp protocol frontend, a script debugger" t)
-  ;; (global-set-key [f5] 'geben)
 
   ;; Muliple cursors
   (require 'multiple-cursors)
@@ -223,12 +174,6 @@
   (global-set-key (kbd "C-S-c C-s") 'mc/mark-more-like-this-extended) 
   (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
 
-  ;; Iedit - Edit multiple regions in the same way simultaneously
-  (require 'iedit)
-
-  ;; expand region
-  (require 'expand-region)
-  (global-set-key (kbd "C-=") 'er/expand-region)
 
   ;; Line duplication
   (global-set-key (kbd "M-<up>") 'md/move-lines-up)
@@ -236,9 +181,6 @@
   (global-set-key (kbd "C-S-d <down>") 'md/duplicate-down)
   (global-set-key (kbd "C-S-d <up>") 'md/duplicate-up)
 
-
-  ;; Code folding
-  (require 'origami)
 
   ;; Transpose Frame
   (require 'transpose-frame)
@@ -288,7 +230,6 @@
   (setq helm-buffer-max-length nil)
   (helm-mode 1)
 
-  (require `helm-swoop)
 
 
   ;; Enable Projectile
@@ -319,25 +260,10 @@
   (require 'helm-gtags)
   (helm-gtags-mode 1)
 
-  ;; Auto-complete
-  (require 'auto-complete-config)
-  ;;  Loading dictionary based on directory location...
-  ;;  https://github.com/lehoff/emacs-cask/blob/master/configs/init-auto-complete.el
-  (add-to-list 'ac-dictionary-directories
-               "~/.emacs.d/.cask/24.4.1/elpa/auto-complete-20160107.8/dict")
-                                        ; Use dictionaries by default
-  (setq-default ac-sources (add-to-list 'ac-sources 'ac-source-dictionary))
-  (global-auto-complete-mode t)
-                                        ; Start auto-completion after 4 characters of a word
-  (setq ac-auto-start 4)
-                                        ; case sensitivity is important when finding matches
-  (setq ac-ignore-case nil)
-
 
   (require 'avy)
   (global-set-key (kbd "M-s") 'avy-goto-char)
   (setq avy-background t)
-
 
   (require 'web-mode) 
   (add-to-list 'auto-mode-alist '("\\.tag\\'" . web-mode)) 
@@ -361,40 +287,10 @@
     ) 
   (add-hook 'web-mode-hook 'my-web-mode-hook)
   (set-face-attribute 'web-mode-symbol-face nil :foreground "SeaGreen")
-  (setq web-mode-ac-sources-alist
-        '(("css" . (ac-source-words-in-buffer ac-source-css-property))
-          ("html" . (ac-source-words-in-buffer ac-source-abbrev))
-          ("php" . (ac-source-words-in-buffer
-                    ac-source-words-in-same-mode-buffers
-                    ac-source-dictionary))
-          ))
-
+  
 
   (require 'js2-mode)
   (add-hook 'js-mode-hook 'js2-minor-mode)
-
-  (require 'php-mode)
-  (add-hook 'php-mode-hook 'php-enable-psr2-coding-style)
-  (add-hook 'php-mode-hook (lambda()(ggtags-mode 1)))
-  (add-hook 'php-mode-hook
-            '(lambda ()
-               (require 'ac-php)
-                                        ;(company-mode 0)
-               (auto-complete-mode t)
-               (setq ac-sources  '(ac-source-php ) )
-                                        ;(add-to-list 'company-backends 'company-ac-php-backend )
-               ))
-  
-  ;; http://prak5190.github.io/p/jsemacs/
-  ;; npm install -g tern
-  (require 'tern)
-  (eval-after-load 'tern
-    '(progn
-       (require 'tern-auto-complete)
-       (tern-ac-setup)))
-  (add-to-list 'tern-command "--no-port-file" 'append) ;; from https://github.com/syl20bnr/spacemacs/pull/3465
-  (add-hook 'js2-mode-hook 'tern-mode)
-  (add-hook 'js-mode-hook 'tern-mode)
 
   (require 'sass-mode)
   (add-to-list 'auto-mode-alist '("\\.scss\\'" . web-mode))
@@ -428,12 +324,12 @@
   (global-set-key (kbd "C-x g") 'magit-status)
   (global-magit-file-mode t)
 
-  (setq tramp-mode nil)
+  ; (setq tramp-mode nil)
 
   (add-hook 'web-mode-hook '(lambda ()
                               (local-set-key (kbd "RET") 'newline-and-indent)))
-  (add-hook 'php-mode-hook '(lambda ()
-                              (local-set-key (kbd "RET") 'newline-and-indent)))
+  ;; (add-hook 'php-mode-hook '(lambda ()
+  ;;                             (local-set-key (kbd "RET") 'newline-and-indent)))
 
   (require 'yasnippet)
   (yas-global-mode 1)
@@ -477,8 +373,7 @@
    '(helm-imenu-fuzzy-match t)
    '(helm-mini-fuzzy-matching t)
    '(helm-recentf-fuzzy-match t)
-   '(inhibit-startup-screen t)
-   '(tramp-mode nil))
+   '(inhibit-startup-screen t))
 
   ;; Note: Setup windows splitting preferences
   ;; 
@@ -587,33 +482,33 @@
 ;; https://www.reddit.com/r/emacs/comments/3kqt6e/2_easy_little_known_steps_to_speed_up_emacs_start/
 ;; https://github.com/jschaf/esup
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("6de7c03d614033c0403657409313d5f01202361e35490a3404e33e46663c2596" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
- '(ecb-options-version "2.32")
- '(helm-buffers-fuzzy-matching t)
- '(helm-buffers-list-fuzzy-match t)
- '(helm-find-files-fuzzy-match t)
- '(helm-imenu-fuzzy-match t)
- '(helm-mini-fuzzy-matching t)
- '(helm-recentf-fuzzy-match t)
- '(inhibit-startup-screen t)
- '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
- '(tramp-mode nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(bm-face ((t (:background "gray20" :foreground "gold"))))
- '(hi-blue ((t (:foreground "light blue" :background "MidnightBlue"))))
- '(hi-blue-b ((t (:foreground "light blue" :background "MidnightBlue" :weight bold))))
- '(hi-green ((t (:foreground "PaleGreen1" :background "DarkOliveGreen"))))
- '(hi-pink ((t (:foreground "pink" :background "gray20"))))
- '(hi-red-b ((t (:background "dark red" :foreground "white" :weight bold))))
- '(hi-yellow ((t (:foreground "yellow1" :weight bold)))))
+;; (custom-set-variables
+;;  ;; custom-set-variables was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;;  '(custom-safe-themes
+;;    (quote
+;;     ("6de7c03d614033c0403657409313d5f01202361e35490a3404e33e46663c2596" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
+;;  '(ecb-options-version "2.32")
+;;  '(helm-buffers-fuzzy-matching t)
+;;  '(helm-buffers-list-fuzzy-match t)
+;;  '(helm-find-files-fuzzy-match t)
+;;  '(helm-imenu-fuzzy-match t)
+;;  '(helm-mini-fuzzy-matching t)
+;;  '(helm-recentf-fuzzy-match t)
+;;  '(inhibit-startup-screen t)
+;;  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
+;;  '(tramp-mode nil))
+;; (custom-set-faces
+;;  ;; custom-set-faces was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;;  '(bm-face ((t (:background "gray20" :foreground "gold"))))
+;;  '(hi-blue ((t (:foreground "light blue" :background "MidnightBlue"))))
+;;  '(hi-blue-b ((t (:foreground "light blue" :background "MidnightBlue" :weight bold))))
+;;  '(hi-green ((t (:foreground "PaleGreen1" :background "DarkOliveGreen"))))
+;;  '(hi-pink ((t (:foreground "pink" :background "gray20"))))
+;;  '(hi-red-b ((t (:background "dark red" :foreground "white" :weight bold))))
+;;  '(hi-yellow ((t (:foreground "yellow1" :weight bold)))))

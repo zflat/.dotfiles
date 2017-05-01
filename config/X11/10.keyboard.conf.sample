@@ -1,3 +1,8 @@
+## for ubuntu
+# sudo add-apt-repository ppa:yurivkhan/ahm
+# sudo apt-get update
+# sudo apt-get upgrade
+
 # Save into /usr/share/X11/xorg.conf.d/10-keyboard.conf
 Section "InputClass"
     Identifier "my keyboard" # You can name this arbitrarily
