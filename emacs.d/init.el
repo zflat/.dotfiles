@@ -18,41 +18,6 @@
   (package-initialize)
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Color Themes
-  ;;
-  ;; Change with M-x load-theme RET {themename}
-  (load-theme 'zenburn t)
-  ;;(load-theme 'solarized-dark t)
-
-
-  (custom-set-variables
-   ;; custom-set-variables was added by Custom.
-   ;; If you edit it by hand, you could mess it up, so be careful.
-   ;; Your init file should contain only one such instance.
-   ;; If there is more than one, they won't work right.
-   '(ecb-options-version "2.32")
-   '(helm-buffers-fuzzy-matching t)
-   '(helm-buffers-list-fuzzy-match t)
-   '(helm-find-files-fuzzy-match t)
-   '(helm-imenu-fuzzy-match t)
-   '(helm-mini-fuzzy-matching t)
-   '(helm-recentf-fuzzy-match t)
-   '(inhibit-startup-screen t)
-   '(tramp-mode nil))
-
-  ;; Note: Setup windows splitting preferences
-  ;; 
-  ;; `customize-group [RET] Windows`
-  ;; Split Height Threshold:
-  ;;   default: 80
-  ;;   always split horizontal: nil 
-  ;; Split Width Threshold 
-  ;;   default: 160
-  ;;   always split horizontal: 0
-
-
-
 ;;;;;;;;;;;;;;
 
 
@@ -245,9 +210,9 @@
   (setq recentf-auto-cleanup 'never) ;; disable before we start recentf!
   (recentf-mode t)
 
-  (require 'geben)
-  (autoload 'geben "geben" "DBGp protocol frontend, a script debugger" t)
-  (global-set-key [f5] 'geben)
+  ;; (require 'geben)
+  ;; (autoload 'geben "geben" "DBGp protocol frontend, a script debugger" t)
+  ;; (global-set-key [f5] 'geben)
 
   ;; Muliple cursors
   (require 'multiple-cursors)
@@ -486,6 +451,48 @@
   (require 'wolfram)
   (setq  wolfram-alpha-app-id "TBD") ; Need to sign up with an account & keep this key a secret :(
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;; Color Themes
+  ;;
+  ;; Change with M-x load-theme RET {themename}
+  (require `zenburn-theme)
+  (load-theme 'zenburn t)
+  ;;(require `ample-theme)
+  ;;(load-theme 'ample-light t t)
+  ;;(enable-theme 'ample-light)
+  ;;(require `solarized-theme)
+  ;;(load-theme 'solarized-light t)
+
+
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(ecb-options-version "2.32")
+   '(helm-buffers-fuzzy-matching t)
+   '(helm-buffers-list-fuzzy-match t)
+   '(helm-find-files-fuzzy-match t)
+   '(helm-imenu-fuzzy-match t)
+   '(helm-mini-fuzzy-matching t)
+   '(helm-recentf-fuzzy-match t)
+   '(inhibit-startup-screen t)
+   '(tramp-mode nil))
+
+  ;; Note: Setup windows splitting preferences
+  ;; 
+  ;; `customize-group [RET] Windows`
+  ;; Split Height Threshold:
+  ;;   default: 80
+  ;;   always split horizontal: nil 
+  ;; Split Width Threshold 
+  ;;   default: 160
+  ;;   always split horizontal: 0
+
+
+
+
   ;;  Keybindings Notes
   ;;
   ;; Note: 'C-M-...' can be captured as '<esc>, C-...'
@@ -580,3 +587,33 @@
 ;; https://www.reddit.com/r/emacs/comments/3kqt6e/2_easy_little_known_steps_to_speed_up_emacs_start/
 ;; https://github.com/jschaf/esup
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("6de7c03d614033c0403657409313d5f01202361e35490a3404e33e46663c2596" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
+ '(ecb-options-version "2.32")
+ '(helm-buffers-fuzzy-matching t)
+ '(helm-buffers-list-fuzzy-match t)
+ '(helm-find-files-fuzzy-match t)
+ '(helm-imenu-fuzzy-match t)
+ '(helm-mini-fuzzy-matching t)
+ '(helm-recentf-fuzzy-match t)
+ '(inhibit-startup-screen t)
+ '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
+ '(tramp-mode nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(bm-face ((t (:background "gray20" :foreground "gold"))))
+ '(hi-blue ((t (:foreground "light blue" :background "MidnightBlue"))))
+ '(hi-blue-b ((t (:foreground "light blue" :background "MidnightBlue" :weight bold))))
+ '(hi-green ((t (:foreground "PaleGreen1" :background "DarkOliveGreen"))))
+ '(hi-pink ((t (:foreground "pink" :background "gray20"))))
+ '(hi-red-b ((t (:background "dark red" :foreground "white" :weight bold))))
+ '(hi-yellow ((t (:foreground "yellow1" :weight bold)))))

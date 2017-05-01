@@ -58,4 +58,5 @@
 
 ; Themes
 (depends-on "zenburn-theme")
-(depends-on "color-theme-solarized") 
+(depends-on "solarized-theme") 
+(depends-on "ample-theme") 
