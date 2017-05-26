@@ -1,0 +1,3 @@
+# Edit device info (name, phys) and username
+# Save to /etc/udev/rules.d/83-xmodmap.rules
+ACTION=="add", KERNEL=="event[0-9]*", SUBSYSTEM=="input", ATTRS{name}=="Razer Razer Imperator", ATTRS{phys}=="usb-0000:00:14.0-2/input0", RUN+="/usr/local/bin/udev-keyboard username"

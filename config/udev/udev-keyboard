@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+# Run xmodmap when plugging in a usb keyboard by running this script
+# from a udev rule matching the keyboard. Make sure this script is
+# saved or linked to the correct location.
+#
+# See http://www.woodensquares.net/posts/kvm.html
+
+export XAUTHORITY=/home/$1/.Xauthority
+export DISPLAY=:0
+sleep 1
+/usr/bin/xmodmap /home/$1/.Xmodmap
+/usr/bin/notify-send "Remapping done" "Used config for user $1" -i info -t 100 -c device.added
