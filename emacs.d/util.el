@@ -130,8 +130,3 @@ unless return was pressed outside the comment"
   (interactive "r")
   (save-excursion
     (shell-command-on-region beg end "fsqlf --config-file ~/.dotfiles/config/fsqlf/formatting.conf" nil t)))
-
-(defun sql-beautify-buffer ()
- "Beautify SQL in buffer."
- (interactive)
- (sql-beautify-region (point-min) (point-max)))
