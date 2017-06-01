@@ -1,5 +1,5 @@
 ## for ubuntu
-# sudo add-apt-repository ppa:yurivkhan/ahm
+# sudo add-apt-repository ppa:yurivkhan/amh
 # sudo apt-get update
 # sudo apt-get upgrade
 
@@ -7,7 +7,7 @@
 Section "InputClass"
     Identifier "my keyboard" # You can name this arbitrarily
     Driver "evdev"
-    Option "XKBOptions" "terminate:ctrl_alt_bksp" # and so on
+    Option "XKBOptions" "terminate:ctrl_alt_bksp,shift:both_capslock"
 
     # If you save this file under xorg.conf.d/ :
     Option "AutoServerLayout" "on"
