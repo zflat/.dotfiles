@@ -247,7 +247,7 @@
 ;; (setq helm-projectile-fuzzy-match nil)
 (global-set-key [f9] 'helm-do-ag-project-root)
 (global-set-key (kbd "C-<f6> s") 'helm-do-ag-project-root)
-                                        ;(global-set-key (kbd "C-c p f") 'helm-projectile-find-file)
+;(global-set-key (kbd "C-c p f") 'helm-projectile-find-file)
 (global-set-key [f8] 'helm-projectile-find-file)
 (global-set-key (kbd "C-<f6> f") 'helm-projectile-find-file)
 ;; Note: Invalidate Projectile cache with  [C-c p i]

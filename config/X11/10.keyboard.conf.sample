@@ -7,7 +7,8 @@
 Section "InputClass"
     Identifier "my keyboard" # You can name this arbitrarily
     Driver "evdev"
-    Option "XKBOptions" "terminate:ctrl_alt_bksp,shift:both_capslock"
+
+    Option "XKBOptions" "terminate:ctrl_alt_bksp"
 
     # If you save this file under xorg.conf.d/ :
     Option "AutoServerLayout" "on"
@@ -23,10 +24,7 @@ Section "InputClass"
     ### at-home-modifier options begin here.
     # The basic option.
     Option "TransMod" "65:37 108:65" # Defines key/modifier pairs.
-    #             space:ctrl alt_R:space
-
-    ## Fine tuning options. Explained in a later section.
-    # For the first time, omit them.
+    #             space:ctrl alt_R:space 
 
     Option "AhmTimeout" "300" # In millisecond.
     Option "AhmDelay" "65" # Delayed keys. Seperate by spaces.

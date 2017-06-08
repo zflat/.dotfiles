@@ -1,0 +1,15 @@
+# Modifying the caps lock key
+#
+# Save in directory /usr/share/X11/xkb/symbols/modremap
+# Edit layout symbols, "us(basic)", adding the following
+#     include "modremap(caps-cstgr)"
+#
+# See https://unix.stackexchange.com/a/128757
+default partial modifier_keys
+xkb_symbols "caps-cstgr" {
+    key <CAPS> {
+        type[Group1] = "TWO_LEVEL",
+        symbols[Group1] = [ F6, Caps_Lock ],
+        actions[Group1] = [ NoAction(), LockMods(modifiers=Lock) ]
+    };
+};

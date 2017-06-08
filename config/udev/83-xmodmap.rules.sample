@@ -1,3 +1,0 @@
-# Edit device info (name, phys) and username
-# Save to /etc/udev/rules.d/83-xmodmap.rules
-ACTION=="add", KERNEL=="event[0-9]*", SUBSYSTEM=="input", ENV{ID_VENDOR_ID}=="045e", ENV{ID_MODEL_ID}=="008a" RUN+="/usr/local/bin/udev-keyboard william.wedler"
