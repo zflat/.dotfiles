@@ -4,6 +4,8 @@
 # Edit layout symbols, "us(basic)", adding the following
 #     include "modremap(caps-cstgr)"
 #
+# Or, add this to the "us" symbols file and edit accordingly
+#
 # See https://unix.stackexchange.com/a/128757
 default partial modifier_keys
 xkb_symbols "caps-cstgr" {
