@@ -18,6 +18,9 @@
 (package-initialize)
 
 
+;; Check if running with X support (featurep 'x)
+
+
 ;; Set font
 ;; http://askubuntu.com/questions/23603/how-to-change-font-size-in-emacs
 (set-default-font "DejaVu Sans Mono 12")
