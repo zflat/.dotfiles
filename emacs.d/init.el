@@ -140,6 +140,16 @@
 
 (global-auto-revert-mode t)
 
+
+; make vertical split the default for edif
+; NOTE
+;   Open ediff from magit: press e on an unmerged (due to conflicts)
+;   file from the status window during a merge/rebase/cherry-pick
+(custom-set-variables
+ '(ediff-window-setup-function 'ediff-setup-windows-plain)
+ '(ediff-diff-options "-w")
+ '(ediff-split-window-function 'split-window-horizontally))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                  PACKAGES
@@ -365,6 +375,11 @@
 
 (require 'wolfram)
 (setq  wolfram-alpha-app-id "TBD") ; Need to sign up with an account & keep this key a secret :(
+
+
+;; Auto-complete notes:
+;; https://github.com/lehoff/emacs-cask/blob/master/configs/init-auto-complete.el
+;; http://crypt.codemancers.com/tags/emacs.html
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
