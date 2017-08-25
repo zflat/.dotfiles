@@ -92,6 +92,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
 (transient-mark-mode t) ; Standard selection-highlighting behavior of other editors.
 
 (if (and
@@ -291,8 +292,14 @@
 (global-set-key (kbd "M-s") 'avy-goto-char)
 (setq avy-background t)
 
+(require 'highlight-indent-guides)
+(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+(setq highlight-indent-guides-method 'character)
+
 (require 'php-mode)
 (add-hook 'php-mode-hook 'php-enable-psr2-coding-style)
+(add-hook 'php-mode-hook 'highlight-indent-guides-mode)
+(add-hook 'php-mode-hook 'ggtags-mode)
 (add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
 
 (require 'js2-mode)
@@ -312,7 +319,8 @@
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 (setq web-mode-engines-alist '
       (("php" . "\\.phtml\\'")
-       ("blade" . "\\.blade\\."))
+       ("blade" . "\\.blade\\.")
+       ("riot" . "\\.tag\\'"))
       )
                                         ; web-mode customization
 (setq web-mode-markup-indent-offset 2)
@@ -326,6 +334,8 @@
 
 (require 'emmet-mode)
 (add-hook 'web-mode-hook  'emmet-mode)
+(add-hook 'web-mode-hook 'highlight-indent-guides-mode)
+
 
 ;; ggtags config:
 ;; http://emacs.stackexchange.com/q/14685
@@ -341,6 +351,7 @@
 (require 'editorconfig)
 (editorconfig-mode 1)
 
+
 (require 'smooth-scrolling)
 ;; Also increase speed by changing X-window repeat rate
 ;; xset r rate 500 75
@@ -352,7 +363,7 @@
 
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-magit-file-mode t)
-
+; (setq magit-completing-read-function 'magit-ido-completing-read)
                                         ; (setq tramp-mode nil)
 
 (add-hook 'web-mode-hook '(lambda ()
@@ -375,6 +386,8 @@
 
 (require 'wolfram)
 (setq  wolfram-alpha-app-id "TBD") ; Need to sign up with an account & keep this key a secret :(
+
+(require 'ess)
 
 
 ;; Auto-complete notes:
@@ -407,6 +420,7 @@
 ;;   always split horizontal: 0
 
 
+;; (global-set-key (kbd "M-<f6>") nil)
 (global-set-key (kbd "M-<f6>") 'imenu)
 
 ;; Keybindings Notes
@@ -537,3 +551,6 @@
  '(hi-pink ((t (:foreground "pink" :background "gray20"))))
  '(hi-red-b ((t (:background "dark red" :foreground "white" :weight bold))))
  '(hi-yellow ((t (:foreground "yellow1" :weight bold)))))
+
+
+
