@@ -81,7 +81,7 @@
       (toggle-scroll-bar -1)))
 
 ;; disable the menu bar
-;; Can get the meny with C-<mouse-3>
+;; Can get the menu with C-<mouse-3> or F10
 (if (boundp 'menu-bar-mode) (menu-bar-mode -1))
 
 (show-paren-mode t)
@@ -184,6 +184,10 @@
 (global-set-key (kbd "C-S-c C-s") 'mc/mark-more-like-this-extended) 
 (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
 
+(require 'expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
+
+
 
 ;; Line duplication
 (global-set-key (kbd "M-<up>") 'md/move-lines-up)
@@ -226,29 +230,31 @@
 (global-set-key (kbd "<S-f2>") 'bm-previous)
 
 (require 'ag)
-(require 'helm)
-(require 'helm-config)
-(global-set-key (kbd "M-x") 'helm-M-x)
-;; This is the old M-x.
-(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
-(global-set-key (kbd "C-x b") 'helm-mini)
-;; optional fuzzy matching 
-(setq helm-M-x-fuzzy-match t)
 
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-(helm-autoresize-mode 1)
-(setq helm-buffer-max-length nil)
-(helm-mode 1)
+(require 'ivy-hydra)
+(require 'ivy)
+(ivy-mode 1)
+; see https://oremacs.com/2016/01/06/ivy-flx/
+(setq ivy-re-builders-alist
+      '((swiper . ivy--regex-plus)
+        (counsel-projectile-find-file . ivy--regex-plus)
+        (t . ivy--regex-fuzzy)))
+(require 'counsel)
+(require 'swiper)
+(require 'counsel-projectile)
+(counsel-projectile-on)
 
+(global-set-key (kbd "C-s") 'swiper)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
 
+(global-set-key (kbd "C-c C-r") 'ivy-resume)
 
 ;; Enable Projectile
 ;;
 ;; list of commands: C-c p C-h
 (require 'projectile)
-(require 'helm-projectile)
-;; TODO: optimize projectile-generic-command (like use mlocate),
-;; then override function (projectile-get-ext-command)
+(setq projectile-completion-system 'ivy)
 (defun projectile-get-ext-command () "find . -type f -print0")
 ;; Speed up? find-file
 ;; See https://github.com/syl20bnr/spacemacs/issues/4207
@@ -256,37 +262,41 @@
 
 (projectile-mode)
 (setq projectile-enable-caching t)
-(setq projectile-completion-system 'helm)
-(helm-projectile-on)
 ;; (setq helm-projectile-fuzzy-match nil)
-(global-set-key [f9] 'helm-do-ag-project-root)
-(global-set-key (kbd "C-<f6> s") 'helm-do-ag-project-root)
+  (global-set-key [f9] 'ag-project)
+  (global-set-key (kbd "C-<f6> s") 'ag-project) ;; maybe use ivy for this?
 ;(global-set-key (kbd "C-c p f") 'helm-projectile-find-file)
-(global-set-key [f8] 'helm-projectile-find-file)
-(global-set-key (kbd "C-<f6> f") 'helm-projectile-find-file)
+  ;; (global-set-key [f8] 'helm-projectile-find-file)
+  ;(global-set-key (kbd "C-<f6> f") 'projectile-find-file-dwim)
+  (global-set-key (kbd "C-<f6> f") 'counsel-projectile-find-file)
 ;; Note: Invalidate Projectile cache with  [C-c p i]
+
+; (require 'find-file-in-project) ;; TODO install and configure and compare w/ projectile
+; (global-set-key (kbd "C-<f6> e") 'find-file-in-project)
+
 
 (custom-set-variables
                                         ; '(helm-gtags-prefix-key "\C-t")
                                         ; '(helm-gtags-suggested-key-mapping t)
- '(helm-gtags-path-style 'relative)
- '(helm-gtags-ignore-case t)
- '(helm-gtags-use-input-at-cursor t)
- '(helm-gtags-pulse-at-cursor t)
- '(helm-gtags-auto-update t))
+ ;; '(helm-gtags-path-style 'relative)
+ ;; '(helm-gtags-ignore-case t)
+ ;; '(helm-gtags-use-input-at-cursor t)
+ ;; '(helm-gtags-pulse-at-cursor t)
+ ;; '(helm-gtags-auto-update t)
+ )
                                         ; Updating tags via git hook: https://stackoverflow.com/q/42680131
 
-(with-eval-after-load 'helm-gtags
-  (global-set-key (kbd "M-t") 'helm-gtags-find-tag)
-  (global-set-key (kbd "M-r") 'helm-gtags-find-rtag)
-  (global-set-key (kbd "M-g M-p") 'helm-gtags-parse-file)
-  (global-set-key (kbd "C-c <") 'helm-gtags-previous-history)
-  (global-set-key (kbd "C-c >") 'helm-gtags-next-history)
-  (global-set-key (kbd "M-,") 'helm-gtags-pop-stack))
-(add-hook 'php-mode-hook 'helm-gtags-mode)
-(add-hook 'dired-mode-hook 'helm-gtags-mode)
-(require 'helm-gtags)
-(helm-gtags-mode t)
+;; (with-eval-after-load 'helm-gtags
+;;   (global-set-key (kbd "M-t") 'helm-gtags-find-tag)
+;;   (global-set-key (kbd "M-r") 'helm-gtags-find-rtag)
+;;   (global-set-key (kbd "M-g M-p") 'helm-gtags-parse-file)
+;;   (global-set-key (kbd "C-c <") 'helm-gtags-previous-history)
+;;   (global-set-key (kbd "C-c >") 'helm-gtags-next-history)
+;;   (global-set-key (kbd "M-,") 'helm-gtags-pop-stack))
+;; (add-hook 'php-mode-hook 'helm-gtags-mode)
+;; (add-hook 'dired-mode-hook 'helm-gtags-mode)
+;; (require 'helm-gtags)
+;; (helm-gtags-mode t)
 
 (require 'avy)
 (global-set-key (kbd "M-s") 'avy-goto-char)
@@ -344,6 +354,7 @@
 ;; Exclude dirs: https://github.com/syl20bnr/spacemacs/issues/3273#issuecomment-145984669
 ;;
 ;; (setq-local imenu-create-index-function #'ggtags-build-imenu-index)
+(ggtags-mode 1)
 (setq ggtags-completing-read-function nil)
                                         ; (setenv "GTAGSLIBPATH" "/showclix/config:/showclix/src:/showclix/tests/active_tests:/showclix/settings:/showclix/schema_evolutions:/showclix/public_html/classes:/showclix/public_html/actions:/showclix/public_html/templates:/showclix/public_html/controller")
 (setenv "GTAGSLIBPATH" nil)
@@ -363,6 +374,7 @@
 
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-magit-file-mode t)
+(setq magit-completing-read-function 'ivy-completing-read)
 ; (setq magit-completing-read-function 'magit-ido-completing-read)
                                         ; (setq tramp-mode nil)
 
@@ -467,9 +479,14 @@
 ;; After M-x cd stops emacs from tracking directories, run: M-x dirtrack-mode
 ;;
 ;;
-;; C-x TAB ;; (indent-rigidly)
-;; Adjust the text indentation in the region
-;; <left>, <right>, <S-left>, and <S-right>
+;; Indent region after yank:
+;; Indent region on active text:
+;;   C-M-\
+;; Or highlight yanked then tab: 
+;;   C-x C-x, TAB
+;;
+;; Adjust the text indentation in the region using indent-rigidly
+;; C-x TAB, <left> OR <right> OR <S-left> OR <S-right>
 ;;
 ;; Git Blame
 ;; C-x v g
@@ -511,12 +528,11 @@
 (diminish 'auto-revert-mode)
 (diminish 'abbrev-mode "Abv")
 (diminish 'auto-complete-mode)
-(diminish 'helm-gtags-mode)
 (diminish 'projectile)
 (diminish 'projectile-mode)
-(diminish 'helm-mode)
 (diminish 'yas-minor-mode)
 (diminish 'editorconfig-mode)
+(diminish 'ivy-mode)
 
 
 
@@ -525,19 +541,19 @@
 ;; https://github.com/jschaf/esup
 ;; byte-compile .emacs.d directory: C-u 0 M-x byte-recompile-directory
 
-
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(helm-buffers-fuzzy-matching t)
- '(helm-buffers-list-fuzzy-match t)
- '(helm-find-files-fuzzy-match t)
- '(helm-imenu-fuzzy-match t)
- '(helm-mini-fuzzy-matching t)
- '(helm-recentf-fuzzy-match t)
+
+ ;; '(helm-buffers-fuzzy-matching t)
+ ;; '(helm-buffers-list-fuzzy-match t)
+ ;; '(helm-find-files-fuzzy-match t)
+ ;; '(helm-imenu-fuzzy-match t)
+ ;; '(helm-mini-fuzzy-matching t)
+ ;; '(helm-recentf-fuzzy-match t)
+
  '(inhibit-startup-screen t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

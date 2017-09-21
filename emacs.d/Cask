@@ -1,4 +1,11 @@
 ;; -*- mode: Lisp; -*-
+
+;; Apply changes
+;; - cask intall (via dotbot)
+;; - execute (C-x C-e) the following
+;;      (load "~/.emacs.d/init.el")
+
+
 (source melpa) ; melpa.org
 (source gnu) ; https://elpa.gnu.org/
 ; (source marmalade) ; "https://marmalade-repo.org/packages/"
@@ -11,21 +18,24 @@
 (depends-on "diminish")
 (depends-on "editorconfig")
 (depends-on "ess")
+(depends-on "expand-region")
 (depends-on "company")
+(depends-on "counsel")
+(depends-on "counsel-projectile")
 (depends-on "emmet-mode")
 (depends-on "f")
+(depends-on "find-file-in-project")
+(depends-on "flx")
 ;(depends-on "flycheck")
 ;(depends-on "flycheck-cask")
 (depends-on "ggtags")
-(depends-on "helm")
-(depends-on "helm-ag")
-(depends-on "helm-emmet")
-(depends-on "helm-gtags")
-(depends-on "helm-projectile")
 (depends-on "highlight-indent-guides")
 (depends-on "htmlize")
 (depends-on "idle-highlight-mode") ; needs configuration. also consider http://emacsblog.org/2007/04/17/quick-tip-light-symbol-mode/ ?
 ; TODO: http://oremacs.com/2015/04/16/ivy-mode/
+; TODO: https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
+(depends-on "ivy")
+(depends-on "ivy-hydra")
 (depends-on "js2-mode")
 (depends-on "magit")
 (depends-on "markdown-mode")
@@ -39,6 +49,7 @@
 (depends-on "s")
 (depends-on "sass-mode")
 (depends-on "smooth-scrolling")
+(depends-on "swiper")
 (depends-on "transpose-frame")
 (depends-on "use-package")
 (depends-on "vlf") ; very large file
