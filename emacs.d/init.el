@@ -229,6 +229,23 @@
 (global-set-key (kbd "<f2>")   'bm-next)
 (global-set-key (kbd "<S-f2>") 'bm-previous)
 
+;; Visual Mark
+(defface visible-mark-active ;; put this before (require 'visible-mark)
+  '((((type tty) (class mono)))
+    (t (:background "dark green"))) "")
+(defface visible-mark-face1
+  '((((type tty) (class mono))
+     (:inverse-video t))
+    (t (:background "plum4"))) "")
+(defface visible-mark-face2
+  '((((type tty) (class mono))
+     (:inverse-video t))
+    (t (:background "tan4"))) "")
+(setq visible-mark-max 1)
+(setq visible-mark-faces `(visible-mark-face1 visible-mark-face2))
+(require 'visible-mark)
+
+
 (require 'ag)
 
 (require 'ivy-hydra)
@@ -310,10 +327,12 @@
 (add-hook 'php-mode-hook 'php-enable-psr2-coding-style)
 (add-hook 'php-mode-hook 'highlight-indent-guides-mode)
 (add-hook 'php-mode-hook 'ggtags-mode)
+(add-hook 'php-mode-hook 'visible-mark-mode)
 (add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
 
 (require 'js2-mode)
 (add-hook 'js-mode-hook 'js2-minor-mode)
+(add-hook 'js-mode-hook 'visible-mark-mode)
 
 (require 'sass-mode)
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . web-mode))
@@ -376,7 +395,6 @@
 (global-magit-file-mode t)
 (setq magit-completing-read-function 'ivy-completing-read)
 ; (setq magit-completing-read-function 'magit-ido-completing-read)
-                                        ; (setq tramp-mode nil)
 
 (add-hook 'web-mode-hook '(lambda ()
                             (local-set-key (kbd "RET") 'newline-and-indent)))

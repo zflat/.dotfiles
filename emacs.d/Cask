@@ -52,6 +52,7 @@
 (depends-on "swiper")
 (depends-on "transpose-frame")
 (depends-on "use-package")
+(depends-on "visible-mark")
 (depends-on "vlf") ; very large file
 (depends-on "web-mode")
 (depends-on "wolfram") ; https://github.com/hsjunnesson/wolfram.el
