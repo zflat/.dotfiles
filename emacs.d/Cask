@@ -4,6 +4,9 @@
 ;; - cask intall (via dotbot)
 ;; - execute (C-x C-e) the following
 ;;      (load "~/.emacs.d/init.el")
+;; - Or:
+;;      M-x load-file
+;;
 
 
 (source melpa) ; melpa.org
@@ -36,6 +39,7 @@
 ; TODO: https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
 (depends-on "ivy")
 (depends-on "ivy-hydra")
+(depends-on "ivy-pass")
 (depends-on "js2-mode")
 (depends-on "magit")
 (depends-on "markdown-mode")

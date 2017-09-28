@@ -250,6 +250,7 @@
 
 (require 'ivy-hydra)
 (require 'ivy)
+(require 'ivy-pass)
 (ivy-mode 1)
 ; see https://oremacs.com/2016/01/06/ivy-flx/
 (setq ivy-re-builders-alist
