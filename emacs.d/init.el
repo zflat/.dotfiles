@@ -44,7 +44,7 @@
 
 ;; show the current directory in the frame bar
 ;; see http://stackoverflow.com/a/8945306
-(setq frame-title-format '((:eval default-directory)))
+(setq frame-title-format '("-emacs- " (:eval default-directory)))
 
 
 ;; Customizing backup settings
