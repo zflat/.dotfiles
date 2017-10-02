@@ -1,0 +1,26 @@
+// Place your settings in this file to overwrite the default settings
+{
+    "editor.fontSize": 16
+
+    ,
+    "editor.cursorStyle": "block",
+    "workbench.colorTheme": "Zenburn",
+    "editor.renderLineHighlight": "all",
+    "git.countBadge": "tracked"
+    ,"workbench.colorCustomizations": {
+    "statusBar.background" : "#333333",
+    "statusBar.noFolderBackground" : "#212121",
+    "statusBar.debuggingBackground": "#263238"},
+    "phpformatter.pharPath": "/usr/local/bin/php-cs-fixer",
+
+    "php-cs-fixer.executablePath": "/usr/loca/bin/php-cs-fixer",
+    "php-cs-fixer.onsave": false,
+    "php-cs-fixer.rules": "@PSR2",
+    "php-cs-fixer.config": ".php_cs",
+    "php-cs-fixer.autoFixByBracket": true,
+    "php-cs-fixer.autoFixBySemicolon": false,
+    "php-cs-fixer.formatHtml": false,
+    "editor.minimap.enabled": false,
+    "window.zoomLevel": 0,
+    "workbench.iconTheme": null
+}
