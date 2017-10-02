@@ -3,7 +3,7 @@
    ~/.config/git: 
       path: "config/git"
    ~/.vagrant.d/Vagrantfile: 
-      path: "config/Vagrant/Vagrantfile"
+      path: "config/Vagrant/Vagrantfile" # may need to link to ~/.config/Vagrant/Vagranfile
    ~/.vagrant.d/scripts: 
       path: "config/Vagrant/scripts"
    ~/.emacs.d: 
@@ -12,5 +12,22 @@
    ~/.Xmodmap: 
       path: "config/X11/.Xmodmap"
       force: true
+   ~/.xbindkeysrc:
+      path: "config/X11/.xbindkeysrc"
+      force: true
+   ~/.config/Code/User/keybindings.json: 
+      path: "config/Code/User/keybindings.json"
+   ~/.config/Code/User/settings.json: 
+      path: "config/Code/User/settings.json"
+   ~/.config/Code/User/snippets: 
+      path: "config/Code/User/snippets"
+   ~/.config/albert:
+      path: "config/albert"
+   # *.desktop files
+   # https://help.ubuntu.com/community/UnityLaunchersAndDesktopFiles
+   ~/.local/share/applications/terminator.desktop:
+      path: "local/share/applications/terminator.desktop"
+      force: false
+
 - shell:
    - cask install --path ./emacs.d

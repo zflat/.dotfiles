@@ -1,0 +1,14 @@
+# See: https://superuser.com/a/97153 for switching to a window quickly
+# https://superuser.com/questions/777520/is-there-a-chrome-extension-to-set-the-window-title
+
+"wmctrl -a -emacs"
+Control+Alt + k
+"wmctrl -a Terminator"
+Control+Alt + j
+"wmctrl -a -browser"
+Control+Alt + u
+"wmctrl -a Slack"
+Control+Alt + y
+"wmctrl -a Visual Studio Code"
+Control+Alt + i
+
