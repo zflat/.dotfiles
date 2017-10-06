@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: backtrace
+# key: backtrace
+# --
+{
+$arrtrc = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, ${2:5});
+${1:tel}(json_encode($arrtrc));
+}
