@@ -1,5 +1,8 @@
 # See: https://superuser.com/a/97153 for switching to a window quickly
 # https://superuser.com/questions/777520/is-there-a-chrome-extension-to-set-the-window-title
+#
+# Also a higher level way to get custom keybindings?
+# http://butlerpc.net/blog/2011/01/using-xbindkeys-on-ubuntu-linux-to-remap-key-commands/
 
 "wmctrl -a -emacs"
 Control+Alt + k
