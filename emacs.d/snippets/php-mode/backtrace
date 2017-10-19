@@ -2,4 +2,4 @@
 # name: backtrace
 # key: backtrace
 # --
-${1:tel}(json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, ${2:5})));
+${1:tel}("${2:}".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, ${3:5})));
