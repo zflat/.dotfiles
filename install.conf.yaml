@@ -21,8 +21,8 @@
       path: "config/Code/User/settings.json"
    ~/.config/Code/User/snippets: 
       path: "config/Code/User/snippets"
-   ~/.config/albert:
-      path: "config/albert"
+   #~/.config/albert:
+   #   path: "config/albert"
    # *.desktop files
    # https://help.ubuntu.com/community/UnityLaunchersAndDesktopFiles
    ~/.local/share/applications/terminator.desktop:
