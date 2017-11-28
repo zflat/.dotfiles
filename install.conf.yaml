@@ -21,6 +21,8 @@
       path: "config/Code/User/settings.json"
    ~/.config/Code/User/snippets: 
       path: "config/Code/User/snippets"
+   ~/.config/gtk-3.0/gtk.css: 
+      path: "config/gtk-3.0/gtk.css"
    #~/.config/albert:
    #   path: "config/albert"
    # *.desktop files
