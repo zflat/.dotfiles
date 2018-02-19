@@ -1,7 +1,6 @@
-;; TODO: http://cachestocaches.com/2015/8/getting-started-use-package/
-
-(setq-default gc-cons-threshold 100000000)
-
+;;; init.el --- Initialization file for Emacs
+;;; Commentary:
+;; 
 ;; Configure emacs
 ;; Also can invoke `M-x Custom`
 ;;
@@ -9,24 +8,45 @@
 ;; http://www.gnu.org/software/emacs/manual/html_node/emacs/Initial-Options.html
 ;; -q Do not load any initialization file
 ;; --debug-init Enable the Emacs List Debugger
+;;
+;; Apply changes
+;; `M-x load-file` init.el
+;;
+;; TODO: http://cachestocaches.com/2015/8/getting-started-use-package/
 
-  ;;;;;;;;;;;;;
+;;; Code:
+
+;; Debugging triggers
+(setq debug-on-error nil
+      debug-on-signal nil
+      debug-on-quit nil) ;; C-g trigger debug
+
+;; slow-down due to TRAMP bug: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=810640
+(setq tramp-ssh-controlmaster-options nil)
+
+(setq-default gc-cons-threshold 100000000)
+
+(add-to-list 'load-path "~/.emacs.d/elisp/")
+(let ((default-directory  "~/.emacs.d/elisp/"))
+  (normal-top-level-add-subdirs-to-load-path))
+
+;;;;;;;;;;;;;
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
 (package-initialize)
 
-
 ;; Check if running with X support (featurep 'x)
 
 
 ;; Set font
 ;; http://askubuntu.com/questions/23603/how-to-change-font-size-in-emacs
-(set-default-font "DejaVu Sans Mono 12")
+(set-frame-font "DejaVu Sans Mono 12")
 (set-face-attribute 'default nil :height 130)
 
-  ;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;
 ;; All indentation made with spaces
 (setq-default indent-tabs-mode nil)
 (setq tab-width 2)
@@ -40,6 +60,15 @@
 ;; Move cursor to different Panes by Arrow
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
+
+
+;; Buffer switching
+;; See https://www.emacswiki.org/emacs/SwitchingBuffers
+(defun switch-to-previous-buffer ()
+  (interactive)
+  (switch-to-buffer (other-buffer (current-buffer) 1)))
+(global-set-key (kbd "<f1>") 'switch-to-previous-buffer)
+(global-set-key (kbd "<backtab>") 'switch-to-buffer)
 
 
 ;; show the current directory in the frame bar
@@ -62,7 +91,7 @@
                (> (- current (float-time (nth 5 (file-attributes file))))
                   week))
       (message "%s" file)
-      (ignore-errors 
+      (ignore-errors
         (delete-file file)))))
 
 ;;; coding systems
@@ -84,8 +113,6 @@
 ;; Can get the menu with C-<mouse-3> or F10
 (if (boundp 'menu-bar-mode) (menu-bar-mode -1))
 
-(show-paren-mode t)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                  MINOR MODES
@@ -102,11 +129,12 @@
   )
 (global-hl-line-mode t) ; highlgiht
 
-
 ;; parenthesis customization
 ;; consider also http://www.emacswiki.org/emacs/HighlightParentheses
+(require 'paren)
+(show-paren-mode t)
 (setq show-paren-delay 0)
-(show-paren-mode 1)
+(set-face-background 'show-paren-match-face (face-background 'default))
 
 ;; How to show the matching paren when it is offscreen
 (defadvice show-paren-function
@@ -147,9 +175,18 @@
 ;   Open ediff from magit: press e on an unmerged (due to conflicts)
 ;   file from the status window during a merge/rebase/cherry-pick
 (custom-set-variables
- '(ediff-window-setup-function 'ediff-setup-windows-plain)
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "67e998c3c23fe24ed0fb92b9de75011b92f35d3e89344157ae0d544d50a63a72" default)))
  '(ediff-diff-options "-w")
- '(ediff-split-window-function 'split-window-horizontally))
+ '(ediff-split-window-function (quote split-window-horizontally))
+ '(ediff-window-setup-function (quote ediff-setup-windows-plain))
+ '(inhibit-startup-screen t)
+ '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838"))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -163,6 +200,31 @@
 
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Color Themes
+;;
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(bm-face ((t (:foreground "gold" :background "gray20"))))
+ '(hi-blue ((t (:foreground "light blue" :background "MidnightBlue"))))
+ '(hi-blue-b ((t (:foreground "light blue" :background "MidnightBlue" :weight bold))))
+ '(hi-green ((t (:foreground "PaleGreen1" :background "DarkOliveGreen"))))
+ '(hi-pink ((t (:foreground "pink" :background "gray20"))))
+ '(hi-red-b ((t (:foreground "white" :background "dark red" :weight bold))))
+ '(hi-yellow ((t (:foreground "yellow1" :background "gray20" :weight bold)))))
+
+;; Change theme with M-x load-theme RET {themename}
+(require `zenburn-theme)
+(load-theme 'zenburn t)
+; (require `solarized-theme)
+;; (load-theme 'solarized-light t)
+;;(require `ample-theme)
+;;(load-theme 'ample-light t t)
+;;(enable-theme 'ample-light)
 
 
 ;;;
@@ -179,14 +241,13 @@
 (require 'multiple-cursors)
                                         ; Cursor at each line in selected region
                                         ; Note: <S> is shift
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines) 
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
                                         ; Use arrow keys to quickly mark/skip next/previous occurances.
-(global-set-key (kbd "C-S-c C-s") 'mc/mark-more-like-this-extended) 
+(global-set-key (kbd "C-S-c C-s") 'mc/mark-more-like-this-extended)
 (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
 
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
-
 
 
 ;; Line duplication
@@ -195,6 +256,12 @@
 (global-set-key (kbd "C-S-d <down>") 'md/duplicate-down)
 (global-set-key (kbd "C-S-d <up>") 'md/duplicate-up)
 
+
+;; Elscreen
+(require 'elscreen)
+(elscreen-start)
+(setq elscreen-display-tab nil)
+(global-set-key (kbd "C-z C-z") 'elscreen-toggle)
 
 ;; Transpose Frame
 (require 'transpose-frame)
@@ -205,6 +272,9 @@
 (push '(ag-mode :dedicated t :stick t :position bottom) popwin:special-display-config)
                                         ;(pop popwin:special-display-config)
 
+(require 'smart-mode-line)
+(sml/setup)
+
 ;; Automatic find file customizations:
 ;;
 ;; Stop IDO mode find file by typing C-f
@@ -214,7 +284,6 @@
 ;;
 ;; Completely disable automatic find file
 ;; (setq ido-auto-merge-work-directories-length -1)
-
 
 (require 'neotree)
 (global-set-key [f7] 'neotree-find)
@@ -229,7 +298,8 @@
 (global-set-key (kbd "<f2>")   'bm-next)
 (global-set-key (kbd "<S-f2>") 'bm-previous)
 
-;; Visual Mark
+;; Visual Mark -- highlights the current mark, and N-previous marks
+;; http://pragmaticemacs.com/emacs/regions-marks-and-visual-mark/
 (defface visible-mark-active ;; put this before (require 'visible-mark)
   '((((type tty) (class mono)))
     (t (:background "dark green"))) "")
@@ -241,24 +311,30 @@
   '((((type tty) (class mono))
      (:inverse-video t))
     (t (:background "tan4"))) "")
-(setq visible-mark-max 1)
-(setq visible-mark-faces `(visible-mark-face1 visible-mark-face2))
+(defface visible-mark-face3
+  '((((type tty) (class mono))
+     (:inverse-video t))
+    (t (:background "DarkSlateGray4"))) "")
+(setq visible-mark-max 3)
+(setq visible-mark-faces `(visible-mark-face1 visible-mark-face2 visible-mark-face3))
 (require 'visible-mark)
-
 
 (require 'ag)
 
 (require 'ivy-hydra)
 (require 'ivy)
 (require 'ivy-pass)
+(require 'counsel)
+(require 'swiper)
 (ivy-mode 1)
 ; see https://oremacs.com/2016/01/06/ivy-flx/
 (setq ivy-re-builders-alist
       '((swiper . ivy--regex-plus)
         (counsel-projectile-find-file . ivy--regex-plus)
         (t . ivy--regex-fuzzy)))
-(require 'counsel)
-(require 'swiper)
+(setq ivy-format-function 'ivy-fnormat-function-line)
+(set-face-attribute 'ivy-current-match nil :background (face-background 'default))
+
 (require 'counsel-projectile)
 (counsel-projectile-on)
 
@@ -273,6 +349,8 @@
 ;; list of commands: C-c p C-h
 (require 'projectile)
 (setq projectile-completion-system 'ivy)
+;; command used to get the file for projectile
+;; also consider https://www.emacswiki.org/emacs/FileSets
 (defun projectile-get-ext-command () "find . -type f -print0")
 ;; Speed up? find-file
 ;; See https://github.com/syl20bnr/spacemacs/issues/4207
@@ -293,15 +371,7 @@
 ; (global-set-key (kbd "C-<f6> e") 'find-file-in-project)
 
 
-(custom-set-variables
-                                        ; '(helm-gtags-prefix-key "\C-t")
-                                        ; '(helm-gtags-suggested-key-mapping t)
- ;; '(helm-gtags-path-style 'relative)
- ;; '(helm-gtags-ignore-case t)
- ;; '(helm-gtags-use-input-at-cursor t)
- ;; '(helm-gtags-pulse-at-cursor t)
- ;; '(helm-gtags-auto-update t)
- )
+
                                         ; Updating tags via git hook: https://stackoverflow.com/q/42680131
 
 ;; (with-eval-after-load 'helm-gtags
@@ -321,14 +391,26 @@
 (setq avy-background t)
 
 (require 'highlight-indent-guides)
-(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+; (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
 (setq highlight-indent-guides-method 'character)
 
+(require 'company)
+(setq company-idle-delay 0.2)
+
+(require 'php-extras)
 (require 'php-mode)
 (add-hook 'php-mode-hook 'php-enable-psr2-coding-style)
 (add-hook 'php-mode-hook 'highlight-indent-guides-mode)
 (add-hook 'php-mode-hook 'ggtags-mode)
 (add-hook 'php-mode-hook 'visible-mark-mode)
+(add-hook 'php-mode-hook 'highlight-indent-guides-mode)
+(add-hook 'php-mode-hook
+          '(lambda ()
+             (require 'company-php)
+             (company-mode t)
+             (ac-php-core-eldoc-setup ) ;; enable eldoc
+             (make-local-variable 'company-backends)
+             (add-to-list 'company-backends 'company-ac-php-backend)))
 (add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
 
 (require 'js2-mode)
@@ -338,14 +420,14 @@
 (require 'sass-mode)
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . web-mode))
 
-(require 'web-mode) 
-(add-to-list 'auto-mode-alist '("\\.tag\\'" . web-mode)) 
-(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode)) 
-(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode)) 
-(add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode)) 
-(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode)) 
-(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode)) 
-(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode)) 
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.tag\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 (setq web-mode-engines-alist '
       (("php" . "\\.phtml\\'")
@@ -355,16 +437,50 @@
                                         ; web-mode customization
 (setq web-mode-markup-indent-offset 2)
 (defun my-web-mode-hook ()
-  "Hooks for Web mode." 
+  "Hooks for Web mode."
   (setq web-mode-markup-indent-offset 2)
                                         ; (editorconfig-apply)
-  ) 
+  )
 (add-hook 'web-mode-hook 'my-web-mode-hook)
 (set-face-attribute 'web-mode-symbol-face nil :foreground "SeaGreen")
 
 (require 'emmet-mode)
 (add-hook 'web-mode-hook  'emmet-mode)
 (add-hook 'web-mode-hook 'highlight-indent-guides-mode)
+
+(message "load0")
+(require 'flycheck)
+(message "load1")
+
+;; C++ w/ RTags
+;; http://martinsosic.com/development/emacs/2017/12/09/emacs-cpp-ide.html
+(require 'rtags)
+(message "load2")
+(require 'flycheck-rtags)
+(require 'ivy-rtags)
+(setq rtags-display-result-backend 'ivy)
+(unless (rtags-executable-find "rc") (error "Binary rc is not installed!"))
+(unless (rtags-executable-find "rdm") (error "Binary rdm is not installed!"))
+(define-key c-mode-base-map (kbd "M-.") 'rtags-find-symbol-at-point)
+(define-key c-mode-base-map (kbd "M-,") 'rtags-find-references-at-point)
+(define-key c-mode-base-map (kbd "M-?") 'rtags-display-summary)
+(rtags-enable-standard-keybindings)
+(add-hook 'c++-mode-hook
+          '(lambda ()
+             (require 'company-rtags)
+             (company-mode t)
+             (setq rtags-autostart-diagnostics t)
+             (rtags-diagnostics)
+             (setq rtags-completions-enabled t)
+             (add-to-list 'company-backends 'company-rtags)))
+(defun setup-flycheck-rtags ()
+  (flycheck-select-checker 'rtags)
+  (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays.
+  (setq-local flycheck-check-syntax-automatically nil)
+  (rtags-set-periodic-reparse-timeout 2.0)  ;; Run flycheck 2 seconds after being idle.
+  )
+(add-hook 'c++-mode-hook #'setup-flycheck-rtags)
+(global-flycheck-mode t)
 
 
 ;; ggtags config:
@@ -421,23 +537,21 @@
 (require 'ess)
 
 
+;; c-mode indentation https://stackoverflow.com/a/664525
+(defun my-c-mode-common-hook ()
+  ;; my customizations for all of c-mode, c++-mode, objc-mode, java-mode
+  (c-set-offset 'substatement-open 0)
+  (c-set-offset 'arglist-intro 2)
+  )
+(require 'modern-cpp-font-lock)
+(modern-c++-font-lock-global-mode t)
+(add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
+
+
+
 ;; Auto-complete notes:
 ;; https://github.com/lehoff/emacs-cask/blob/master/configs/init-auto-complete.el
 ;; http://crypt.codemancers.com/tags/emacs.html
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Color Themes
-;;
-;; Change with M-x load-theme RET {themename}
-(require `zenburn-theme)
-(load-theme 'zenburn t)
-;;(require `ample-theme)
-;;(load-theme 'ample-light t t)
-;;(enable-theme 'ample-light)
-;;(require `solarized-theme)
-;;(load-theme 'solarized-light t)
-
 
 
 ;; Note: Setup windows splitting preferences
@@ -445,10 +559,11 @@
 ;; `customize-group [RET] Windows`
 ;; Split Height Threshold:
 ;;   default: 80
-;;   always split horizontal: nil 
-;; Split Width Threshold 
+;;   always split horizontal: nil
+;; Split Width Threshold
 ;;   default: 160
 ;;   always split horizontal: 0
+
 
 
 ;; (global-set-key (kbd "M-<f6>") nil)
@@ -458,7 +573,7 @@
 ;;
 ;; Key Help
 ;; get information about a key sequence
-;;   C-h c (describe-key-briefly) 
+;;   C-h c (describe-key-briefly)
 ;;   C-h k (describe-key).
 ;;
 ;; Note: 'C-M-...' can be captured as '<esc>, C-...'
@@ -501,7 +616,7 @@
 ;; Indent region after yank:
 ;; Indent region on active text:
 ;;   C-M-\
-;; Or highlight yanked then tab: 
+;; Or highlight yanked then tab:
 ;;   C-x C-x, TAB
 ;;
 ;; Adjust the text indentation in the region using indent-rigidly
@@ -528,12 +643,23 @@
 ;;
 ;; C-c C-j to go into line mode
 ;; C-c C-k to get back into char mode
-
+;;
+;; clone-indirect-buffer-other-window
+;; C-x 4 c
+;; kill-buffer-and-window
+;; C-x 4 0
+;;
+;; iconify-frame (minimize)
+;; C-x C-z
+;;
+;; Moving around with the Mark
+;; C-u C-space move point to previous mark
 
 ;;
 ;; Load additional init files
 (load "~/.emacs.d/util.el")
 
+(message "load_end")
 
 ;; emacs paste hang workaround, kinda (still need to restart)
 ;; 2015-07-04 bug of pasting in emacs.
@@ -542,7 +668,7 @@
 (setq x-selection-timeout 300)
 
 ;; Setup diminish after all modes have finished initializing
-;; To list minor modes: M-x describe-mode 
+;; To list minor modes: M-x describe-mode
 (require 'diminish)
 (diminish 'auto-revert-mode)
 (diminish 'abbrev-mode "Abv")
@@ -552,6 +678,7 @@
 (diminish 'yas-minor-mode)
 (diminish 'editorconfig-mode)
 (diminish 'ivy-mode)
+(diminish 'flycheck-mode)
 
 
 
@@ -560,32 +687,6 @@
 ;; https://github.com/jschaf/esup
 ;; byte-compile .emacs.d directory: C-u 0 M-x byte-recompile-directory
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
 
- ;; '(helm-buffers-fuzzy-matching t)
- ;; '(helm-buffers-list-fuzzy-match t)
- ;; '(helm-find-files-fuzzy-match t)
- ;; '(helm-imenu-fuzzy-match t)
- ;; '(helm-mini-fuzzy-matching t)
- ;; '(helm-recentf-fuzzy-match t)
-
- '(inhibit-startup-screen t))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(bm-face ((t (:background "gray20" :foreground "gold"))))
- '(hi-blue ((t (:foreground "light blue" :background "MidnightBlue"))))
- '(hi-blue-b ((t (:foreground "light blue" :background "MidnightBlue" :weight bold))))
- '(hi-green ((t (:foreground "PaleGreen1" :background "DarkOliveGreen"))))
- '(hi-pink ((t (:foreground "pink" :background "gray20"))))
- '(hi-red-b ((t (:background "dark red" :foreground "white" :weight bold))))
- '(hi-yellow ((t (:foreground "yellow1" :weight bold)))))
-
-
-
+; (provide 'init)
+;;; init.el ends here
