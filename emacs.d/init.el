@@ -341,7 +341,11 @@
 (global-set-key (kbd "C-s") 'swiper)
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-
+(global-set-key (kbd "C-c C-f") 'ivy-immediate-done)
+(defun wrapped-ivy-immediate-done (&rest ignore)
+    (interactive)
+    (if ( > (minibuffer-depth) 0) (ivy-immediate-done) nil))
+(global-set-key (kbd "C-c C-f") 'wrapped-ivy-immediate-done) ;; useful for creating a new file
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
 
 ;; Enable Projectile
