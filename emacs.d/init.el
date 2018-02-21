@@ -332,8 +332,17 @@
       '((swiper . ivy--regex-plus)
         (counsel-projectile-find-file . ivy--regex-plus)
         (t . ivy--regex-fuzzy)))
-(setq ivy-format-function 'ivy-fnormat-function-line)
+(setq ivy-format-function 'ivy-format-function-line)
 (set-face-attribute 'ivy-current-match nil :background (face-background 'default))
+(set-face-attribute 'ivy-minibuffer-match-face-1 nil :background "plum4")
+(set-face-attribute 'ivy-minibuffer-match-face-2 nil :foreground "white smoke")
+(set-face-attribute 'ivy-minibuffer-match-face-2 nil :background "RosyBrown4")
+(set-face-attribute 'ivy-minibuffer-match-face-3 nil :foreground "white smoke")
+(set-face-attribute 'ivy-minibuffer-match-face-3 nil :background "DarkSlateGray4")
+(set-face-attribute 'ivy-minibuffer-match-face-4 nil :foreground "white smoke")
+(set-face-attribute 'ivy-minibuffer-match-face-4 nil :background "DodgerBlue4")
+
+(color-values (face-background 'highlight)) ; debug a face background
 
 (require 'counsel-projectile)
 (counsel-projectile-on)
@@ -341,7 +350,6 @@
 (global-set-key (kbd "C-s") 'swiper)
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(global-set-key (kbd "C-c C-f") 'ivy-immediate-done)
 (defun wrapped-ivy-immediate-done (&rest ignore)
     (interactive)
     (if ( > (minibuffer-depth) 0) (ivy-immediate-done) nil))
