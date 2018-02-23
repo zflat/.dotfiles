@@ -447,6 +447,7 @@
        ("riot" . "\\.tag\\'"))
       )
 
+(add-to-list 'auto-mode-alist '("/checkout/src/.*\\.js[x]?\\'" . web-mode))
 (setq web-mode-content-types-alist
   '(("jsx"  . "/checkout/src/.*\\.js[x]?\\'")))
 
