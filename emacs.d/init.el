@@ -1,7 +1,7 @@
 ;;; init.el --- Initialization file for Emacs
 ;;; Commentary:
 ;; 
-;; Configure emacs
+;; Configure Emacs
 ;; Also can invoke `M-x Custom`
 ;;
 ;; Usefull init options
@@ -446,6 +446,10 @@
        ("blade" . "\\.blade\\.")
        ("riot" . "\\.tag\\'"))
       )
+
+(setq web-mode-content-types-alist
+  '(("jsx"  . "/checkout/src/.*\\.js[x]?\\'")))
+
                                         ; web-mode customization
 (setq web-mode-markup-indent-offset 2)
 (defun my-web-mode-hook ()
