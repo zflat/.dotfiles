@@ -186,8 +186,8 @@
  '(ediff-split-window-function (quote split-window-horizontally))
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(inhibit-startup-screen t)
- '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
- '(ripgrep-arguments (quote ("-M 120"))))
+ '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838"))))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -347,6 +347,20 @@
 
 (require 'ripgrep)
 
+(add-to-list 'ripgrep-arguments "-M 120")
+(defun my-projectile-ripgrep (regexp)
+  "Run a Ripgrep search with `REGEXP' rooted at the current projectile project root. Copied from projectile-ripgrep."
+  (interactive
+   (list
+    (read-from-minibuffer "Ripgrep search for: " (thing-at-point 'symbol))))
+  (ripgrep-regexp regexp
+                  (projectile-project-root)
+                  (mapcar (lambda (val) (concat "--glob \!" val))
+                          (append projectile-globally-ignored-files
+                                  projectile-globally-ignored-directories
+                                  (projectile-project-ignored)
+                                  ; (projectile-paths-to-ignore)
+                                  ))))
 
 ;; Enable Projectile
 ;;
@@ -367,7 +381,7 @@
 ;; (setq helm-projectile-fuzzy-match nil)
 (global-set-key [f9] 'ag-project)
 (global-set-key (kbd "C-<f9>") 'ag-project-regexp)
-(global-set-key (kbd "C-<f6> s") 'projectile-ripgrep)
+(global-set-key (kbd "C-<f6> s") 'my-projectile-ripgrep)
 (setq counsel-grep-base-command
  "rg -i -M 120 --no-heading --line-number --color never '%s' %s")
 (global-set-key (kbd "C-s") 'counsel-grep-or-swiper)
