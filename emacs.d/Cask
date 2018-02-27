@@ -56,6 +56,8 @@
 (depends-on "popwin")
 (depends-on "prodigy")
 (depends-on "projectile")
+(depends-on "projectile-ripgrep")
+(depends-on "ripgrep")
 (depends-on "rtags")
 (depends-on "s")
 (depends-on "sass-mode")

@@ -67,7 +67,7 @@
 (defun switch-to-previous-buffer ()
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
-(global-set-key (kbd "<f1>") 'switch-to-previous-buffer)
+'; (global-set-key (kbd "<f1>") 'switch-to-previous-buffer)
 (global-set-key (kbd "<backtab>") 'switch-to-buffer)
 
 
@@ -186,7 +186,8 @@
  '(ediff-split-window-function (quote split-window-horizontally))
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
  '(inhibit-startup-screen t)
- '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838"))))
+ '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
+ '(ripgrep-arguments (quote ("-M 120"))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -344,22 +345,15 @@
 
 (color-values (face-background 'highlight)) ; debug a face background
 
-(require 'counsel-projectile)
-(counsel-projectile-on)
+(require 'ripgrep)
 
-(global-set-key (kbd "C-s") 'swiper)
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(defun wrapped-ivy-immediate-done (&rest ignore)
-    (interactive)
-    (if ( > (minibuffer-depth) 0) (ivy-immediate-done) nil))
-(global-set-key (kbd "C-c C-f") 'wrapped-ivy-immediate-done) ;; useful for creating a new file
-(global-set-key (kbd "C-c C-r") 'ivy-resume)
 
 ;; Enable Projectile
 ;;
 ;; list of commands: C-c p C-h
 (require 'projectile)
+(require 'counsel-projectile)
+(counsel-projectile-on)
 (setq projectile-completion-system 'ivy)
 ;; command used to get the file for projectile
 ;; also consider https://www.emacswiki.org/emacs/FileSets
@@ -371,17 +365,31 @@
 (projectile-mode)
 (setq projectile-enable-caching t)
 ;; (setq helm-projectile-fuzzy-match nil)
-  (global-set-key [f9] 'ag-project)
-  (global-set-key (kbd "C-<f6> s") 'ag-project) ;; maybe use ivy for this?
+(global-set-key [f9] 'ag-project)
+(global-set-key (kbd "C-<f9>") 'ag-project-regexp)
+(global-set-key (kbd "C-<f6> s") 'projectile-ripgrep)
+(setq counsel-grep-base-command
+ "rg -i -M 120 --no-heading --line-number --color never '%s' %s")
+(global-set-key (kbd "C-s") 'counsel-grep-or-swiper)
 ;(global-set-key (kbd "C-c p f") 'helm-projectile-find-file)
   ;; (global-set-key [f8] 'helm-projectile-find-file)
   ;(global-set-key (kbd "C-<f6> f") 'projectile-find-file-dwim)
-  (global-set-key (kbd "C-<f6> f") 'counsel-projectile-find-file)
+(global-set-key (kbd "C-<f6> f") 'counsel-projectile-find-file)
+(global-set-key (kbd "<f1>") 'counsel-projectile-switch-to-buffer)
+
 ;; Note: Invalidate Projectile cache with  [C-c p i]
 
 ; (require 'find-file-in-project) ;; TODO install and configure and compare w/ projectile
 ; (global-set-key (kbd "C-<f6> e") 'find-file-in-project)
 
+; (global-set-key (kbd "C-s") 'swiper)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(defun wrapped-ivy-immediate-done (&rest ignore)
+    (interactive)
+    (if ( > (minibuffer-depth) 0) (ivy-immediate-done) nil))
+(global-set-key (kbd "C-c C-f") 'wrapped-ivy-immediate-done) ;; useful for creating a new file
+(global-set-key (kbd "C-c C-r") 'ivy-resume)
 
 
                                         ; Updating tags via git hook: https://stackoverflow.com/q/42680131
@@ -703,6 +711,45 @@
 ;; https://www.reddit.com/r/emacs/comments/3kqt6e/2_easy_little_known_steps_to_speed_up_emacs_start/
 ;; https://github.com/jschaf/esup
 ;; byte-compile .emacs.d directory: C-u 0 M-x byte-recompile-directory
+
+;; TODO only consider the top 3 marks on the mark ring
+;; ALSO TODO consider using AutoMark
+(defun buffer-order-next-mark (arg)
+    (interactive "p")
+    (when (mark)
+    (let* ((p (point))
+  	 (m (mark))
+  	 (n p)
+  	 (count (if (null arg) 1 arg))
+	 (abscount (abs count))
+	 (rel
+	  (funcall
+	   (if (< 0 count) 'identity 'reverse)
+	   (sort (cons (cons 0 p)
+		       (cons (cons (- m p) m)
+			     (if mark-ring
+				 (mapcar (lambda (mrm)
+					   (cons (- mrm p) mrm))
+					 mark-ring)
+			       nil)))
+		 (lambda (c d) (< (car c) (car d))))))
+	  (cur rel))
+	 (while (and (numberp (caar cur)) (/= (caar cur) 0))
+	   (setq cur (cdr cur)))
+	 (while (and (numberp (caadr cur)) (= (caadr cur) 0))
+	   (setq cur (cdr cur)))
+	 (while (< 0 abscount)
+	   (setq cur (cdr cur))
+	   (when (null cur) (setq cur rel))
+	   (setq abscount (- abscount 1)))
+	 (when (number-or-marker-p (cdar cur))
+	   (goto-char (cdar cur))))))
+  (defun buffer-order-prev-mark (arg)
+    (interactive "p")
+    (buffer-order-next-mark
+     (if (null arg) -1 (- arg))))
+  (global-set-key [s-down] 'buffer-order-next-mark)
+  (global-set-key [s-up] 'buffer-order-prev-mark)
 
 
 ; (provide 'init)
