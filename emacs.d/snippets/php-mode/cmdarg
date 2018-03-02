@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: cmdarg
+# key: cmdarg
+# --
+$${1:arg} = $${2:cmd}['$1'] ?: null;
