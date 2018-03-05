@@ -15,3 +15,6 @@ Control+Alt + y
 "wmctrl -a Visual Studio Code"
 Control+Alt + i
 
+##
+# Note, shortcut to open the home folder
+# [System Settings => Keyboard => Shortcuts Tab => Launchers] "Home Folder" => Super+E
