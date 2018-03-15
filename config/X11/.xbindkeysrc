@@ -3,6 +3,8 @@
 #
 # Also a higher level way to get custom keybindings?
 # http://butlerpc.net/blog/2011/01/using-xbindkeys-on-ubuntu-linux-to-remap-key-commands/
+#
+# Tip: After you made a change, execute xbindkeys -p to reload the configuration file and apply the changes.
 
 "wmctrl -a -emacs"
 Control+Alt + k
@@ -10,6 +12,8 @@ Control+Alt + k
 Control+Alt + j
 "wmctrl -a -browser"
 Control+Alt + u
+"wmctrl -a -tempbrowser"
+Control+Alt + n
 "wmctrl -a Slack"
 Control+Alt + y
 "wmctrl -a Visual Studio Code"
