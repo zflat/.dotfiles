@@ -5,7 +5,7 @@
 # NOTE: use TAB to the next field
 # --
 {
-    $pvalsnippet   = $${1:q}->getParams();
+    $pvalsnippet   = $${1:q}->getParams() ?: array();
     $strvalsnippet = (string)$$1;
     while(($currvalsnippet=array_shift($pvalsnippet)) !== null) {
         $strvalsnippet  = substr_replace($strvalsnippet, "'".$currvalsnippet."'", strpos($strvalsnippet, '?'), 1);
