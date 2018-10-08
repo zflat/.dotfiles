@@ -1,6 +1,7 @@
 # -*- mode: snippet; require-final-newline: nil -*-
 # name: qsnip
 # key: qsnip
+# contributor: William Wedler
 # tel((string)$sql.' -- '.implode(',', $sql->getParams()));
 # NOTE: use TAB to the next field
 # --

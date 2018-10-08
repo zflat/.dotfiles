@@ -1,5 +1,6 @@
 # -*- mode: snippet -*-
 # name: cmdarg
 # key: cmdarg
+# contributor: William Wedler
 # --
 $${1:arg} = $${2:cmd}['$1'] ?: null;
