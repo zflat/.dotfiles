@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: translate function
+# key: t__
+# contributor: William Wedler
+# --
+<?= t('$1', $${3:__locale}) ?>

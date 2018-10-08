@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: translation-stub
+# key: stub
+# contributor: William Wedler
+# --
+,
+  "$1": {
+    "en_US" : "$2"
+  }
