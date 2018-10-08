@@ -698,7 +698,81 @@
 ;; Load additional init files
 (load "~/.emacs.d/util.el")
 
+
+;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html
+;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Buffers-and-Windows.html
+;; https://ftp.gnu.org/old-gnu/Manuals/elisp-manual-20-2.5/html_chapter/elisp_28.html
+;;
+;; Elisp maintaining state:
+;; http://ergoemacs.org/emacs/elisp_toggle_command.html
+;; Alist modification
+;; https://emacs.stackexchange.com/questions/3397/how-to-replace-an-element-of-an-alist
+
+; initialize history
+(put 'my-tracing-function 'history nil)
+(defun my-tracing-function (window buffer-or-name)
+  "Keep track of the previous buffer set in WINDOW."
+  (let* (
+         (curr-window (or window (selected-window)))
+         (curr-buffer (window-buffer curr-window)) ; get or initialize store history association list
+         (my-history (or (get 'my-tracing-function 'history) '()))
+         (curr-history (assoc curr-window my-history)) ; get the history entry for this window
+         )
+    ; store the previous buffer in history if the next buffer is different
+    (if curr-history
+        (if (not (equal (cdr curr-history) curr-buffer)) (setcdr curr-history curr-buffer))
+      (put 'my-tracing-function 'history (append (list (list curr-window curr-buffer)) my-history)))
+    (message
+     "%S - Switched from: %S to: %S"
+     (list-length (get 'my-tracing-function 'history))
+     (window-buffer (or window (selected-window)))
+     buffer-or-name)
+    ))
+(advice-add 'set-window-buffer :before 'my-tracing-function)
+(advice-remove 'set-window-buffer #'my-tracing-function)
+
+;; TODO remove from history when a window is closed...
+(defun get-prev-buffer (window) "\
+Get the previous buffer stored in history"
+  (let* (
+         (curr-window (or window (selected-window)))
+         (my-history (or (get 'my-tracing-function 'history) '() ))
+         (window-history (assoc curr-window my-history))
+         )
+    (if (and
+         window-history
+         (cdr window-history)
+         (not (equal (cdr window-history) (window-buffer curr-window))))
+        (set-window-buffer curr-window (if (listp (cdr window-history)) (car (cdr window-history)) (cdr window-history))) ; not sure why I need to unwrap sometimes...
+      (mode-line-other-buffer) ; fall back
+        )
+    ))
+(defun my-switch-prev-buffer () "\
+Toggle to previous buffer in the current window "
+       (interactive)
+       (get-prev-buffer nil)
+       )
+(global-set-key (kbd "C-<f1>") 'my-switch-prev-buffer)
+
+
+;; Set a property on the tracing function that is an alist mapping window to the last buffer name. 
+;; If no property exists, then set it with a new alist, otherwise edit the existing alist and replace the old alist with the new one
+
+;; Define a toggle buffer method
+
+;; mouse vs keyboard
+;; https://www.reddit.com/r/emacs/comments/4f2iee/efficient_use_of_multibutton_mice_with_emacs/d260em2/
+
+;; See https://www.reddit.com/r/emacs/comments/445w6s/whats_some_small_thing_in_your_dotemacs_that_you/cznzmh9/
+(require 'mouse-copy)
+(global-set-key [C-down-mouse-1] 'mouse-drag-secondary-pasting)
+(global-set-key [C-S-down-mouse-1] nil)
+(global-set-key [C-M-down-mouse-1] 'mouse-drag-secondary-moving)
+
+
+
 (message "load_end")
+
 
 ;; emacs paste hang workaround, kinda (still need to restart)
 ;; 2015-07-04 bug of pasting in emacs.
