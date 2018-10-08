@@ -14,6 +14,11 @@ xkb_symbols "mods-cstgr" {
         symbols[Group1] = [ F6, Caps_Lock ],
         actions[Group1] = [ NoAction(), LockMods(modifiers=Lock) ]
     };
+
+    # key <RALT> {
+    #     type[Group1] = "TWO_LEVEL",
+    #     symbols[Group1] = [ALT_R, space]
+    # };
 };
 
 

@@ -12,7 +12,9 @@ Control+Alt + k
 Control+Alt + j
 "wmctrl -a -browser"
 Control+Alt + u
-"wmctrl -a -tempbrowser"
+"wmctrl -a -browser"
+Control+Alt + b
+"wmctrl -a -👁️"
 Control+Alt + n
 "wmctrl -a Slack"
 Control+Alt + y
