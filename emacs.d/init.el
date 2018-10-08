@@ -16,6 +16,8 @@
 
 ;;; Code:
 
+;; TODO http://cachestocaches.com/2015/8/getting-started-use-package/
+
 ;; Debugging triggers
 (setq debug-on-error nil
       debug-on-signal nil
@@ -113,6 +115,20 @@
 ;; Can get the menu with C-<mouse-3> or F10
 (if (boundp 'menu-bar-mode) (menu-bar-mode -1))
 
+;; Scrolling tweaks
+;; Delay updates to give Emacs a chance for other changes
+(setq linum-delay t)
+;; scrolling to always be a line at a time
+(setq scroll-conservatively 10000)
+(setq scroll-preserve-screen-position t)
+
+
+;;; auth-source config
+;;; use pass (~/.password-store)
+;;; (see The Unix password store)
+(setq auth-sources '(password-store))
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                  MINOR MODES
@@ -168,6 +184,12 @@
 (ad-activate 'align-regexp)
 
 (global-auto-revert-mode t)
+
+;; Making buffer names unique
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Uniquify.html
+(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+;; See also http://www.lonecpluspluscoder.com/2014/08/23/unique-buffer-names-in-emacs/
+
 
 
 ; make vertical split the default for edif
@@ -322,6 +344,7 @@
 
 (require 'ag)
 
+(require 'flx) ; scoring mechanism from flx is used by ivy–regex-fuzzy
 (require 'ivy-hydra)
 (require 'ivy)
 (require 'ivy-pass)
@@ -371,7 +394,8 @@
 (setq projectile-completion-system 'ivy)
 ;; command used to get the file for projectile
 ;; also consider https://www.emacswiki.org/emacs/FileSets
-(defun projectile-get-ext-command () "find . -type f -print0")
+;; (defun projectile-get-ext-command () "find . -type f -print0")
+(defun projectile-get-ext-command () "rg . --null --files") ;; See https://emacs.stackexchange.com/a/29200
 ;; Speed up? find-file
 ;; See https://github.com/syl20bnr/spacemacs/issues/4207
 (setq shell-file-name "/bin/sh")
@@ -389,7 +413,8 @@
   ;; (global-set-key [f8] 'helm-projectile-find-file)
   ;(global-set-key (kbd "C-<f6> f") 'projectile-find-file-dwim)
 (global-set-key (kbd "C-<f6> f") 'counsel-projectile-find-file)
-(global-set-key (kbd "<f1>") 'counsel-projectile-switch-to-buffer)
+; (global-set-key (kbd "<f1>") 'counsel-projectile-switch-to-buffer)
+(global-set-key (kbd "<f1>") 'mode-line-other-buffer)
 
 ;; Note: Invalidate Projectile cache with  [C-c p i]
 
@@ -475,6 +500,7 @@
 
                                         ; web-mode customization
 (setq web-mode-markup-indent-offset 2)
+(setq web-mode-enable-auto-indentation nil)
 (defun my-web-mode-hook ()
   "Hooks for Web mode."
   (setq web-mode-markup-indent-offset 2)
@@ -607,6 +633,7 @@
 
 ;; (global-set-key (kbd "M-<f6>") nil)
 (global-set-key (kbd "M-<f6>") 'imenu)
+
 
 ;; Keybindings Notes
 ;;
@@ -792,6 +819,7 @@ Toggle to previous buffer in the current window "
 (diminish 'editorconfig-mode)
 (diminish 'ivy-mode)
 (diminish 'flycheck-mode)
+(diminish 'eldoc-mode)
 
 
 
@@ -842,3 +870,4 @@ Toggle to previous buffer in the current window "
 
 ; (provide 'init)
 ;;; init.el ends here
+(put 'narrow-to-region 'disabled nil)
