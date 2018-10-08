@@ -2,7 +2,7 @@
 # https://superuser.com/questions/777520/is-there-a-chrome-extension-to-set-the-window-title
 #
 # Also a higher level way to get custom keybindings?
-# http://butlerpc.net/blog/2011/01/using-xbindkeys-on-ubuntu-linux-to-remap-key-commands/
+# https://blog.butlerpc.net/post/173195879800/using-xbindkeys-on-ubuntu-linux-to-remap-key 
 #
 # Tip: After you made a change, execute xbindkeys -p to reload the configuration file and apply the changes.
 
