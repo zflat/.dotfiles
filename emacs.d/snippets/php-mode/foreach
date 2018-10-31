@@ -3,6 +3,6 @@
 # key: foreach
 # contributor: William Wedler
 # --
-foreach($${1:collection} ${2:?: [] as} $${3:var}) {
+foreach ($${1:collection} ${2:?: [] as} $${3:var}) {
     $4
 }
