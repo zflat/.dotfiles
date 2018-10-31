@@ -453,6 +453,9 @@
 ; (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
 (setq highlight-indent-guides-method 'character)
 
+(require 'beacon)
+(beacon-mode 1)
+
 (require 'company)
 (setq company-idle-delay 0.2)
 
