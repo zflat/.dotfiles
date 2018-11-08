@@ -413,8 +413,7 @@
   ;; (global-set-key [f8] 'helm-projectile-find-file)
   ;(global-set-key (kbd "C-<f6> f") 'projectile-find-file-dwim)
 (global-set-key (kbd "C-<f6> f") 'counsel-projectile-find-file)
-; (global-set-key (kbd "<f1>") 'counsel-projectile-switch-to-buffer)
-(global-set-key (kbd "<f1>") 'mode-line-other-buffer)
+(global-set-key (kbd "C-<f1>") 'counsel-projectile-switch-to-buffer)
 
 ;; Note: Invalidate Projectile cache with  [C-c p i]
 
@@ -728,61 +727,10 @@
 ;; Load additional init files
 (load "~/.emacs.d/util.el")
 
-
-;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html
-;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Buffers-and-Windows.html
-;; https://ftp.gnu.org/old-gnu/Manuals/elisp-manual-20-2.5/html_chapter/elisp_28.html
-;;
-;; Elisp maintaining state:
-;; http://ergoemacs.org/emacs/elisp_toggle_command.html
-;; Alist modification
-;; https://emacs.stackexchange.com/questions/3397/how-to-replace-an-element-of-an-alist
-
-; initialize history
-(put 'my-tracing-function 'history nil)
-(defun my-tracing-function (window buffer-or-name)
-  "Keep track of the previous buffer set in WINDOW."
-  (let* (
-         (curr-window (or window (selected-window)))
-         (curr-buffer (window-buffer curr-window)) ; get or initialize store history association list
-         (my-history (or (get 'my-tracing-function 'history) '()))
-         (curr-history (assoc curr-window my-history)) ; get the history entry for this window
-         )
-    ; store the previous buffer in history if the next buffer is different
-    (if curr-history
-        (if (not (equal (cdr curr-history) curr-buffer)) (setcdr curr-history curr-buffer))
-      (put 'my-tracing-function 'history (append (list (list curr-window curr-buffer)) my-history)))
-    (message
-     "%S - Switched from: %S to: %S"
-     (list-length (get 'my-tracing-function 'history))
-     (window-buffer (or window (selected-window)))
-     buffer-or-name)
-    ))
-(advice-add 'set-window-buffer :before 'my-tracing-function)
-(advice-remove 'set-window-buffer #'my-tracing-function)
-
-;; TODO remove from history when a window is closed...
-(defun get-prev-buffer (window) "\
-Get the previous buffer stored in history"
-  (let* (
-         (curr-window (or window (selected-window)))
-         (my-history (or (get 'my-tracing-function 'history) '() ))
-         (window-history (assoc curr-window my-history))
-         )
-    (if (and
-         window-history
-         (cdr window-history)
-         (not (equal (cdr window-history) (window-buffer curr-window))))
-        (set-window-buffer curr-window (if (listp (cdr window-history)) (car (cdr window-history)) (cdr window-history))) ; not sure why I need to unwrap sometimes...
-      (mode-line-other-buffer) ; fall back
-        )
-    ))
-(defun my-switch-prev-buffer () "\
-Toggle to previous buffer in the current window "
-       (interactive)
-       (get-prev-buffer nil)
-       )
-(global-set-key (kbd "C-<f1>") 'my-switch-prev-buffer)
+(require 'go-back-buffer "~/.emacs.d/packages/go-back-buffer/go-back-buffer.el")
+(global-set-key (kbd "<f1>") 'gbb--display-prev-buffer)
+(advice-add 'set-window-buffer :before 'gbb--update-history)
+(advice-add 'delete-window :before 'gbb--cleanup-history)
 
 
 ;; Set a property on the tracing function that is an alist mapping window to the last buffer name. 
