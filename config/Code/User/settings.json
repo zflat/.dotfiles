@@ -13,7 +13,7 @@
     "statusBar.debuggingBackground": "#263238"},
     "phpformatter.pharPath": "/usr/local/bin/php-cs-fixer",
 
-    "php-cs-fixer.executablePath": "/usr/loca/bin/php-cs-fixer",
+    "php-cs-fixer.executablePath": "${extensionPath}/php-cs-fixer.phar",
     "php-cs-fixer.onsave": false,
     "php-cs-fixer.rules": "@PSR2",
     "php-cs-fixer.config": ".php_cs",
@@ -22,5 +22,8 @@
     "php-cs-fixer.formatHtml": false,
     "editor.minimap.enabled": false,
     "window.zoomLevel": 0,
-    "workbench.iconTheme": null
+    "workbench.iconTheme": null,
+    "php-cs-fixer.lastDownload": 1537975408519,
+    "editor.multiCursorModifier": "ctrlCmd",
+    "workbench.statusBar.feedback.visible": false
 }
