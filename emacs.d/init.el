@@ -363,8 +363,8 @@
 (set-face-attribute 'ivy-minibuffer-match-face-2 nil :background "RosyBrown4")
 (set-face-attribute 'ivy-minibuffer-match-face-3 nil :foreground "white smoke")
 (set-face-attribute 'ivy-minibuffer-match-face-3 nil :background "DarkSlateGray4")
-(set-face-attribute 'ivy-minibuffer-match-face-4 nil :foreground "white smoke")
 (set-face-attribute 'ivy-minibuffer-match-face-4 nil :background "DodgerBlue4")
+(set-face-attribute 'ivy-minibuffer-match-face-4 nil :foreground "white smoke")
 
 (color-values (face-background 'highlight)) ; debug a face background
 
@@ -454,6 +454,7 @@
 
 (require 'beacon)
 (beacon-mode 1)
+(setq beacon-color "LightGoldenrod3")
 
 (require 'company)
 (setq company-idle-delay 0.2)
