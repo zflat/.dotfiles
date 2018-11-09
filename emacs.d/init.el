@@ -454,6 +454,9 @@
 
 (require 'beacon)
 (beacon-mode 1)
+(setq beacon-dont-blink-commands
+   (quote
+    (next-line previous-line forward-line mwheel-scroll)))
 (setq beacon-color "LightGoldenrod3")
 
 (require 'company)
@@ -604,6 +607,8 @@
 
 (require 'ess)
 
+(require 'protobuf-mode)
+
 
 ;; c-mode indentation https://stackoverflow.com/a/664525
 (defun my-c-mode-common-hook ()
@@ -732,12 +737,6 @@
 (global-set-key (kbd "<f1>") 'gbb--display-prev-buffer)
 (advice-add 'set-window-buffer :before 'gbb--update-history)
 (advice-add 'delete-window :before 'gbb--cleanup-history)
-
-
-;; Set a property on the tracing function that is an alist mapping window to the last buffer name. 
-;; If no property exists, then set it with a new alist, otherwise edit the existing alist and replace the old alist with the new one
-
-;; Define a toggle buffer method
 
 ;; mouse vs keyboard
 ;; https://www.reddit.com/r/emacs/comments/4f2iee/efficient_use_of_multibutton_mice_with_emacs/d260em2/
