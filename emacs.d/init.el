@@ -18,6 +18,8 @@
 
 ;; TODO http://cachestocaches.com/2015/8/getting-started-use-package/
 
+(setq load-prefer-newer t)
+
 ;; Debugging triggers
 (setq debug-on-error nil
       debug-on-signal nil
@@ -110,6 +112,10 @@
     (scroll-bar-mode -1)
   (if (boundp 'toggle-scroll-bar)
       (toggle-scroll-bar -1)))
+(if (boundp 'horizontal-scroll-bar-mode)
+    (horizontal-scroll-bar-mode -1)
+  (if (boundp 'toggle-horizontal-scroll-bar)
+      (toggle-horizontal-scroll-bar -1)))
 
 ;; disable the menu bar
 ;; Can get the menu with C-<mouse-3> or F10
@@ -390,7 +396,7 @@
 ;; list of commands: C-c p C-h
 (require 'projectile)
 (require 'counsel-projectile)
-(counsel-projectile-on)
+(counsel-projectile-mode)
 (setq projectile-completion-system 'ivy)
 ;; command used to get the file for projectile
 ;; also consider https://www.emacswiki.org/emacs/FileSets
@@ -462,7 +468,7 @@
 (require 'company)
 (setq company-idle-delay 0.2)
 
-(require 'php-extras)
+; (require 'php-extras)
 (require 'php-mode)
 (add-hook 'php-mode-hook 'php-enable-psr2-coding-style)
 (add-hook 'php-mode-hook 'highlight-indent-guides-mode)
