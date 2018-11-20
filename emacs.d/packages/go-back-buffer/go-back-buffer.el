@@ -35,7 +35,7 @@
   "Get or set the history entry for the given window"
   (let* ((curr-window (or window (selected-window)))
          (curr-buffer (window-buffer curr-window))
-         (curr-screen (elscreen-get-current-screen))
+         (curr-screen (if (fboundp 'elscreen-get-current-screen) (elscreen-get-current-screen) "0"))
          (screen-history (or (get 'gbb--prev-history 'history) '())) ; get or initialize history alist
          (prev-history (assoc (gbb--history-key curr-screen curr-window) screen-history))) ; history entry for this window
     (if (not prev-history)
@@ -84,25 +84,17 @@
          (gbb--history-win-point prev-history))
       (mode-line-other-buffer))))
 
-;; (defun gbb--delete-history (&optional window)
-;;   "Delete the buffer history for the window in each screen"
-;;   (let* ((curr-window (or window (selected-window)))
-;;          (screen-history (or (get 'gbb--prev-history 'history) '())))
-;;     (mapcar
-;;      (lambda (screen)
-;;        (put 'gbb--prev-history 'history
-;;             (delq
-;;              (assoc (gbb--history-key screen curr-window) screen-history)
-;;              screen-history)))
-;;      (elscreen-get-conf-list 'screen-history))))
-
 (defun gbb--cleanup-history (&optional window)
-  "Delete the buffer history for any window that is no longer valid"
+  "Delete the buffer history for any window that is no longer
+valid or for screens that no longer exist"
   (mapcar
    (lambda (history)
-     (let* ((win-obj (gbb--history-window history)))
-       (if(and
-           (windowp win-obj)
+     (let* ((win-obj (gbb--history-window history))
+            (screen-ref (gbb--history-screen history)))
+       (if(or
+           (not (member
+                 screen-ref
+                 (elscreen-get-conf-list 'screen-history)))
            (not (window-valid-p win-obj)))
            (put 'gbb--prev-history 'history
                 (delq
@@ -112,7 +104,7 @@
 
 ;; Maintaining state
 ;; (http://ergoemacs.org/emacs/elisp_toggle_command.html)
-; (get 'gbb--prev-history 'history)
+; (get 'gbb--prev-history 'history)q
 ; (put 'gbb--prev-history 'history nil)
 (defun gbb--history-key (screen window)
   "Object used as the alist key"
@@ -120,6 +112,9 @@
 (defun gbb--history-window (item)
   "The window object in the alist element"
   (nth 1 (car item)))
+(defun gbb--history-screen (item)
+  "The screen referenced in the alist element"
+  (nth 0 (car item)))
 (defun gbb--history-val (buffer win-start  win-point)
   "Object used as the alist val"
   (list buffer win-start win-point))
@@ -145,7 +140,6 @@
   "Toggle to the previous buffer in the current window"
   (interactive)
   (gbb--display-prev-buffer-in-window))
-
 
 ; (advice-add 'set-window-buffer :before 'gbb--update-history)
 ; (advice-add 'delete-window :before 'gbb--cleanup-history)
