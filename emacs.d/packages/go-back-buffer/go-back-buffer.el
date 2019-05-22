@@ -85,8 +85,10 @@
       (mode-line-other-buffer))))
 
 (defun gbb--cleanup-history (&optional window)
-  "Delete the buffer history for any window that is no longer
-valid or for screens that no longer exist"
+  "Clean up buffer history.
+Delete the buffer history for any window that is no longer valid
+or for screens that no longer exist.  Argument WINDOW provided
+for compatibility with advice."
   (mapcar
    (lambda (history)
      (let* ((win-obj (gbb--history-window history))
@@ -110,22 +112,22 @@ valid or for screens that no longer exist"
   "Object used as the alist key"
   (list screen window))
 (defun gbb--history-window (item)
-  "The window object in the alist element"
+  "The window object in the alist element ITEM."
   (nth 1 (car item)))
 (defun gbb--history-screen (item)
-  "The screen referenced in the alist element"
+  "The screen referenced in the alist element ITEM."
   (nth 0 (car item)))
 (defun gbb--history-val (buffer win-start  win-point)
   "Object used as the alist val"
   (list buffer win-start win-point))
 (defun gbb--history-buffer (item)
-  "Get the buffer stored in the alist element"
+  "Get the buffer stored in the alist element ITEM."
   (nth 0 (car (cdr item))))
 (defun gbb--history-win-start (item)
-  "Get the window start stored in the alist element"
+  "Get the window start stored in the alist element ITEM."
   (nth 1 (car (cdr item))))
 (defun gbb--history-win-point (item)
-  "Get the window point stored in the alist element"
+  "Get the window point stored in the alist element ITEM."
   (nth 2 (car (cdr item))))
 (defun gbb--history-item (screen window buffer)
   "Key-val pair used for the alist element"
