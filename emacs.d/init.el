@@ -46,8 +46,43 @@
 
 ;; Set font
 ;; http://askubuntu.com/questions/23603/how-to-change-font-size-in-emacs
-(set-frame-font "DejaVu Sans Mono 12")
+(if (find-font (font-spec :name "Hack"))
+               (set-frame-font "Hack 12")
+               (if (find-font (font-spec :name "DejaVu Sans Mono"))
+                   (set-frame-font "DejaVu Sans Mono 12")))
 (set-face-attribute 'default nil :height 130)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Color Themes
+;;
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(bm-face ((t (:foreground "gold" :background "gray20"))))
+ '(hi-blue ((t (:foreground "light blue" :background "MidnightBlue"))))
+ '(hi-blue-b ((t (:foreground "light blue" :background "MidnightBlue" :weight bold))))
+ '(hi-green ((t (:foreground "PaleGreen1" :background "DarkOliveGreen"))))
+ '(hi-pink ((t (:foreground "pink" :background "gray20"))))
+ '(hi-red-b ((t (:foreground "white" :background "dark red" :weight bold))))
+ '(hi-yellow ((t (:foreground "yellow1" :background "gray20" :weight bold))))
+ '(linum ((t (:background "#3F3F3F" :foreground "#808080")))))
+
+
+;; Change theme with M-x load-theme RET {themename}
+
+(add-hook 'after-init-hook
+          (lambda ()
+            (progn
+              (require `zenburn-theme)
+              (load-theme 'zenburn t))))
+;;(require `solarized-theme)
+;;(load-theme 'solarized-light t)
+;;(require `ample-theme)
+;;(load-theme 'ample-light t t)
+;;(enable-theme 'ample-light)
 
 
 ;;;;;;;;;;;;;;
@@ -105,8 +140,21 @@
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 
+;; Scrolling tweaks
+;; Delay updates to give Emacs a chance for other changes
+(setq linum-delay t)
+;; scrolling to always be a line at a time
+(setq scroll-conservatively 10000)
+(setq scroll-preserve-screen-position t)
+
+
 ;; disable the toolbar
 (if (boundp 'tool-bar-mode) (tool-bar-mode -1))
+
+;; disable the menu bar
+;; Can get the menu with C-<mouse-3> or F10
+(if (boundp 'menu-bar-mode) (menu-bar-mode -1))
+
 ;; disable the scrollbar
 (if (boundp 'scroll-bar-mode)
     (scroll-bar-mode -1)
@@ -116,17 +164,6 @@
     (horizontal-scroll-bar-mode -1)
   (if (boundp 'toggle-horizontal-scroll-bar)
       (toggle-horizontal-scroll-bar -1)))
-
-;; disable the menu bar
-;; Can get the menu with C-<mouse-3> or F10
-(if (boundp 'menu-bar-mode) (menu-bar-mode -1))
-
-;; Scrolling tweaks
-;; Delay updates to give Emacs a chance for other changes
-(setq linum-delay t)
-;; scrolling to always be a line at a time
-(setq scroll-conservatively 10000)
-(setq scroll-preserve-screen-position t)
 
 
 ;;; auth-source config
@@ -227,33 +264,10 @@
                         (or (buffer-file-name) load-file-name)))
 
 
+
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Color Themes
-;;
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(bm-face ((t (:foreground "gold" :background "gray20"))))
- '(hi-blue ((t (:foreground "light blue" :background "MidnightBlue"))))
- '(hi-blue-b ((t (:foreground "light blue" :background "MidnightBlue" :weight bold))))
- '(hi-green ((t (:foreground "PaleGreen1" :background "DarkOliveGreen"))))
- '(hi-pink ((t (:foreground "pink" :background "gray20"))))
- '(hi-red-b ((t (:foreground "white" :background "dark red" :weight bold))))
- '(hi-yellow ((t (:foreground "yellow1" :background "gray20" :weight bold)))))
-
-;; Change theme with M-x load-theme RET {themename}
-(require `zenburn-theme)
-(load-theme 'zenburn t)
-; (require `solarized-theme)
-;; (load-theme 'solarized-light t)
-;;(require `ample-theme)
-;;(load-theme 'ample-light t t)
-;;(enable-theme 'ample-light)
 
 
 ;;;
@@ -264,7 +278,6 @@
 (require 'recentf)
 (setq recentf-auto-cleanup 'never) ;; disable before we start recentf!
 (recentf-mode t)
-
 
 ;; Muliple cursors
 (require 'multiple-cursors)
@@ -457,6 +470,7 @@
 (require 'highlight-indent-guides)
 ; (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
 (setq highlight-indent-guides-method 'character)
+(highlight-indent-guides-mode 0)
 
 (require 'beacon)
 (beacon-mode 1)
@@ -469,6 +483,7 @@
 (setq company-idle-delay 0.2)
 
 ; (require 'php-extras)
+;  How to preven symbol's value is void error?
 (require 'php-mode)
 (add-hook 'php-mode-hook 'php-enable-psr2-coding-style)
 (add-hook 'php-mode-hook 'highlight-indent-guides-mode)
@@ -500,6 +515,7 @@
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 (setq web-mode-engines-alist '
       (("php" . "\\.phtml\\'")
        ("blade" . "\\.blade\\.")
@@ -508,16 +524,14 @@
 
 (add-to-list 'auto-mode-alist '("/checkout/src/.*\\.js[x]?\\'" . web-mode))
 (setq web-mode-content-types-alist
-  '(("jsx"  . "/checkout/src/.*\\.js[x]?\\'")))
+  '(("jsx"  . "/src.*/components/.*\\.js[x]?\\'")))
 
                                         ; web-mode customization
-(setq web-mode-markup-indent-offset 2)
 (setq web-mode-enable-auto-indentation nil)
 (defun my-web-mode-hook ()
   "Hooks for Web mode."
-  (setq web-mode-markup-indent-offset 2)
-                                        ; (editorconfig-apply)
-  )
+  (setq web-mode-markup-indent-offset 4)
+  (editorconfig-apply))
 (add-hook 'web-mode-hook 'my-web-mode-hook)
 (set-face-attribute 'web-mode-symbol-face nil :foreground "SeaGreen")
 
@@ -525,9 +539,7 @@
 (add-hook 'web-mode-hook  'emmet-mode)
 (add-hook 'web-mode-hook 'highlight-indent-guides-mode)
 
-(message "load0")
 (require 'flycheck)
-(message "load1")
 
 ;; C++ w/ RTags
 ;; http://martinsosic.com/development/emacs/2017/12/09/emacs-cpp-ide.html
@@ -557,8 +569,7 @@
   (rtags-set-periodic-reparse-timeout 2.0)  ;; Run flycheck 2 seconds after being idle.
   )
 (add-hook 'c++-mode-hook #'setup-flycheck-rtags)
-(global-flycheck-mode t)
-
+; (global-flycheck-mode t)
 
 ;; ggtags config:
 ;; http://emacs.stackexchange.com/q/14685
@@ -739,6 +750,9 @@
 ;; Load additional init files
 (load "~/.emacs.d/util.el")
 
+(global-set-key (kbd "C-s-e") 'xah-show-in-desktop)
+
+
 (require 'go-back-buffer "~/.emacs.d/packages/go-back-buffer/go-back-buffer.el")
 (global-set-key (kbd "<f1>") 'gbb--display-prev-buffer)
 (advice-add 'set-window-buffer :before 'gbb--update-history)
@@ -752,7 +766,6 @@
 (global-set-key [C-down-mouse-1] 'mouse-drag-secondary-pasting)
 (global-set-key [C-S-down-mouse-1] nil)
 (global-set-key [C-M-down-mouse-1] 'mouse-drag-secondary-moving)
-
 
 
 (message "load_end")
