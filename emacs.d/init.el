@@ -244,14 +244,44 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#3F3F3F" "#CC9393" "#7F9F7F" "#F0DFAF" "#8CD0D3" "#DC8CC3" "#93E0E3" "#DCDCCC"])
+ '(company-quickhelp-color-background "#4F4F4F")
+ '(company-quickhelp-color-foreground "#DCDCCC")
  '(custom-safe-themes
    (quote
-    ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "67e998c3c23fe24ed0fb92b9de75011b92f35d3e89344157ae0d544d50a63a72" default)))
+    ("e11569fd7e31321a33358ee4b232c2d3cf05caccd90f896e1df6cab228191109" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "67e998c3c23fe24ed0fb92b9de75011b92f35d3e89344157ae0d544d50a63a72" default)))
  '(ediff-diff-options "-w")
  '(ediff-split-window-function (quote split-window-horizontally))
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
+ '(fci-rule-color "#383838")
  '(inhibit-startup-screen t)
- '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838"))))
+ '(nrepl-message-colors
+   (quote
+    ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
+ '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
+ '(vc-annotate-background "#2B2B2B")
+ '(vc-annotate-color-map
+   (quote
+    ((20 . "#BC8383")
+     (40 . "#CC9393")
+     (60 . "#DFAF8F")
+     (80 . "#D0BF8F")
+     (100 . "#E0CF9F")
+     (120 . "#F0DFAF")
+     (140 . "#5F7F5F")
+     (160 . "#7F9F7F")
+     (180 . "#8FB28F")
+     (200 . "#9FC59F")
+     (220 . "#AFD8AF")
+     (240 . "#BFEBBF")
+     (260 . "#93E0E3")
+     (280 . "#6CA0A3")
+     (300 . "#7CB8BB")
+     (320 . "#8CD0D3")
+     (340 . "#94BFF3")
+     (360 . "#DC8CC3"))))
+ '(vc-annotate-very-old-color "#DC8CC3"))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -369,6 +399,7 @@
 (require 'ivy-pass)
 (require 'counsel)
 (require 'swiper)
+(add-to-list 'swiper-font-lock-exclude 'php-mode)
 (ivy-mode 1)
 ; see https://oremacs.com/2016/01/06/ivy-flx/
 (setq ivy-re-builders-alist
@@ -376,6 +407,8 @@
         (counsel-projectile-find-file . ivy--regex-plus)
         (t . ivy--regex-fuzzy)))
 (setq ivy-format-function 'ivy-format-function-line)
+(setq ivy-use-virtual-buffers t) ;; see also https://emacs.stackexchange.com/questions/36836/how-to-remove-files-from-recentf-ivy-virtual-buffers
+
 (set-face-attribute 'ivy-current-match nil :background (face-background 'default))
 (set-face-attribute 'ivy-minibuffer-match-face-1 nil :background "plum4")
 (set-face-attribute 'ivy-minibuffer-match-face-2 nil :foreground "white smoke")
@@ -484,12 +517,12 @@
 
 ; (require 'php-extras)
 ;  How to preven symbol's value is void error?
+(setq php-executable nil)
 (require 'php-mode)
 (add-hook 'php-mode-hook 'php-enable-psr2-coding-style)
-(add-hook 'php-mode-hook 'highlight-indent-guides-mode)
+; (add-hook 'php-mode-hook 'highlight-indent-guides-mode)
 (add-hook 'php-mode-hook 'ggtags-mode)
-(add-hook 'php-mode-hook 'visible-mark-mode)
-(add-hook 'php-mode-hook 'highlight-indent-guides-mode)
+; (add-hook 'php-mode-hook 'visible-mark-mode)
 (add-hook 'php-mode-hook
           '(lambda ()
              (require 'company-php)
@@ -501,7 +534,7 @@
 
 (require 'js2-mode)
 (add-hook 'js-mode-hook 'js2-minor-mode)
-(add-hook 'js-mode-hook 'visible-mark-mode)
+; (add-hook 'js-mode-hook 'visible-mark-mode)
 
 (require 'sass-mode)
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . web-mode))
@@ -543,8 +576,9 @@
 
 ;; C++ w/ RTags
 ;; http://martinsosic.com/development/emacs/2017/12/09/emacs-cpp-ide.html
+;; 
+;; https://oracleyue.github.io/2017/12/04/emacs-init-cc-irony/
 (require 'rtags)
-(message "load2")
 (require 'flycheck-rtags)
 (require 'ivy-rtags)
 (setq rtags-display-result-backend 'ivy)
@@ -570,6 +604,14 @@
   )
 (add-hook 'c++-mode-hook #'setup-flycheck-rtags)
 ; (global-flycheck-mode t)
+(require 'cmake-mode)
+; (require 'cmake-font-lock) ;; see https://github.com/gonsie/dotfiles/blob/master/emacs/init.el
+;; CMake
+(setq auto-mode-alist
+      (append
+       '(("CMakeLists\\.txt\\'" . cmake-mode))
+       '(("\\.cmake\\'" . cmake-mode))
+       auto-mode-alist))
 
 ;; ggtags config:
 ;; http://emacs.stackexchange.com/q/14685

@@ -18,6 +18,7 @@
 (depends-on "bm") ; visual bookmarks
 (depends-on "beacon")
 (depends-on "cask")
+(depends-on "cmake-font-lock")
 (depends-on "dash")
 (depends-on "diminish")
 (depends-on "editorconfig")
@@ -54,7 +55,7 @@
 (depends-on "modern-cpp-font-lock")
 (depends-on "neotree")
 ; (depends-on "php-extras" :git "https://github.com/arnested/php-extras.git")
-(depends-on "php-mode" :git "https://github.com/ejmr/php-mode.git")
+(depends-on "php-mode")
 (depends-on "popwin")
 (depends-on "prodigy")
 (depends-on "projectile")
@@ -68,6 +69,7 @@
 (depends-on "smooth-scrolling")
 (depends-on "swiper")
 (depends-on "transpose-frame")
+(depends-on "undo-tree")
 (depends-on "use-package")
 (depends-on "visible-mark")
 (depends-on "vlf") ; very large file
