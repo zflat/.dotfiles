@@ -21,7 +21,7 @@
 (setq load-prefer-newer t)
 
 ;; Debugging triggers
-(setq debug-on-error nil
+(setq debug-on-error t
       debug-on-signal nil
       debug-on-quit nil) ;; C-g trigger debug
 
@@ -61,6 +61,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(avy-background-face ((t (:background "#3F3F3F" :foreground "gray" :inverse-video nil))))
+ '(avy-goto-char-timer-face ((t (:inherit highlight :background "plum" :foreground "midnight blue"))))
  '(bm-face ((t (:foreground "gold" :background "gray20"))))
  '(hi-blue ((t (:foreground "light blue" :background "MidnightBlue"))))
  '(hi-blue-b ((t (:foreground "light blue" :background "MidnightBlue" :weight bold))))
@@ -193,7 +195,7 @@
 (require 'paren)
 (show-paren-mode t)
 (setq show-paren-delay 0)
-(set-face-background 'show-paren-match-face (face-background 'default))
+; (set-face-background 'show-paren-match-face (face-background 'default))
 
 ;; How to show the matching paren when it is offscreen
 (defadvice show-paren-function
@@ -250,7 +252,7 @@
  '(company-quickhelp-color-foreground "#DCDCCC")
  '(custom-safe-themes
    (quote
-    ("e11569fd7e31321a33358ee4b232c2d3cf05caccd90f896e1df6cab228191109" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "67e998c3c23fe24ed0fb92b9de75011b92f35d3e89344157ae0d544d50a63a72" default)))
+    ("05a4b82c39107308b5c3720fd0c9792c2076e1ff3ebb6670c6f1c98d44227689" "e11569fd7e31321a33358ee4b232c2d3cf05caccd90f896e1df6cab228191109" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "67e998c3c23fe24ed0fb92b9de75011b92f35d3e89344157ae0d544d50a63a72" default)))
  '(ediff-diff-options "-w")
  '(ediff-split-window-function (quote split-window-horizontally))
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
@@ -323,10 +325,11 @@
 
 
 ;; Line duplication
-(global-set-key (kbd "M-<up>") 'md/move-lines-up)
-(global-set-key (kbd "M-<down>") 'md/move-lines-down)
-(global-set-key (kbd "C-S-d <down>") 'md/duplicate-down)
-(global-set-key (kbd "C-S-d <up>") 'md/duplicate-up)
+(require 'move-dup)
+(global-set-key (kbd "M-<up>")       'md-move-lines-up)
+(global-set-key (kbd "M-<down>")     'md-move-lines-down)
+(global-set-key (kbd "C-S-d <down>") 'md-duplicate-down)
+(global-set-key (kbd "C-S-d <up>")   'md-duplicate-up)
 
 
 ;; Elscreen
@@ -408,6 +411,7 @@
         (t . ivy--regex-fuzzy)))
 (setq ivy-format-function 'ivy-format-function-line)
 (setq ivy-use-virtual-buffers t) ;; see also https://emacs.stackexchange.com/questions/36836/how-to-remove-files-from-recentf-ivy-virtual-buffers
+(setq ivy-virtual-abbreviate 'full)
 
 (set-face-attribute 'ivy-current-match nil :background (face-background 'default))
 (set-face-attribute 'ivy-minibuffer-match-face-1 nil :background "plum4")
@@ -498,6 +502,7 @@
 
 (require 'avy)
 (global-set-key (kbd "M-s") 'avy-goto-char)
+(global-set-key (kbd "C-;") 'avy-goto-char-timer)
 (setq avy-background t)
 
 (require 'highlight-indent-guides)
@@ -517,19 +522,19 @@
 
 ; (require 'php-extras)
 ;  How to preven symbol's value is void error?
-(setq php-executable nil)
+;; (setq php-executable nil)
 (require 'php-mode)
 (add-hook 'php-mode-hook 'php-enable-psr2-coding-style)
-; (add-hook 'php-mode-hook 'highlight-indent-guides-mode)
 (add-hook 'php-mode-hook 'ggtags-mode)
+; (add-hook 'php-mode-hook 'highlight-indent-guides-mode)
 ; (add-hook 'php-mode-hook 'visible-mark-mode)
-(add-hook 'php-mode-hook
-          '(lambda ()
-             (require 'company-php)
-             (company-mode t)
-             (ac-php-core-eldoc-setup ) ;; enable eldoc
-             (make-local-variable 'company-backends)
-             (add-to-list 'company-backends 'company-ac-php-backend)))
+;; (add-hook 'php-mode-hook
+;;           '(lambda ()
+;;              (require 'company-php)
+;;              (company-mode t)
+;;              (ac-php-core-eldoc-setup ) ;; enable eldoc
+;;              (make-local-variable 'company-backends)
+;;              (add-to-list 'company-backends 'company-ac-php-backend)))
 (add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
 
 (require 'js2-mode)
@@ -621,6 +626,7 @@
 ;;
 ;; (setq-local imenu-create-index-function #'ggtags-build-imenu-index)
 (ggtags-mode 1)
+(global-set-key (kbd "M-*") 'xref-pop-marker-stack) ; could also be 'pop-tag-mark 
 (setq ggtags-completing-read-function nil)
                                         ; (setenv "GTAGSLIBPATH" "/showclix/config:/showclix/src:/showclix/tests/active_tests:/showclix/settings:/showclix/schema_evolutions:/showclix/public_html/classes:/showclix/public_html/actions:/showclix/public_html/templates:/showclix/public_html/controller")
 (setenv "GTAGSLIBPATH" nil)
