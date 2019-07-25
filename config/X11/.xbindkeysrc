@@ -7,20 +7,25 @@
 # Tip: After you made a change, execute xbindkeys -p to reload the configuration file and apply the changes.
 
 "wmctrl -a -emacs"
-Control+Alt + k
+  Control+Alt + k
 "wmctrl -a Terminator"
-Control+Alt + j
+  Control+Alt + j
 "wmctrl -a -browser"
-Control+Alt + u
+  Control+Alt + u
 "wmctrl -a -browser"
-Control+Alt + b
+  Control+Alt + b
 "wmctrl -a -👁️"
-Control+Alt + n
-"wmctrl -a Slack"
-Control+Alt + y
+  Control+Alt + n
+"wmctrl -x -a slack"
+  Control+Alt + y
 "wmctrl -a Visual Studio Code"
-Control+Alt + i
+  Control+Alt + i
 
-##
-# Note, shortcut to open the home folder
-# [System Settings => Keyboard => Shortcuts Tab => Launchers] "Home Folder" => Super+E
+########
+# Notes:
+# * shortcut to open the home folder
+#   [System Settings => Keyboard => Shortcuts Tab => Launchers] "Home Folder" => Super+E
+# * Get the WM_CLASS for a window
+#   `xprop | grep WM_CLASS | awk '{print $3 $4}'`
+# * Reload xbindkeys changes with
+#  `killall -HUP xbindkeys`
