@@ -2,9 +2,9 @@
 # https://superuser.com/questions/777520/is-there-a-chrome-extension-to-set-the-window-title
 #
 # Also a higher level way to get custom keybindings?
-# https://blog.butlerpc.net/post/173195879800/using-xbindkeys-on-ubuntu-linux-to-remap-key 
-#
-# Tip: After you made a change, execute xbindkeys -p to reload the configuration file and apply the changes.
+# https://blog.butlerpc.net/post/173195879800/using-xbindkeys-on-ubuntu-linux-to-remap-key
+# https://askubuntu.com/a/254425
+
 
 "wmctrl -a -emacs"
   Control+Alt + k
@@ -29,3 +29,4 @@
 #   `xprop | grep WM_CLASS | awk '{print $3 $4}'`
 # * Reload xbindkeys changes with
 #  `killall -HUP xbindkeys`
+#  (or with `xbindkeys -p` >)
