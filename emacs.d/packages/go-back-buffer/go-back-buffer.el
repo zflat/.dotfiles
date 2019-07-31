@@ -5,7 +5,7 @@
 
 ;; Author: William Wedler <wwedler@riseup.net>
 ;; Version: 0.0.1
-;; Keywords: convenience, frames
+;; Keywords: convenience, window
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -47,13 +47,10 @@
      (gbb--history-key curr-screen curr-window)
      (get 'gbb--prev-history 'history))))
 
-; (gbb--history-buffer (gbb--prev-history (selected-window)))
-; (window-buffer (selected-window))
-
 (defun gbb--update-history (&optional window next-buffer)
   "Store the previous buffer in history"
   (let* ((curr-window (or window (selected-window)))
-         (curr-buffer (window-buffer curr-window)) 
+         (curr-buffer (window-buffer curr-window))
          (prev-history (gbb--prev-history curr-window)))
     (if (and
          (buffer-live-p curr-buffer)
@@ -106,7 +103,7 @@ for compatibility with advice."
 
 ;; Maintaining state
 ;; (http://ergoemacs.org/emacs/elisp_toggle_command.html)
-; (get 'gbb--prev-history 'history)q
+; (get 'gbb--prev-history 'history)
 ; (put 'gbb--prev-history 'history nil)
 (defun gbb--history-key (screen window)
   "Object used as the alist key"
