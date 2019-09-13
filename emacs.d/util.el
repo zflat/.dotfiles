@@ -38,27 +38,42 @@
       (kill-new filename)
       (message "Copied buffer file name '%s' to the clipboard." filename))))
 
-
-
 ;; http://www.emacswiki.org/emacs/buffer-extension.el
 ;; http://stackoverflow.com/a/9411825
+;; https://stackoverflow.com/a/2382677
+;; https://stackoverflow.com/a/35392142
 (defun copy-buffer-file-name-as-kill(choice)
   "Copy the buffer-file-name to the kill-ring"
-  (interactive "cCopy Buffer Name (F) Full, (D) Directory, (N) Name")
+  (interactive
+   (list (let ((completions
+                (append
+                 (if (and (fboundp 'projectile-project-root) (projectile-project-root)) '(("0-Project Path" "p")))
+                 '(("1-Name" "n") ("2-Full" "f") ("3-Directory" "d")))))
+           (cadr (assoc (completing-read "Copy buffer name as kill" completions) completions)))))
   (let ((new-kill-string)
         (name (if (eq major-mode 'dired-mode)
                   (dired-get-filename)
-                (or (buffer-file-name) ""))))
-    (cond ((eq choice ?f)
-           (setq new-kill-string name))
-          ((eq choice ?d)
+                (or (buffer-file-name) "")))
+        (suffix (if (not (equal current-prefix-arg nil)) ; C-u argument given
+                  (concat " L" (number-to-string (line-number-at-pos))))))
+    (cond ((string-equal choice "p")
+           (setq new-kill-string
+                 (concat
+                  (file-name-as-directory
+                   (file-name-nondirectory (directory-file-name (projectile-project-root))))
+                  (string-remove-prefix (projectile-project-root) name)
+                  suffix)))
+          ((string-equal choice "f")
+           (setq new-kill-string (concat name suffix)))
+          ((string-equal choice "d")
            (setq new-kill-string (file-name-directory name)))
-          ((eq choice ?n)
+          ((string-equal choice "n")
            (setq new-kill-string (file-name-nondirectory name)))
           (t (message "Quit")))
     (when new-kill-string
       (message "%s copied" new-kill-string)
       (kill-new new-kill-string))))
+(global-set-key (kbd "<f3>") `copy-buffer-file-name-as-kill)
 
 ;; http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginning-of-a-line/
 (defun smarter-move-beginning-of-line (arg)
