@@ -38,6 +38,7 @@
       (kill-new filename)
       (message "Copied buffer file name '%s' to the clipboard." filename))))
 
+
 ;; http://www.emacswiki.org/emacs/buffer-extension.el
 ;; http://stackoverflow.com/a/9411825
 ;; https://stackoverflow.com/a/2382677
@@ -46,9 +47,10 @@
   "Copy the buffer-file-name to the kill-ring"
   (interactive
    (list (let ((completions
-                (append
-                 (if (and (fboundp 'projectile-project-root) (projectile-project-root)) '(("0-Project Path" "p")))
-                 '(("1-Name" "n") ("2-Full" "f") ("3-Directory" "d")))))
+                (let ((choice-index 1))
+                  (mapcar (lambda (arg) (append (list (concat (number-to-string (cl-incf choice-index)) "-" (car arg))) (last arg)))
+                          (append (if (and (fboundp 'projectile-project-root) (projectile-project-root)) '(("Project Path" "p")))
+                                  '(("Name" "n") ("Full" "f") ("Directory" "d")))))))
            (cadr (assoc (completing-read "Copy buffer name as kill" completions) completions)))))
   (let ((new-kill-string)
         (name (if (eq major-mode 'dired-mode)
