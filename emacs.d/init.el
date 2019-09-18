@@ -553,19 +553,24 @@
 
 ; (require 'php-extras)
 ;  How to preven symbol's value is void error?
-;; (setq php-executable nil)
 (require 'php-mode)
+(setq ac-php-php-executable (executable-find "php7"))  ; NOTE: use php-build to build php 7 and then symlink the binary to /usr/local/bin
 (add-hook 'php-mode-hook 'php-enable-psr2-coding-style)
 (add-hook 'php-mode-hook 'ggtags-mode)
 ; (add-hook 'php-mode-hook 'highlight-indent-guides-mode)
 ; (add-hook 'php-mode-hook 'visible-mark-mode)
-;; (add-hook 'php-mode-hook
-;;           '(lambda ()
-;;              (require 'company-php)
-;;              (company-mode t)
-;;              (ac-php-core-eldoc-setup ) ;; enable eldoc
-;;              (make-local-variable 'company-backends)
-;;              (add-to-list 'company-backends 'company-ac-php-backend)))
+(defun php-mode-hook-autocomplete ()
+  "Set up autocomplete for php-mode"
+  ;; Enable company-mode
+  (company-mode t)
+  (require 'company-php)
+  ;; Enable ElDoc support (optional)
+  (ac-php-core-eldoc-setup)
+  (set (make-local-variable 'company-backends)
+       '((company-ac-php-backend company-dabbrev-code)
+         company-capf company-files)))
+(add-hook 'php-mode-hook 'php-mode-hook-autocomplete)
+
 (add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
 
 (require 'js2-mode)
