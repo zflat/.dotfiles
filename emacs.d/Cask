@@ -37,7 +37,6 @@
 (depends-on "flycheck")
 (depends-on "flycheck-rtags")
 (depends-on "ggtags")
-(depends-on "highlight-indent-guides")
 (depends-on "htmlize")
 (depends-on "idle-highlight-mode") ; needs configuration. also consider http://emacsblog.org/2007/04/17/quick-tip-light-symbol-mode/ ?
 ; TODO: http://oremacs.com/2015/04/16/ivy-mode/
@@ -80,5 +79,5 @@
 
 ; Themes
 (depends-on "zenburn-theme")
-(depends-on "solarized-theme") 
-(depends-on "ample-theme") 
+(depends-on "solarized-theme")
+(depends-on "ample-theme")
