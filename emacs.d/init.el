@@ -18,12 +18,58 @@
 
 ;; TODO http://cachestocaches.com/2015/8/getting-started-use-package/
 
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#3F3F3F" "#CC9393" "#7F9F7F" "#F0DFAF" "#8CD0D3" "#DC8CC3" "#93E0E3" "#DCDCCC"])
+ '(company-quickhelp-color-background "#4F4F4F")
+ '(company-quickhelp-color-foreground "#DCDCCC")
+ '(custom-safe-themes
+   (quote
+    ("05a4b82c39107308b5c3720fd0c9792c2076e1ff3ebb6670c6f1c98d44227689" "e11569fd7e31321a33358ee4b232c2d3cf05caccd90f896e1df6cab228191109" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "67e998c3c23fe24ed0fb92b9de75011b92f35d3e89344157ae0d544d50a63a72" default)))
+ '(ediff-diff-options "-w")
+ '(ediff-split-window-function (quote split-window-horizontally))
+ '(ediff-window-setup-function (quote ediff-setup-windows-plain))
+ '(fci-rule-color "#383838")
+ '(inhibit-startup-screen t)
+ '(nrepl-message-colors
+   (quote
+    ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
+ '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
+ '(vc-annotate-background "#2B2B2B")
+ '(vc-annotate-color-map
+   (quote
+    ((20 . "#BC8383")
+     (40 . "#CC9393")
+     (60 . "#DFAF8F")
+     (80 . "#D0BF8F")
+     (100 . "#E0CF9F")
+     (120 . "#F0DFAF")
+     (140 . "#5F7F5F")
+     (160 . "#7F9F7F")
+     (180 . "#8FB28F")
+     (200 . "#9FC59F")
+     (220 . "#AFD8AF")
+     (240 . "#BFEBBF")
+     (260 . "#93E0E3")
+     (280 . "#6CA0A3")
+     (300 . "#7CB8BB")
+     (320 . "#8CD0D3")
+     (340 . "#94BFF3")
+     (360 . "#DC8CC3"))))
+ '(vc-annotate-very-old-color "#DC8CC3"))
+
+
 (setq load-prefer-newer t)
 
 ;; Debugging triggers
-(setq debug-on-error t
+(setq debug-on-error nil
       debug-on-signal nil
-      debug-on-quit nil) ;; C-g trigger debug
+      debug-on-quit nil) ;; (debug-on-quit t) to let C-g trigger debug
 
 ;; slow-down due to TRAMP bug: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=810640
 (setq tramp-ssh-controlmaster-options nil)
@@ -56,6 +102,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Color Themes
 ;;
+
+(add-hook 'after-init-hook
+          (lambda ()
+            (progn
+              (require `solarized-theme)
+              (load-theme 'solarized-dark t))))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -75,11 +128,13 @@
 
 ;; Change theme with M-x load-theme RET {themename}
 
-(add-hook 'after-init-hook
-          (lambda ()
-            (progn
-              (require `zenburn-theme)
-              (load-theme 'zenburn t))))
+;; (add-hook 'after-init-hook
+;;           (lambda ()
+;;             (progn
+;;               (require `zenburn-theme)
+;;               (load-theme 'zenburn t))))
+
+
 ;;(require `solarized-theme)
 ;;(load-theme 'solarized-light t)
 ;;(require `ample-theme)
@@ -108,7 +163,7 @@
 (defun switch-to-previous-buffer ()
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
-'; (global-set-key (kbd "<f1>") 'switch-to-previous-buffer)
+; (global-set-key (kbd "<f1>") 'switch-to-previous-buffer)
 (global-set-key (kbd "<backtab>") 'switch-to-buffer)
 
 
@@ -208,7 +263,17 @@
          (matching-text (and cb
                              (char-equal (char-syntax cb) ?\) )
                              (blink-matching-open))))
-    (when matching-text (message matching-text))))
+    ; (when matching-text (message matching-text)) ;; see https://emacs.stackexchange.com/a/28532
+))
+
+
+;; TODO use git-gutter ?
+; (global-set-key (kbd "M-p") 'git-gutter:previous-hunk)
+; (global-set-key (kbd "M-n") 'git-gutter:next-hunk)
+
+(setq auto-save-visited-interval 5)
+(setq auto-save-visited-file-name nil) ; explicitly disable a setting which would disable in-place autosaving.
+(auto-save-visited-mode 1)
 
 (desktop-save-mode 1)
 
@@ -230,61 +295,26 @@
 
 (global-auto-revert-mode t)
 
+(when (version<= "26.0.50" emacs-version )
+  (global-display-line-numbers-mode))
+
+
 ;; Making buffer names unique
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Uniquify.html
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 ;; See also http://www.lonecpluspluscoder.com/2014/08/23/unique-buffer-names-in-emacs/
 
 
+; (setq vc-git-annotate-switches '("--minimal -w -c --date=short --abbrev=0"))
+
 
 ; make vertical split the default for edif
 ; NOTE
 ;   Open ediff from magit: press e on an unmerged (due to conflicts)
 ;   file from the status window during a merge/rebase/cherry-pick
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector
-   ["#3F3F3F" "#CC9393" "#7F9F7F" "#F0DFAF" "#8CD0D3" "#DC8CC3" "#93E0E3" "#DCDCCC"])
- '(company-quickhelp-color-background "#4F4F4F")
- '(company-quickhelp-color-foreground "#DCDCCC")
- '(custom-safe-themes
-   (quote
-    ("05a4b82c39107308b5c3720fd0c9792c2076e1ff3ebb6670c6f1c98d44227689" "e11569fd7e31321a33358ee4b232c2d3cf05caccd90f896e1df6cab228191109" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "67e998c3c23fe24ed0fb92b9de75011b92f35d3e89344157ae0d544d50a63a72" default)))
- '(ediff-diff-options "-w")
- '(ediff-split-window-function (quote split-window-horizontally))
- '(ediff-window-setup-function (quote ediff-setup-windows-plain))
- '(fci-rule-color "#383838")
- '(inhibit-startup-screen t)
- '(nrepl-message-colors
-   (quote
-    ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
- '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
- '(vc-annotate-background "#2B2B2B")
- '(vc-annotate-color-map
-   (quote
-    ((20 . "#BC8383")
-     (40 . "#CC9393")
-     (60 . "#DFAF8F")
-     (80 . "#D0BF8F")
-     (100 . "#E0CF9F")
-     (120 . "#F0DFAF")
-     (140 . "#5F7F5F")
-     (160 . "#7F9F7F")
-     (180 . "#8FB28F")
-     (200 . "#9FC59F")
-     (220 . "#AFD8AF")
-     (240 . "#BFEBBF")
-     (260 . "#93E0E3")
-     (280 . "#6CA0A3")
-     (300 . "#7CB8BB")
-     (320 . "#8CD0D3")
-     (340 . "#94BFF3")
-     (360 . "#DC8CC3"))))
- '(vc-annotate-very-old-color "#DC8CC3"))
 
+
+(setq-default show-trailing-whitespace t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -313,12 +343,14 @@
 
 ;; Muliple cursors
 (require 'multiple-cursors)
-                                        ; Cursor at each line in selected region
-                                        ; Note: <S> is shift
+;; Cursor at each line in selected region
+;; Note: <S> is shift
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-                                        ; Use arrow keys to quickly mark/skip next/previous occurances.
+;; Use arrow keys to quickly mark/skip next/previous occurances.
 (global-set-key (kbd "C-S-c C-s") 'mc/mark-more-like-this-extended)
 (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
+
+                                        ; setup multiple-cursors-hydra https://iqss.github.io/IQSS.emacs/init.html
 
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
@@ -348,7 +380,9 @@
                                         ;(pop popwin:special-display-config)
 
 (require 'smart-mode-line)
+(setq sml/no-confirm-load-theme t)
 (sml/setup)
+(sml/apply-theme 'respectful)
 
 ;; Automatic find file customizations:
 ;;
@@ -411,7 +445,7 @@
         (t . ivy--regex-fuzzy)))
 (setq ivy-format-function 'ivy-format-function-line)
 (setq ivy-use-virtual-buffers t) ;; see also https://emacs.stackexchange.com/questions/36836/how-to-remove-files-from-recentf-ivy-virtual-buffers
-(setq ivy-virtual-abbreviate 'full)
+(setq ivy-virtual-abbreviate 'full) ;; helps to know files are from recentf instead of an open buffer
 
 (set-face-attribute 'ivy-current-match nil :background (face-background 'default))
 (set-face-attribute 'ivy-minibuffer-match-face-1 nil :background "plum4")
@@ -451,7 +485,9 @@
 ;; command used to get the file for projectile
 ;; also consider https://www.emacswiki.org/emacs/FileSets
 ;; (defun projectile-get-ext-command () "find . -type f -print0")
-(defun projectile-get-ext-command () "rg . --null --files") ;; See https://emacs.stackexchange.com/a/29200
+(defun projectile-get-ext-command (&optional arg) "rg . --null --files") ;; See https://emacs.stackexchange.com/a/29200
+;; note that I added the optional arg to projectile-get-ext-command after upgrading ? 
+
 ;; Speed up? find-file
 ;; See https://github.com/syl20bnr/spacemacs/issues/4207
 (setq shell-file-name "/bin/sh")
@@ -504,11 +540,6 @@
 (global-set-key (kbd "M-s") 'avy-goto-char)
 (global-set-key (kbd "C-;") 'avy-goto-char-timer)
 (setq avy-background t)
-
-(require 'highlight-indent-guides)
-; (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-(setq highlight-indent-guides-method 'character)
-(highlight-indent-guides-mode 0)
 
 (require 'beacon)
 (beacon-mode 1)
@@ -793,6 +824,10 @@
 ;;
 ;; Moving around with the Mark
 ;; C-u C-space move point to previous mark
+;;
+;; Org-mode
+;; C-c C-t cycle item status from none to TODO to DONE
+;;
 
 ;;
 ;; Load additional init files
@@ -888,4 +923,3 @@
 
 ; (provide 'init)
 ;;; init.el ends here
-(put 'narrow-to-region 'disabled nil)
