@@ -1,6 +1,6 @@
 ;;; init.el --- Initialization file for Emacs
 ;;; Commentary:
-;; 
+;;
 ;; Configure Emacs
 ;; Also can invoke `M-x Custom`
 ;;
@@ -17,51 +17,6 @@
 ;;; Code:
 
 ;; TODO http://cachestocaches.com/2015/8/getting-started-use-package/
-
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector
-   ["#3F3F3F" "#CC9393" "#7F9F7F" "#F0DFAF" "#8CD0D3" "#DC8CC3" "#93E0E3" "#DCDCCC"])
- '(company-quickhelp-color-background "#4F4F4F")
- '(company-quickhelp-color-foreground "#DCDCCC")
- '(custom-safe-themes
-   (quote
-    ("05a4b82c39107308b5c3720fd0c9792c2076e1ff3ebb6670c6f1c98d44227689" "e11569fd7e31321a33358ee4b232c2d3cf05caccd90f896e1df6cab228191109" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "67e998c3c23fe24ed0fb92b9de75011b92f35d3e89344157ae0d544d50a63a72" default)))
- '(ediff-diff-options "-w")
- '(ediff-split-window-function (quote split-window-horizontally))
- '(ediff-window-setup-function (quote ediff-setup-windows-plain))
- '(fci-rule-color "#383838")
- '(inhibit-startup-screen t)
- '(nrepl-message-colors
-   (quote
-    ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
- '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
- '(vc-annotate-background "#2B2B2B")
- '(vc-annotate-color-map
-   (quote
-    ((20 . "#BC8383")
-     (40 . "#CC9393")
-     (60 . "#DFAF8F")
-     (80 . "#D0BF8F")
-     (100 . "#E0CF9F")
-     (120 . "#F0DFAF")
-     (140 . "#5F7F5F")
-     (160 . "#7F9F7F")
-     (180 . "#8FB28F")
-     (200 . "#9FC59F")
-     (220 . "#AFD8AF")
-     (240 . "#BFEBBF")
-     (260 . "#93E0E3")
-     (280 . "#6CA0A3")
-     (300 . "#7CB8BB")
-     (320 . "#8CD0D3")
-     (340 . "#94BFF3")
-     (360 . "#DC8CC3"))))
- '(vc-annotate-very-old-color "#DC8CC3"))
 
 
 (setq load-prefer-newer t)
@@ -97,49 +52,6 @@
                (if (find-font (font-spec :name "DejaVu Sans Mono"))
                    (set-frame-font "DejaVu Sans Mono 12")))
 (set-face-attribute 'default nil :height 130)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Color Themes
-;;
-
-(add-hook 'after-init-hook
-          (lambda ()
-            (progn
-              (require `solarized-theme)
-              (load-theme 'solarized-dark t))))
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(avy-background-face ((t (:background "#3F3F3F" :foreground "gray" :inverse-video nil))))
- '(avy-goto-char-timer-face ((t (:inherit highlight :background "plum" :foreground "midnight blue"))))
- '(bm-face ((t (:foreground "gold" :background "gray20"))))
- '(hi-blue ((t (:foreground "light blue" :background "MidnightBlue"))))
- '(hi-blue-b ((t (:foreground "light blue" :background "MidnightBlue" :weight bold))))
- '(hi-green ((t (:foreground "PaleGreen1" :background "DarkOliveGreen"))))
- '(hi-pink ((t (:foreground "pink" :background "gray20"))))
- '(hi-red-b ((t (:foreground "white" :background "dark red" :weight bold))))
- '(hi-yellow ((t (:foreground "yellow1" :background "gray20" :weight bold))))
- '(linum ((t (:background "#3F3F3F" :foreground "#808080")))))
-
-
-;; Change theme with M-x load-theme RET {themename}
-
-;; (add-hook 'after-init-hook
-;;           (lambda ()
-;;             (progn
-;;               (require `zenburn-theme)
-;;               (load-theme 'zenburn t))))
-
-
-;;(require `solarized-theme)
-;;(load-theme 'solarized-light t)
-;;(require `ample-theme)
-;;(load-theme 'ample-light t t)
-;;(enable-theme 'ample-light)
 
 
 ;;;;;;;;;;;;;;
@@ -243,7 +155,7 @@
      (>= emacs-minor-version 4))
     (electric-pair-mode 1) ; Provides a way to easily insert matching delimiters
   )
-(global-hl-line-mode t) ; highlgiht
+(global-hl-line-mode t) ; highlight the line at point
 
 ;; parenthesis customization
 ;; consider also http://www.emacswiki.org/emacs/HighlightParentheses
@@ -447,16 +359,7 @@
 (setq ivy-use-virtual-buffers t) ;; see also https://emacs.stackexchange.com/questions/36836/how-to-remove-files-from-recentf-ivy-virtual-buffers
 (setq ivy-virtual-abbreviate 'full) ;; helps to know files are from recentf instead of an open buffer
 
-(set-face-attribute 'ivy-current-match nil :background (face-background 'default))
-(set-face-attribute 'ivy-minibuffer-match-face-1 nil :background "plum4")
-(set-face-attribute 'ivy-minibuffer-match-face-2 nil :foreground "white smoke")
-(set-face-attribute 'ivy-minibuffer-match-face-2 nil :background "RosyBrown4")
-(set-face-attribute 'ivy-minibuffer-match-face-3 nil :foreground "white smoke")
-(set-face-attribute 'ivy-minibuffer-match-face-3 nil :background "DarkSlateGray4")
-(set-face-attribute 'ivy-minibuffer-match-face-4 nil :background "DodgerBlue4")
-(set-face-attribute 'ivy-minibuffer-match-face-4 nil :foreground "white smoke")
 
-(color-values (face-background 'highlight)) ; debug a face background
 
 (require 'ripgrep)
 
@@ -486,7 +389,7 @@
 ;; also consider https://www.emacswiki.org/emacs/FileSets
 ;; (defun projectile-get-ext-command () "find . -type f -print0")
 (defun projectile-get-ext-command (&optional arg) "rg . --null --files") ;; See https://emacs.stackexchange.com/a/29200
-;; note that I added the optional arg to projectile-get-ext-command after upgrading ? 
+;; note that I added the optional arg to projectile-get-ext-command after upgrading ?
 
 ;; Speed up? find-file
 ;; See https://github.com/syl20bnr/spacemacs/issues/4207
@@ -551,14 +454,13 @@
 (require 'company)
 (setq company-idle-delay 0.2)
 
-; (require 'php-extras)
-;  How to preven symbol's value is void error?
+(require 'php-extras)
 (require 'php-mode)
 (setq ac-php-php-executable (executable-find "php7"))  ; NOTE: use php-build to build php 7 and then symlink the binary to /usr/local/bin
 (add-hook 'php-mode-hook 'php-enable-psr2-coding-style)
 (add-hook 'php-mode-hook 'ggtags-mode)
-; (add-hook 'php-mode-hook 'highlight-indent-guides-mode)
 ; (add-hook 'php-mode-hook 'visible-mark-mode)
+
 (defun php-mode-hook-autocomplete ()
   "Set up autocomplete for php-mode"
   ;; Enable company-mode
@@ -600,24 +502,27 @@
 (setq web-mode-content-types-alist
   '(("jsx"  . "/src.*/components/.*\\.js[x]?\\'")))
 
-                                        ; web-mode customization
+
+; web-mode customization
 (setq web-mode-enable-auto-indentation nil)
+(setq web-mode-enable-current-element-highlight t)
+(setq web-mode-enable-current-column-highlight t)
 (defun my-web-mode-hook ()
   "Hooks for Web mode."
   (setq web-mode-markup-indent-offset 4)
   (editorconfig-apply))
 (add-hook 'web-mode-hook 'my-web-mode-hook)
-(set-face-attribute 'web-mode-symbol-face nil :foreground "SeaGreen")
+(set-face-attribute 'web-mode-current-column-highlight-face nil :background (face-attribute 'hl-line :background))
+
 
 (require 'emmet-mode)
 (add-hook 'web-mode-hook  'emmet-mode)
-(add-hook 'web-mode-hook 'highlight-indent-guides-mode)
 
 (require 'flycheck)
 
 ;; C++ w/ RTags
 ;; http://martinsosic.com/development/emacs/2017/12/09/emacs-cpp-ide.html
-;; 
+;;
 ;; https://oracleyue.github.io/2017/12/04/emacs-init-cc-irony/
 (require 'rtags)
 (require 'flycheck-rtags)
@@ -662,7 +567,7 @@
 ;;
 ;; (setq-local imenu-create-index-function #'ggtags-build-imenu-index)
 (ggtags-mode 1)
-(global-set-key (kbd "M-*") 'xref-pop-marker-stack) ; could also be 'pop-tag-mark 
+(global-set-key (kbd "M-*") 'xref-pop-marker-stack) ; could also be 'pop-tag-mark
 (setq ggtags-completing-read-function nil)
                                         ; (setenv "GTAGSLIBPATH" "/showclix/config:/showclix/src:/showclix/tests/active_tests:/showclix/settings:/showclix/schema_evolutions:/showclix/public_html/classes:/showclix/public_html/actions:/showclix/public_html/templates:/showclix/public_html/controller")
 (setenv "GTAGSLIBPATH" nil)
@@ -729,7 +634,7 @@
 
 
 ;; Note: Setup windows splitting preferences
-;; 
+;;
 ;; `customize-group [RET] Windows`
 ;; Split Height Threshold:
 ;;   default: 80
@@ -892,39 +797,168 @@
     (interactive "p")
     (when (mark)
     (let* ((p (point))
-  	 (m (mark))
-  	 (n p)
-  	 (count (if (null arg) 1 arg))
-	 (abscount (abs count))
-	 (rel
-	  (funcall
-	   (if (< 0 count) 'identity 'reverse)
-	   (sort (cons (cons 0 p)
-		       (cons (cons (- m p) m)
-			     (if mark-ring
-				 (mapcar (lambda (mrm)
-					   (cons (- mrm p) mrm))
-					 mark-ring)
-			       nil)))
-		 (lambda (c d) (< (car c) (car d))))))
-	  (cur rel))
-	 (while (and (numberp (caar cur)) (/= (caar cur) 0))
-	   (setq cur (cdr cur)))
-	 (while (and (numberp (caadr cur)) (= (caadr cur) 0))
-	   (setq cur (cdr cur)))
-	 (while (< 0 abscount)
-	   (setq cur (cdr cur))
-	   (when (null cur) (setq cur rel))
-	   (setq abscount (- abscount 1)))
-	 (when (number-or-marker-p (cdar cur))
-	   (goto-char (cdar cur))))))
-  (defun buffer-order-prev-mark (arg)
-    (interactive "p")
-    (buffer-order-next-mark
-     (if (null arg) -1 (- arg))))
-  (global-set-key [s-down] 'buffer-order-next-mark)
-  (global-set-key [s-up] 'buffer-order-prev-mark)
+         (m (mark))
+         (n p)
+         (count (if (null arg) 1 arg))
+         (abscount (abs count))
+         (rel
+          (funcall
+           (if (< 0 count) 'identity 'reverse)
+           (sort (cons (cons 0 p)
+                       (cons (cons (- m p) m)
+                             (if mark-ring
+                                 (mapcar (lambda (mrm)
+                                           (cons (- mrm p) mrm))
+                                         mark-ring)
+                               nil)))
+                 (lambda (c d) (< (car c) (car d))))))
+          (cur rel))
+         (while (and (numberp (caar cur)) (/= (caar cur) 0))
+           (setq cur (cdr cur)))
+         (while (and (numberp (caadr cur)) (= (caadr cur) 0))
+           (setq cur (cdr cur)))
+         (while (< 0 abscount)
+           (setq cur (cdr cur))
+           (when (null cur) (setq cur rel))
+           (setq abscount (- abscount 1)))
+         (when (number-or-marker-p (cdar cur))
+           (goto-char (cdar cur))))))
+(defun buffer-order-prev-mark (arg)
+  (interactive "p")
+  (buffer-order-next-mark
+   (if (null arg) -1 (- arg))))
+(global-set-key [s-down] 'buffer-order-next-mark)
+(global-set-key [s-up] 'buffer-order-prev-mark)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Color Themes
+;;
+
+(defun load-theme-solarized-dark ()
+  (progn
+    (require `solarized-theme)
+    (load-theme 'solarized-dark t)
+
+    (setq beacon-color "LightGoldenrod3")
+
+    (set-face-background 'avy-goto-char-timer-face (face-background 'menu))
+    (set-face-foreground 'avy-goto-char-timer-face (face-foreground 'link))))
+
+(defun load-theme-zenburn ()
+  (progn
+    (require `zenburn-theme)
+    (load-theme 'zenburn t)
+
+    (setq beacon-color "LightGoldenrod3")
+
+    (set-face-background 'avy-background-face (face-background 'menu))
+    (set-face-foreground 'avy-background-face (face-foreground 'menu))
+    (set-face-background 'avy-goto-char-timer-face (face-background 'menu))
+    (set-face-foreground 'avy-goto-char-timer-face (face-foreground 'link))
+
+    (set-face-attribute 'ivy-current-match nil :background (face-background 'default))
+    (set-face-attribute 'ivy-minibuffer-match-face-1 nil :background "plum4")
+    (set-face-attribute 'ivy-minibuffer-match-face-2 nil :foreground "white smoke")
+    (set-face-attribute 'ivy-minibuffer-match-face-2 nil :background "RosyBrown4")
+    (set-face-attribute 'ivy-minibuffer-match-face-3 nil :foreground "white smoke")
+    (set-face-attribute 'ivy-minibuffer-match-face-3 nil :background "DarkSlateGray4")
+    (set-face-attribute 'ivy-minibuffer-match-face-4 nil :background "DodgerBlue4")
+    (set-face-attribute 'ivy-minibuffer-match-face-4 nil :foreground "white smoke")
+
+    (set-face-attribute 'web-mode-symbol-face nil :foreground "SeaGreen")
+
+    (face-spec-set 'bm-face   '((t (:foreground "gold" :background "gray20"))))
+    (face-spec-set 'linum     '((t (:background "#3F3F3F" :foreground "#808080"))))
+    (face-spec-set 'hi-blue   '((t (:foreground "light blue" :background "MidnightBlue"))))
+    (face-spec-set 'hi-blue-b '((t (:foreground "light blue" :background "MidnightBlue" :weight bold))))
+    (face-spec-set 'hi-green  '((t (:foreground "PaleGreen1" :background "DarkOliveGreen"))))
+    (face-spec-set 'hi-pink   '((t (:foreground "pink" :background "gray20"))))
+    (face-spec-set 'hi-red-b  '((t (:foreground "white" :background "dark red" :weight bold))))
+    (face-spec-set 'hi-yellow '((t (:foreground "yellow1" :background "gray20" :weight bold))))
+
+    (customize-set-variable 'vc-annotate-background "#2B2B2B")
+    (customize-save-variable 'vc-annotate-color-map
+                             (quote
+                              ((20 . "#BC8383")
+                               (40 . "#CC9393")
+                               (60 . "#DFAF8F")
+                               (80 . "#D0BF8F")
+                               (100 . "#E0CF9F")
+                               (120 . "#F0DFAF")
+                               (140 . "#5F7F5F")
+                               (160 . "#7F9F7F")
+                               (180 . "#8FB28F")
+                               (200 . "#9FC59F")
+                               (220 . "#AFD8AF")
+                               (240 . "#BFEBBF")
+                               (260 . "#93E0E3")
+                               (280 . "#6CA0A3")
+                               (300 . "#7CB8BB")
+                               (320 . "#8CD0D3")
+                               (340 . "#94BFF3")
+                               (360 . "#DC8CC3"))))
+    (customize-set-variable 'vc-annotate-very-old-color "#DC8CC3")
+    (customize-set-variable 'ansi-color-names-vector
+                            ["#3F3F3F" "#CC9393" "#7F9F7F" "#F0DFAF" "#8CD0D3" "#DC8CC3" "#93E0E3" "#DCDCCC"])
+    (customize-set-variable 'fci-rule-color "#383838")
+    (customize-set-variable 'nrepl-message-colors
+                            (quote
+                             ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
+))
+
+
+(color-values (face-background 'highlight)) ; debug a face background
+
+
+(add-hook 'after-init-hook 'load-theme-solarized-dark)
+
+
+;; Change theme with M-x load-theme RET {themename}
+
+
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(company-quickhelp-color-background "#4F4F4F")
+ '(company-quickhelp-color-foreground "#DCDCCC")
+ '(custom-safe-themes
+   (quote
+    ("d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "05a4b82c39107308b5c3720fd0c9792c2076e1ff3ebb6670c6f1c98d44227689" "e11569fd7e31321a33358ee4b232c2d3cf05caccd90f896e1df6cab228191109" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "67e998c3c23fe24ed0fb92b9de75011b92f35d3e89344157ae0d544d50a63a72" default)))
+ '(ediff-diff-options "-w")
+ '(ediff-split-window-function (quote split-window-horizontally))
+ '(ediff-window-setup-function (quote ediff-setup-windows-plain))
+ '(inhibit-startup-screen t)
+ '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
+ ;; '(vc-annotate-background "#2B2B2B")
+ ;; '(vc-annotate-color-map
+ ;;   (quote
+ ;;    ((20 . "#BC8383")
+ ;;     (40 . "#CC9393")
+ ;;     (60 . "#DFAF8F")
+ ;;     (80 . "#D0BF8F")
+ ;;     (100 . "#E0CF9F")
+ ;;     (120 . "#F0DFAF")
+ ;;     (140 . "#5F7F5F")
+ ;;     (160 . "#7F9F7F")
+ ;;     (180 . "#8FB28F")
+ ;;     (200 . "#9FC59F")
+ ;;     (220 . "#AFD8AF")
+ ;;     (240 . "#BFEBBF")
+ ;;     (260 . "#93E0E3")
+ ;;     (280 . "#6CA0A3")
+ ;;     (300 . "#7CB8BB")
+ ;;     (320 . "#8CD0D3")
+ ;;     (340 . "#94BFF3")
+ ;;     (360 . "#DC8CC3"))) t)
+ ; '(vc-annotate-very-old-color "#DC8CC3")
+)
+
 
 
 ; (provide 'init)
 ;;; init.el ends here
+
