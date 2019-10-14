@@ -22,9 +22,13 @@
 (setq load-prefer-newer t)
 
 ;; Debugging triggers
-(setq debug-on-error nil
-      debug-on-signal nil
-      debug-on-quit nil) ;; (debug-on-quit t) to let C-g trigger debug
+(defun clear-debug-triggers ()
+  (interactive)
+  (setq debug-on-error nil
+        debug-on-signal nil
+        ;; (debug-on-quit t) to let C-g trigger debug
+        debug-on-quit nil))
+
 
 ;; slow-down due to TRAMP bug: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=810640
 (setq tramp-ssh-controlmaster-options nil)
@@ -45,13 +49,28 @@
 ;; Check if running with X support (featurep 'x)
 
 
-;; Set font
-;; http://askubuntu.com/questions/23603/how-to-change-font-size-in-emacs
-(if (find-font (font-spec :name "Hack"))
-               (set-frame-font "Hack 12")
-               (if (find-font (font-spec :name "DejaVu Sans Mono"))
-                   (set-frame-font "DejaVu Sans Mono 12")))
-(set-face-attribute 'default nil :height 130)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(company-quickhelp-color-background "#4F4F4F")
+ '(company-quickhelp-color-foreground "#DCDCCC")
+ '(custom-safe-themes
+   (quote
+    ("d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "05a4b82c39107308b5c3720fd0c9792c2076e1ff3ebb6670c6f1c98d44227689" "e11569fd7e31321a33358ee4b232c2d3cf05caccd90f896e1df6cab228191109" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "67e998c3c23fe24ed0fb92b9de75011b92f35d3e89344157ae0d544d50a63a72" default)))
+ '(ediff-diff-options "-w")
+ '(ediff-split-window-function (quote split-window-horizontally))
+ '(ediff-window-setup-function (quote ediff-setup-windows-plain))
+ '(inhibit-startup-screen t)
+ '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838"))))
 
 
 ;;;;;;;;;;;;;;
@@ -291,10 +310,15 @@
 (push '(ag-mode :dedicated t :stick t :position bottom) popwin:special-display-config)
                                         ;(pop popwin:special-display-config)
 
-(require 'smart-mode-line)
-(setq sml/no-confirm-load-theme t)
-(sml/setup)
-(sml/apply-theme 'respectful)
+;; (require 'smart-mode-line)
+;; (setq sml/no-confirm-load-theme t)
+;; (setq sml/mule-info nil)
+
+(require 'mood-line)
+(mood-line-mode)
+;; (car (vc-git-branches))
+;; (mood-line--update-vc-segment)
+;; (message mood-line--vc-text)
 
 ;; Automatic find file customizations:
 ;;
@@ -318,6 +342,7 @@
 (global-set-key (kbd "<C-f2>") 'bm-toggle)
 (global-set-key (kbd "<f2>")   'bm-next)
 (global-set-key (kbd "<S-f2>") 'bm-previous)
+(setq bm-highlight-style 'bm-highlight-line-and-fringe)
 
 ;; Visual Mark -- highlights the current mark, and N-previous marks
 ;; http://pragmaticemacs.com/emacs/regions-marks-and-visual-mark/
@@ -761,8 +786,6 @@
 (global-set-key [C-M-down-mouse-1] 'mouse-drag-secondary-moving)
 
 
-(message "load_end")
-
 
 ;; emacs paste hang workaround, kinda (still need to restart)
 ;; 2015-07-04 bug of pasting in emacs.
@@ -776,6 +799,7 @@
 (diminish 'auto-revert-mode)
 (diminish 'abbrev-mode "Abv")
 (diminish 'auto-complete-mode)
+(diminish 'company-mode)
 (diminish 'projectile)
 (diminish 'projectile-mode)
 (diminish 'yas-minor-mode)
@@ -783,6 +807,9 @@
 (diminish 'ivy-mode)
 (diminish 'flycheck-mode)
 (diminish 'eldoc-mode)
+(diminish 'ggtags-mode)
+(diminish 'beacon-mode)
+(diminish 'emmet-mode)
 
 
 
@@ -836,16 +863,35 @@
 ;;
 
 (defun load-theme-solarized-dark ()
+  (interactive)
   (progn
     (require `solarized-theme)
     (load-theme 'solarized-dark t)
 
+    (face-spec-set 'bm-face '((t (:foreground "gold" :overline nil))))
+
     (setq beacon-color "LightGoldenrod3")
 
     (set-face-background 'avy-goto-char-timer-face (face-background 'menu))
-    (set-face-foreground 'avy-goto-char-timer-face (face-foreground 'link))))
+    (set-face-foreground 'avy-goto-char-timer-face (face-foreground 'link)))
+  (when (fboundp 'sml/setup) (sml/setup)))
+
+(defun load-theme-solarized-light ()
+  (interactive)
+  (progn
+    (require `solarized-theme)
+    (load-theme 'solarized-light t)
+
+    (face-spec-set 'bm-face '((t (:foreground "maroon" :overline nil))))
+
+    (setq beacon-color (face-foreground 'menu))
+
+    (set-face-background 'avy-goto-char-timer-face (face-background 'menu))
+    (set-face-foreground 'avy-goto-char-timer-face (face-foreground 'link)))
+  (when (fboundp 'sml/setup) (sml/setup)))
 
 (defun load-theme-zenburn ()
+  (interactive)
   (progn
     (require `zenburn-theme)
     (load-theme 'zenburn t)
@@ -868,7 +914,7 @@
 
     (set-face-attribute 'web-mode-symbol-face nil :foreground "SeaGreen")
 
-    (face-spec-set 'bm-face   '((t (:foreground "gold" :background "gray20"))))
+    (face-spec-set 'bm-face   '((t (:foreground "gold" :background "gray20" :overline nil))))
     (face-spec-set 'linum     '((t (:background "#3F3F3F" :foreground "#808080"))))
     (face-spec-set 'hi-blue   '((t (:foreground "light blue" :background "MidnightBlue"))))
     (face-spec-set 'hi-blue-b '((t (:foreground "light blue" :background "MidnightBlue" :weight bold))))
@@ -904,60 +950,28 @@
     (customize-set-variable 'fci-rule-color "#383838")
     (customize-set-variable 'nrepl-message-colors
                             (quote
-                             ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
-))
-
+                             ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))))
+  (when (fboundp 'sml/setup)
+    (sml/setup)
+    (sml/apply-theme 'respectful)))
 
 (color-values (face-background 'highlight)) ; debug a face background
 
 
+;; Set font
+;; http://askubuntu.com/questions/23603/how-to-change-font-size-in-emacs
+(if (find-font (font-spec :name "Hack"))
+               (set-frame-font "Hack 12")
+               (if (find-font (font-spec :name "DejaVu Sans Mono"))
+                   (set-frame-font "DejaVu Sans Mono 12")))
+(set-face-attribute 'default nil :height 130)
+
+
 (add-hook 'after-init-hook 'load-theme-solarized-dark)
+;; Note: Change theme with M-x load-theme RET {themename}
 
 
-;; Change theme with M-x load-theme RET {themename}
-
-
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(company-quickhelp-color-background "#4F4F4F")
- '(company-quickhelp-color-foreground "#DCDCCC")
- '(custom-safe-themes
-   (quote
-    ("d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "05a4b82c39107308b5c3720fd0c9792c2076e1ff3ebb6670c6f1c98d44227689" "e11569fd7e31321a33358ee4b232c2d3cf05caccd90f896e1df6cab228191109" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "67e998c3c23fe24ed0fb92b9de75011b92f35d3e89344157ae0d544d50a63a72" default)))
- '(ediff-diff-options "-w")
- '(ediff-split-window-function (quote split-window-horizontally))
- '(ediff-window-setup-function (quote ediff-setup-windows-plain))
- '(inhibit-startup-screen t)
- '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
- ;; '(vc-annotate-background "#2B2B2B")
- ;; '(vc-annotate-color-map
- ;;   (quote
- ;;    ((20 . "#BC8383")
- ;;     (40 . "#CC9393")
- ;;     (60 . "#DFAF8F")
- ;;     (80 . "#D0BF8F")
- ;;     (100 . "#E0CF9F")
- ;;     (120 . "#F0DFAF")
- ;;     (140 . "#5F7F5F")
- ;;     (160 . "#7F9F7F")
- ;;     (180 . "#8FB28F")
- ;;     (200 . "#9FC59F")
- ;;     (220 . "#AFD8AF")
- ;;     (240 . "#BFEBBF")
- ;;     (260 . "#93E0E3")
- ;;     (280 . "#6CA0A3")
- ;;     (300 . "#7CB8BB")
- ;;     (320 . "#8CD0D3")
- ;;     (340 . "#94BFF3")
- ;;     (360 . "#DC8CC3"))) t)
- ; '(vc-annotate-very-old-color "#DC8CC3")
-)
-
-
+(message "load_end")
 
 ; (provide 'init)
 ;;; init.el ends here
