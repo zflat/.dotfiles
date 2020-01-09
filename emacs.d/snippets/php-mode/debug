@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: debug
+# key: dd
+# contributor: William Wedler
+# --
+${1:tel}(sprintf("DEBUG-%s-%s %s",__FILE__,__LINE__,"${2:}"));
