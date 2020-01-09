@@ -1,4 +1,7 @@
-/* https://askubuntu.com/a/827213 */
+/* https://askubuntu.com/a/827213
+ see also: https://askubuntu.com/a/988906
+ and https://securitronlinux.com/debian-testing/how-to-fix-the-annoying-narrow-firefox-scrollbar-on-ubuntu/
+*/
 .scrollbar {
   -GtkScrollbar-has-backward-stepper: true;
   -GtkScrollbar-has-forward-stepper: true;

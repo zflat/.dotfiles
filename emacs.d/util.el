@@ -182,3 +182,6 @@ Version 2018-09-29"
                                "/usr/bin/xdg-open")))
         (start-process "" nil openFileProgram $path))
       ))))
+
+; TODO function to copy a region without indentation for pasting into code snippets
+; https://emacs.stackexchange.com/questions/34966/copy-region-without-leading-indentation
