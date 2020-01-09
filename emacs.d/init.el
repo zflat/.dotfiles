@@ -63,9 +63,6 @@
  ;; If there is more than one, they won't work right.
  '(company-quickhelp-color-background "#4F4F4F")
  '(company-quickhelp-color-foreground "#DCDCCC")
- '(custom-safe-themes
-   (quote
-    ("d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "05a4b82c39107308b5c3720fd0c9792c2076e1ff3ebb6670c6f1c98d44227689" "e11569fd7e31321a33358ee4b232c2d3cf05caccd90f896e1df6cab228191109" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "67e998c3c23fe24ed0fb92b9de75011b92f35d3e89344157ae0d544d50a63a72" default)))
  '(ediff-diff-options "-w")
  '(ediff-split-window-function (quote split-window-horizontally))
  '(ediff-window-setup-function (quote ediff-setup-windows-plain))
@@ -206,8 +203,6 @@
 (setq auto-save-visited-file-name nil) ; explicitly disable a setting which would disable in-place autosaving.
 (auto-save-visited-mode 1)
 
-(desktop-save-mode 1)
-
 (when (fboundp 'winner-mode)
   (winner-mode 1)) ; C-c <left> ; for prev window layout
 
@@ -246,6 +241,8 @@
 
 
 (setq-default show-trailing-whitespace t)
+
+(desktop-save-mode 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -364,6 +361,10 @@
 (setq visible-mark-max 3)
 (setq visible-mark-faces `(visible-mark-face1 visible-mark-face2 visible-mark-face3))
 (require 'visible-mark)
+
+
+(require 'golden-ratio)
+(golden-ratio-mode 1)
 
 (require 'ag)
 
@@ -486,16 +487,18 @@
 (add-hook 'php-mode-hook 'ggtags-mode)
 ; (add-hook 'php-mode-hook 'visible-mark-mode)
 
+
 (defun php-mode-hook-autocomplete ()
   "Set up autocomplete for php-mode"
-  ;; Enable company-mode
-  (company-mode t)
-  (require 'company-php)
-  ;; Enable ElDoc support (optional)
-  (ac-php-core-eldoc-setup)
-  (set (make-local-variable 'company-backends)
-       '((company-ac-php-backend company-dabbrev-code)
-         company-capf company-files)))
+  (unless (file-remote-p default-directory 'host) ; Get hostname when using TRAMP mode
+    ;; Enable company-mode
+    ((company-mode t)
+     (require 'company-php)
+     ;; Enable ElDoc support (optional)
+     (ac-php-core-eldoc-setup)
+     (set (make-local-variable 'company-backends)
+          '((company-ac-php-backend company-dabbrev-code)
+            company-capf company-files)))))
 (add-hook 'php-mode-hook 'php-mode-hook-autocomplete)
 
 (add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
