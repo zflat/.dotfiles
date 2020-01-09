@@ -43,35 +43,45 @@
 ;; http://stackoverflow.com/a/9411825
 ;; https://stackoverflow.com/a/2382677
 ;; https://stackoverflow.com/a/35392142
-(defun copy-buffer-file-name-as-kill(choice)
-  "Copy the buffer-file-name to the kill-ring"
-  (interactive
-   (list (let ((completions
-                (let ((choice-index 1))
-                  (mapcar (lambda (arg) (append (list (concat (number-to-string (cl-incf choice-index)) "-" (car arg))) (last arg)))
-                          (append (if (and (fboundp 'projectile-project-root) (projectile-project-root)) '(("Project Path" "p")))
-                                  '(("Name" "n") ("Full" "f") ("Directory" "d")))))))
-           (cadr (assoc (completing-read "Copy buffer name as kill" completions) completions)))))
+(defun get-buffer-file-path (arg &optional file)
   (let ((new-kill-string)
-        (name (if (eq major-mode 'dired-mode)
-                  (dired-get-filename)
-                (or (buffer-file-name) "")))
-        (suffix (if (not (equal current-prefix-arg nil)) ; C-u argument given
-                  (concat " L" (number-to-string (line-number-at-pos))))))
-    (cond ((string-equal choice "p")
+        (name (or file (if (eq major-mode 'dired-mode)
+                           (dired-get-filename)
+                         (or (buffer-file-name) "")))))
+    (cond ((string-equal arg "p")
            (setq new-kill-string
                  (concat
                   (file-name-as-directory
                    (file-name-nondirectory (directory-file-name (projectile-project-root))))
-                  (string-remove-prefix (projectile-project-root) name)
-                  suffix)))
-          ((string-equal choice "f")
-           (setq new-kill-string (concat name suffix)))
-          ((string-equal choice "d")
-           (setq new-kill-string (file-name-directory name)))
-          ((string-equal choice "n")
-           (setq new-kill-string (file-name-nondirectory name)))
-          (t (message "Quit")))
+                  (string-remove-prefix (projectile-project-root) name))))
+          ((string-equal arg "f")
+           name)
+          ((string-equal arg "d")
+           (file-name-directory name))
+          ((string-equal arg "n")
+           (file-name-nondirectory name))
+          (t nil))))
+(defun copy-buffer-file-name-as-kill(choice)
+  "Copy the buffer-file-name to the kill-ring"
+  (interactive
+   (list (let ((completions
+                (let ((choice-index 0))
+                  (mapcar (lambda (arg) (append (list (concat (number-to-string (cl-incf choice-index)) "-" (car arg))) (last arg)))
+                          (append (if (and (fboundp 'projectile-project-root) (projectile-project-root)) '(("Project Path" "p")))
+                                  '(("Name" "n") ("Full" "f") ("Directory" "d")))))))
+           (cadr (assoc (completing-read "Copy buffer name as kill: " completions) completions)))))
+  (let ((new-kill-string)
+        (name (if (eq major-mode 'dired-mode)
+                  (dired-get-filename)
+                (or (buffer-file-name) "")))
+        (suffix (if (and
+                     (not (equal current-prefix-arg nil)) ; C-u argument given
+                     (or
+                      (string-equal choice "f")
+                      (string-equal choice "p")))
+                    (concat " L" (number-to-string (line-number-at-pos)))))
+        (new-kill-string))
+        (setq new-kill-string (concat (get-buffer-file-path choice name) suffix))
     (when new-kill-string
       (message "%s copied" new-kill-string)
       (kill-new new-kill-string))))
@@ -105,7 +115,9 @@ point reaches the beginning or end of the buffer, stop there."
 (global-set-key [remap move-beginning-of-line]
                 'smarter-move-beginning-of-line)
 
-
+(defun open-ps0 (filepath)
+  (interactive "f")
+  (message filepath))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Javadoc helper
@@ -135,7 +147,7 @@ unless return was pressed outside the comment"
     ;; else insert only new-line
     (insert "\n")))
 (add-hook 'c-mode-common-hook (lambda ()
-  (local-set-key "\r" 'prefix-javadoc-return)))
+  (local-set-key "\r" 'prefix-javadoc-return))) ; M-j keyboard sequence
 (add-hook 'php-mode-hook (lambda ()
   (local-set-key "\r" 'prefix-javadoc-return)))
 (add-hook 'js-mode-hook (lambda ()
