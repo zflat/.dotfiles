@@ -194,23 +194,31 @@ Version 2018-09-29"
       ))))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Helper function for opening a remote file w/ sudo
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Helper functions for opening a remote file (w/ sudo)
+(defun open-remote (username host)
+  (interactive
+   (open-remote-args))
+  (counsel-find-file (concat "/ssh:" username "@" host ":")))
+(defun open-remote-protected (username host)
+  (interactive
+   (open-remote-args))
+  (find-remote-file username host t))
+(defun find-remote-file (username host protected &optional filepath)
+  (counsel-find-file (concat "/" (filepath-remote-protected username host filepath))))
 (defun filepath-remote-protected (username host &optional filepath)
   (concat "ssh:" username "@" host "|sudo:" host ":/" (if filepath (get-buffer-file-path "p" filepath) nil)))
-(defun find-remote-file-protected (username host & optional filepath)
-  (counsel-find-file (concat "/" (filepath-remote-protected (user-login-name) host))))
-(defun open-ps (username host)
-  (interactive
-   (or
-    (if (boundp 'tramp-hosts)
-        (let* ((choices (append tramp-hosts '(("Manual entry"))))
-               (choice (cadr (assoc (completing-read "Select host: " choices) choices))))
-          (if (listp choice)
-              choice
-            (list (user-login-name) choice))))
-    (list (read-string "Username: ") (read-string "Hostname: "))))
-  (find-remote-file-protected username host))
+(defun open-remote-args ()
+    (or
+     (if (boundp 'tramp-hosts)
+         (let* ((choices (append tramp-hosts '(("Manual entry"))))
+                (choice (cadr (assoc (completing-read "Select host: " choices) choices))))
+           (if (listp choice)
+               choice
+             (list (user-login-name) choice))))
+     (list (read-string "Username: ") (read-string "Hostname: "))))
+
+
 ; Load local file that sets 'tramp-hosts
 ; List format is: '(("name1" ("user" "host1")) ("name2" "host2"))
 ; Falls back to (user-login-name) if a user is not specified for a host
