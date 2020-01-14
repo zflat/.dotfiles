@@ -363,8 +363,9 @@
 (require 'visible-mark)
 
 
-(require 'golden-ratio)
-(golden-ratio-mode 1)
+(require 'zoom)
+(zoom-mode 1)
+(setq zoom-size '(0.666 . 0.666))
 
 (require 'ag)
 

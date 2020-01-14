@@ -37,7 +37,6 @@
 (depends-on "flycheck")
 (depends-on "flycheck-rtags")
 (depends-on "ggtags")
-(depends-on "golden-ratio")
 (depends-on "htmlize")
 (depends-on "idle-highlight-mode") ; needs configuration. also consider http://emacsblog.org/2007/04/17/quick-tip-light-symbol-mode/ ?
 ; TODO: http://oremacs.com/2015/04/16/ivy-mode/
@@ -78,7 +77,7 @@
 (depends-on "web-mode")
 (depends-on "wolfram") ; https://github.com/hsjunnesson/wolfram.el
 (depends-on "yasnippet")
-; (depends-on "zoom") ; TODO automatically balance windows sizes compare to golden-ratio
+(depends-on "zoom") ; automatically balance windows sizes
 
 ; Themes
 (depends-on "zenburn-theme")

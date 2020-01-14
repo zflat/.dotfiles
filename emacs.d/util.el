@@ -210,15 +210,11 @@ Version 2018-09-29"
   (concat "ssh:" username "@" host "|sudo:" host ":/" (if filepath (get-buffer-file-path "p" filepath) nil)))
 (defun open-remote-args ()
     (or
-     (if (boundp 'tramp-hosts)
+     (if (boundp 'tramp-hosts) ; See load tramp_remote_hosts.el below
          (let* ((choices (append tramp-hosts '(("Manual entry"))))
                 (choice (cadr (assoc (completing-read "Select host: " choices) choices))))
-           (if (listp choice)
-               choice
-             (list (user-login-name) choice))))
+           (if (listp choice) choice (list (user-login-name) choice))))
      (list (read-string "Username: ") (read-string "Hostname: "))))
-
-
 ; Load local file that sets 'tramp-hosts
 ; List format is: '(("name1" ("user" "host1")) ("name2" "host2"))
 ; Falls back to (user-login-name) if a user is not specified for a host
