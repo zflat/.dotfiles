@@ -223,6 +223,11 @@ Version 2018-09-29"
   (if (locate-file file (list path))
       (load (concat path "/" file))))
 
+(defun sudo-find-file (file-name) ; https://stackoverflow.com/a/7043786
+"Like find file, but opens the file as root."
+(interactive "FSudo Find File: ")
+(let ((tramp-file-name (concat "/sudo:" "root"  "@localhost:" (expand-file-name file-name))))
+(find-file tramp-file-name)))
 
 ; TODO function to copy a region without indentation for pasting into code snippets
 ; https://emacs.stackexchange.com/questions/34966/copy-region-without-leading-indentation

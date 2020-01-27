@@ -101,6 +101,7 @@
 
 
 ;; Customizing backup settings
+;; TODO don't auto-save sensitive files https://stackoverflow.com/a/18330742
 ;; store all backup and autosave files in the tmp dir
 (setq backup-directory-alist
       `((".*" . ,temporary-file-directory)))
