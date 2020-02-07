@@ -222,8 +222,8 @@
 
 (global-auto-revert-mode t)
 
-(when (version<= "26.0.50" emacs-version )
-  (global-display-line-numbers-mode))
+;; (when (version<= "26.0.50" emacs-version )
+;;   (global-display-line-numbers-mode))
 
 
 ;; Making buffer names unique
@@ -308,12 +308,10 @@
 (push '(ag-mode :dedicated t :stick t :position bottom) popwin:special-display-config)
                                         ;(pop popwin:special-display-config)
 
-;; (require 'smart-mode-line)
-;; (setq sml/no-confirm-load-theme t)
-;; (setq sml/mule-info nil)
+(require 'smart-mode-line)
+(setq sml/no-confirm-load-theme t)
+(setq sml/mule-info nil)
 
-(require 'mood-line)
-(mood-line-mode)
 ;; (car (vc-git-branches))
 ;; (mood-line--update-vc-segment)
 ;; (message mood-line--vc-text)
@@ -406,6 +404,20 @@
                                   ; (projectile-paths-to-ignore)
                                   ))))
 
+;; Open search result in the same window
+;; https://emacs.stackexchange.com/a/33908
+(defun my-compile-goto-error-same-window ()
+  (interactive)
+  (let ((display-buffer-overriding-action
+         '((display-buffer-reuse-window
+            display-buffer-same-window)
+           (inhibit-same-window . nil))))
+    (call-interactively #'compile-goto-error)))
+(defun my-compilation-mode-hook ()
+  (local-set-key (kbd "o") #'my-compile-goto-error-same-window))
+(add-hook 'compilation-mode-hook #'my-compilation-mode-hook)
+
+
 ;; Enable Projectile
 ;;
 ;; list of commands: C-c p C-h
@@ -490,18 +502,19 @@
 ; (add-hook 'php-mode-hook 'visible-mark-mode)
 
 
-(defun php-mode-hook-autocomplete ()
-  "Set up autocomplete for php-mode"
-  (unless (file-remote-p default-directory 'host) ; Get hostname when using TRAMP mode
-    ;; Enable company-mode
-    ((company-mode t)
-     (require 'company-php)
-     ;; Enable ElDoc support (optional)
-     (ac-php-core-eldoc-setup)
-     (set (make-local-variable 'company-backends)
-          '((company-ac-php-backend company-dabbrev-code)
-            company-capf company-files)))))
-(add-hook 'php-mode-hook 'php-mode-hook-autocomplete)
+(progn
+  (remove-hook 'php-mode-hook 'php-mode-hook-autocomplete)
+  (defun php-mode-hook-autocomplete ()
+    "Set up autocomplete for php-mode"
+    (unless (file-remote-p default-directory 'host) ; Get hostname when using TRAMP mode
+      ;; Enable company-mode
+      (company-mode t)
+      (require 'company-php)
+      ;; Enable ElDoc support (optional)
+      ;; (ac-php-core-eldoc-setup)
+      (set (make-local-variable 'company-backends)
+           '(company-ac-php-backend company-capf))))
+  (add-hook 'php-mode-hook 'php-mode-hook-autocomplete))
 
 (add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
 
@@ -607,6 +620,7 @@
 
 
 (require 'smooth-scrolling)
+(smooth-scrolling-mode t)
 ;; Also increase speed by changing X-window repeat rate
 ;; xset r rate 500 75
 
@@ -657,7 +671,6 @@
 (add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
 
 
-
 ;; Auto-complete notes:
 ;; https://github.com/lehoff/emacs-cask/blob/master/configs/init-auto-complete.el
 ;; http://crypt.codemancers.com/tags/emacs.html
@@ -677,6 +690,7 @@
 
 ;; (global-set-key (kbd "M-<f6>") nil)
 (global-set-key (kbd "M-<f6>") 'imenu)
+(global-set-key (kbd "C-x C-q") 'kill-buffer-and-window)
 
 
 ;; Keybindings Notes
