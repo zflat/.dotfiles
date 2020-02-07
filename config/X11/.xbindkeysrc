@@ -8,18 +8,27 @@
 
 "wmctrl -a -emacs"
   Control+Alt + k
+
 "wmctrl -a Terminator"
   Control+Alt + j
+
 "wmctrl -a -browser"
   Control+Alt + u
-"wmctrl -a -browser"
-  Control+Alt + b
+
 "wmctrl -a -👁️"
   Control+Alt + n
+
+"wmctrl -x -a Firefox"
+  Control+Alt + b
+
 "wmctrl -x -a slack"
   Control+Alt + y
+
 "wmctrl -a Visual Studio Code"
   Control+Alt + i
+
+"wmctrl -a MySQL Workbench"
+  Control+Alt + m
 
 ########
 # Notes:
@@ -29,4 +38,4 @@
 #   `xprop | grep WM_CLASS | awk '{print $3 $4}'`
 # * Reload xbindkeys changes with
 #  `killall -HUP xbindkeys`
-#  (or with `xbindkeys -p` >)
+#  (or with `xbindkeys -p` ?)
