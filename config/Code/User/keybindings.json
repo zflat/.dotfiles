@@ -1,0 +1,21 @@
+// Place your key bindings in this file to overwrite the defaults
+[
+    {
+        "key": "alt+;",
+        "command": "metaGo.goto",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "alt+;",
+        "command": "-metaGo.goto",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "shift+alt+f",
+        "command": "phpformatter.fix"
+    },
+    // {
+    //     "key":"alt",
+    //     "command":"editor.multiCursorModifier"
+    // }
+]

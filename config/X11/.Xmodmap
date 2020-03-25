@@ -1,0 +1,4 @@
+! Map caps lock physical to f6 keycode
+! clear Lock
+! keycode 66 = F6 Caps_Lock
+add mod3 = Scroll_Lock

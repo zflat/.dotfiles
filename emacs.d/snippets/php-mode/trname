@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: Namespaced Translations
+# key: trname
+# contributor: William Wedler
+# --
+<?= t(['${1:Admin}', '${2:}'], $${3:__locale}) ?>

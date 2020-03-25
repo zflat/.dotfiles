@@ -1,0 +1,41 @@
+# See: https://superuser.com/a/97153 for switching to a window quickly
+# https://superuser.com/questions/777520/is-there-a-chrome-extension-to-set-the-window-title
+#
+# Also a higher level way to get custom keybindings?
+# https://blog.butlerpc.net/post/173195879800/using-xbindkeys-on-ubuntu-linux-to-remap-key
+# https://askubuntu.com/a/254425
+
+
+"wmctrl -a -emacs"
+  Control+Alt + k
+
+"wmctrl -a Terminator"
+  Control+Alt + j
+
+"wmctrl -a -browser"
+  Control+Alt + u
+
+"wmctrl -a -👁️"
+  Control+Alt + n
+
+"wmctrl -x -a Firefox"
+  Control+Alt + b
+
+"wmctrl -x -a slack"
+  Control+Alt + y
+
+"wmctrl -a Visual Studio Code"
+  Control+Alt + i
+
+"wmctrl -a MySQL Workbench"
+  Control+Alt + m
+
+########
+# Notes:
+# * shortcut to open the home folder
+#   [System Settings => Keyboard => Shortcuts Tab => Launchers] "Home Folder" => Super+E
+# * Get the WM_CLASS for a window
+#   `xprop | grep WM_CLASS | awk '{print $3 $4}'`
+# * Reload xbindkeys changes with
+#  `killall -HUP xbindkeys`
+#  (or with `xbindkeys -p` ?)

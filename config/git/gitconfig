@@ -1,0 +1,23 @@
+# Include in .gitconfig with
+# [include]
+#        path = ~/.dotfiles/config/git/gitconfig
+
+# Custom colors
+# https://www.leaseweb.com/labs/2013/08/git-tip-beautiful-colored-and-readable-output/  
+[color]
+  branch = auto
+  diff = auto
+  status = auto
+[color "branch"]
+  current = yellow reverse
+  local = yellow
+  remote = green
+[color "diff"]
+  meta = yellow
+  frag = magenta
+  old = red # bold
+  new = green # bold
+[color "status"]
+  added = yellow
+  changed = green
+  untracked = cyan

@@ -1,6 +1,17 @@
-# ignore emacs projectile files
+# emacs projectile files
 *.projectile
-# ignore ag ignore settings
+
+# ag ignore settings
 *.agignore
+
+# ac-php config settings (per project setting)
+.ac-php-conf.json
+
 *~
 *.\#*
+
+# GNU Global TAGS
+GPATH
+GRTAGS
+GTAGS
+gtags.conf

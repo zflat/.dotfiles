@@ -1,0 +1,34 @@
+## for ubuntu
+# sudo add-apt-repository ppa:yurivkhan/amh
+# sudo apt-get update
+# sudo apt-get upgrade
+
+# Save into /usr/share/X11/xorg.conf.d/10-keyboard.conf
+Section "InputClass"
+    Identifier "my keyboard" # You can name this arbitrarily
+    Driver "evdev"
+
+    Option "XKBOptions" "terminate:ctrl_alt_bksp"
+
+    # If you save this file under xorg.conf.d/ :
+    Option "AutoServerLayout" "on"
+
+    MatchIsKeyboard "on"
+    # If you have multiple keyboards, you want something like one of them:
+    #  MatchProduct "AT Translated Set 2 keyboard"
+    #  MatchUSBID "0566:3029"
+    # Name is found in Xorg log, following the message "Adding input device"
+    # or by
+    # $ cat /proc/bus/input/devices
+
+    ### at-home-modifier options begin here.
+    # The basic option.
+    Option "TransMod" "65:37 108:65" # Defines key/modifier pairs.
+    #             space:ctrl alt_R:space 
+
+    Option "AhmTimeout" "300" # In millisecond.
+    Option "AhmDelay" "65" # Delayed keys. Seperate by spaces.
+    # Option "AhmFreezeTT" "true"
+    # Option "AhmResetTime" "10" # In sec.
+    Option "AhmPaddingInterval" "1" # In millisecond.
+EndSection

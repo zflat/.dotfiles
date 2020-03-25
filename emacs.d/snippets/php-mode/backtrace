@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: backtrace
+# key: backtrace
+# contributor: William Wedler
+# --
+${1:tel}("${2:}".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, ${3:5})));

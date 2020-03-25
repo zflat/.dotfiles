@@ -1,40 +1,87 @@
-(source gnu) ; https://elpa.gnu.org/
-(source melpa) ; melpa.org
+;; -*- mode: Lisp; -*-
 
-; (depends-on "ag")
+;; Apply changes
+;; - cask intall (via dotbot)
+;; - execute (C-x C-e) the following
+;;      (load "~/.emacs.d/init.el")
+;; - Or:
+;;      M-x load-file
+;;
+
+
+(source melpa) ; melpa.org
+(source gnu) ; https://elpa.gnu.org/
+; (source marmalade) ; "https://marmalade-repo.org/packages/"
+
+(depends-on "ac-php-core")
+(depends-on "ag") ; needed for projectile-ag
+(depends-on "avy")
 (depends-on "bm") ; visual bookmarks
-(depends-on "dash")
+(depends-on "beacon")
 (depends-on "cask")
+(depends-on "cmake-font-lock")
+(depends-on "dash")
+(depends-on "diminish")
+(depends-on "editorconfig")
+(depends-on "elscreen")
+(depends-on "ess")
 (depends-on "expand-region")
 (depends-on "company")
-(depends-on "company-web")
+(depends-on "company-php")
+(depends-on "company-rtags")
+(depends-on "counsel")
+(depends-on "counsel-projectile")
+(depends-on "emmet-mode")
 (depends-on "f")
-;(depends-on "flycheck")
-;(depends-on "flycheck-cask")
-(depends-on "geben")
-(depends-on "helm")
-(depends-on "helm-ag")
-(depends-on "helm-projectile")
-(depends-on "helm-gtags")
+(depends-on "find-file-in-project")
+(depends-on "flx")
+(depends-on "flycheck")
+(depends-on "flycheck-rtags")
+(depends-on "ggtags")
 (depends-on "htmlize")
-(depends-on "idle-highlight-mode")
+(depends-on "idle-highlight-mode") ; needs configuration. also consider http://emacsblog.org/2007/04/17/quick-tip-light-symbol-mode/ ?
+; TODO: http://oremacs.com/2015/04/16/ivy-mode/
+; TODO: https://sam217pa.github.io/2016/09/13/from-helm-to-ivy/
+; (depends-on "irony")
+(depends-on "ivy")
+(depends-on "ivy-hydra")
+(depends-on "ivy-pass")
+(depends-on "ivy-rtags")
+(depends-on "js2-mode")
+; (depends-on "lsp-mode") Consider this for PHP IDE capabilities
 (depends-on "magit")
+(depends-on "magit-libgit") ; opt-in to using experimental libgit2
+(depends-on "markdown-mode")
 (depends-on "multiple-cursors")
 (depends-on "move-dup") ; Copy/move line(s) up or down
-(depends-on "nyan-mode")
+(depends-on "modern-cpp-font-lock")
 (depends-on "neotree")
-(depends-on "origami")
-(depends-on "pallet")
+(depends-on "php-extras" :git "https://github.com/arnested/php-extras.git")
+(depends-on "php-mode")
 (depends-on "popwin")
 (depends-on "prodigy")
 (depends-on "projectile")
+(depends-on "projectile-ripgrep")
+(depends-on "protobuf-mode")
+(depends-on "ripgrep")
+(depends-on "rtags")
 (depends-on "s")
+(depends-on "sass-mode")
+(depends-on "smart-mode-line")
 (depends-on "smooth-scrolling")
+(depends-on "swiper")
+(depends-on "transpose-frame")
+(depends-on "undo-tree")
 (depends-on "use-package")
+(depends-on "visible-mark")
+(depends-on "vlf") ; very large file
 (depends-on "web-mode")
-(depends-on "php-mode")
 (depends-on "yaml-mode")
+(depends-on "wolfram") ; https://github.com/hsjunnesson/wolfram.el
+(depends-on "yasnippet")
+(depends-on "zoom") ; automatically balance windows sizes
 
 ; Themes
 (depends-on "zenburn-theme")
-(depends-on "color-theme-solarized") 
+(depends-on "solarized-theme")
+(depends-on "ample-theme")
