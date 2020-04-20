@@ -47,13 +47,18 @@
   (let ((new-kill-string)
         (name (or file (if (eq major-mode 'dired-mode)
                            (dired-get-filename)
-                         (or (buffer-file-name) "")))))
-    (cond ((string-equal arg "p")
-           (setq new-kill-string
+                         (or (buffer-file-name) ""))))
+        (proj-name
                  (concat
                   (file-name-as-directory
                    (file-name-nondirectory (directory-file-name (projectile-project-root))))
                   (string-remove-prefix (projectile-project-root) name))))
+    (cond ((string-equal arg "p")
+           proj-name)
+          ((string-equal arg "r")
+           (string-remove-prefix (file-name-as-directory
+                                  (file-name-nondirectory (directory-file-name (projectile-project-root))))
+                                 proj-name))
           ((string-equal arg "f")
            name)
           ((string-equal arg "d")
@@ -67,19 +72,19 @@
    (list (let ((completions
                 (let ((choice-index 0))
                   (mapcar (lambda (arg) (append (list (concat (number-to-string (cl-incf choice-index)) "-" (car arg))) (last arg)))
-                          (append (if (and (fboundp 'projectile-project-root) (projectile-project-root)) '(("Project Path" "p")))
+                          (append (if (and (fboundp 'projectile-project-root) (projectile-project-root)) '(("Project Path" "p") ("Path from project root" "r")))
                                   '(("Name" "n") ("Full" "f") ("Directory" "d")))))))
            (cadr (assoc (completing-read "Copy buffer name as kill: " completions) completions)))))
   (let ((new-kill-string)
         (name (if (eq major-mode 'dired-mode)
                   (dired-get-filename)
-                (or (buffer-file-name) "")))
+                (file-truename (or (buffer-file-name) ""))))
         (suffix (if (and
                      (not (equal current-prefix-arg nil)) ; C-u argument given
                      (or
                       (string-equal choice "f")
                       (string-equal choice "p")))
-                    (concat " L" (number-to-string (line-number-at-pos)))))
+                    (concat ":" (number-to-string (line-number-at-pos)))))
         (new-kill-string))
         (setq new-kill-string (concat (get-buffer-file-path choice name) suffix))
     (when new-kill-string
