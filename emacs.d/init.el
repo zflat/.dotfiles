@@ -365,6 +365,7 @@
 (require 'zoom)
 (zoom-mode 1)
 (setq zoom-size '(0.666 . 0.666))
+(global-set-key (kbd "C-<f1>") 'zoom-mode) ; toggle zoom mode easily
 
 (require 'ag)
 
@@ -448,7 +449,7 @@
   ;; (global-set-key [f8] 'helm-projectile-find-file)
   ;(global-set-key (kbd "C-<f6> f") 'projectile-find-file-dwim)
 (global-set-key (kbd "C-<f6> f") 'counsel-projectile-find-file)
-(global-set-key (kbd "C-<f1>") 'counsel-projectile-switch-to-buffer)
+
 
 ;; Note: Invalidate Projectile cache with  [C-c p i]
 
