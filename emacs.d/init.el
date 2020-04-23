@@ -311,6 +311,7 @@
 (require 'smart-mode-line)
 (setq sml/no-confirm-load-theme t)
 (setq sml/mule-info nil)
+(line-number-mode t)
 
 ;; (car (vc-git-branches))
 ;; (mood-line--update-vc-segment)
@@ -419,6 +420,9 @@
 (add-hook 'compilation-mode-hook #'my-compilation-mode-hook)
 
 
+(require 'editorconfig)
+(editorconfig-mode 1)
+
 ;; Enable Projectile
 ;;
 ;; list of commands: C-c p C-h
@@ -495,13 +499,23 @@
 (require 'company)
 (setq company-idle-delay 0.2)
 
+(require 'geben)
+(setq geben-display-window-function 'popwin:switch-to-buffer)
+
 (require 'php-extras)
 (require 'php-mode)
 (setq ac-php-php-executable (executable-find "php7"))  ; NOTE: use php-build to build php 7 and then symlink the binary to /usr/local/bin
-(add-hook 'php-mode-hook 'php-enable-psr2-coding-style)
 (add-hook 'php-mode-hook 'ggtags-mode)
 ; (add-hook 'php-mode-hook 'visible-mark-mode)
 
+(progn
+  (remove-hook 'php-mode-hook 'php-mode-hook-codestyle)
+  (defun php-mode-hook-codestyle ()
+    "Set up coding style for php-mode"
+    (progn ;; Make sure the editorconfig happens after psr2 coding style is applied
+      (php-enable-psr2-coding-style)
+      (editorconfig-apply)))
+  (add-hook 'php-mode-hook 'php-mode-hook-codestyle))
 
 (progn
   (remove-hook 'php-mode-hook 'php-mode-hook-autocomplete)
@@ -529,6 +543,7 @@
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.tag\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.ctp\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
@@ -616,12 +631,11 @@
                                         ; (setenv "GTAGSLIBPATH" "/showclix/config:/showclix/src:/showclix/tests/active_tests:/showclix/settings:/showclix/schema_evolutions:/showclix/public_html/classes:/showclix/public_html/actions:/showclix/public_html/templates:/showclix/public_html/controller")
 (setenv "GTAGSLIBPATH" nil)
 
-(require 'editorconfig)
-(editorconfig-mode 1)
-
 
 (require 'smooth-scrolling)
 (smooth-scrolling-mode t)
+;; todo https://superuser.com/questions/134921/smooth-scrolling-in-emacs-windows
+
 ;; Also increase speed by changing X-window repeat rate
 ;; xset r rate 500 75
 

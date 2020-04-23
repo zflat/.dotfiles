@@ -37,6 +37,7 @@
 (depends-on "flx")
 (depends-on "flycheck")
 (depends-on "flycheck-rtags")
+(depends-on "geben")
 (depends-on "ggtags")
 (depends-on "htmlize")
 (depends-on "idle-highlight-mode") ; needs configuration. also consider http://emacsblog.org/2007/04/17/quick-tip-light-symbol-mode/ ?
