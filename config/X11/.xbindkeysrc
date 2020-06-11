@@ -9,7 +9,7 @@
 "wmctrl -a -emacs"
   Control+Alt + k
 
-"wmctrl -a Terminator"
+"wmctrl -x -a terminator"
   Control+Alt + j
 
 "wmctrl -a -browser"
