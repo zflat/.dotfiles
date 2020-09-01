@@ -433,7 +433,7 @@
 ;; command used to get the file for projectile
 ;; also consider https://www.emacswiki.org/emacs/FileSets
 ;; (defun projectile-get-ext-command () "find . -type f -print0")
-(defun projectile-get-ext-command (&optional arg) "rg . --null --files") ;; See https://emacs.stackexchange.com/a/29200
+(defun projectile-get-ext-command (&optional arg) "rg . --no-require-git --null --files") ;; See https://emacs.stackexchange.com/a/29200
 ;; note that I added the optional arg to projectile-get-ext-command after upgrading ?
 
 ;; Speed up? find-file
