@@ -594,7 +594,7 @@
 (add-hook 'qml-mode-hook '(lambda ()
                            (js2-mode-exit)
                            (message "js2-mode exited")))
-
+(define-key qml-mode-map (kbd "<f9>") 'recompile)
 
 (require 'flycheck)
 
