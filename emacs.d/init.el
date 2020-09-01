@@ -18,15 +18,15 @@
 
 ;; TODO http://cachestocaches.com/2015/8/getting-started-use-package/
 
-
 (setq load-prefer-newer t)
 
 ;; Debugging triggers
+;; (setq debug-on-error t)
+;; (setq debug-on-quit t) to let C-g trigger debug
 (defun clear-debug-triggers ()
   (interactive)
   (setq debug-on-error nil
         debug-on-signal nil
-        ;; (debug-on-quit t) to let C-g trigger debug
         debug-on-quit nil))
 
 
@@ -241,7 +241,7 @@
 ;   file from the status window during a merge/rebase/cherry-pick
 
 
-(setq-default show-trailing-whitespace t)
+(setq-default show-trailing-whitespace nil)
 
 (desktop-save-mode 1)
 
@@ -534,7 +534,11 @@
 (add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
 
 (require 'js2-mode)
-(add-hook 'js-mode-hook 'js2-minor-mode)
+;; Enable js2-mode like this instead of with js-mode-hook so that
+;; qml-mode, which uses js-mode does not also include js2-mode. May
+;; need to add more file extensions in the future, but for now it is
+;; nice that js2-mode is not enabled for JSON files too.
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 ; (add-hook 'js-mode-hook 'visible-mark-mode)
 
 (require 'sass-mode)
@@ -577,37 +581,67 @@
 (require 'emmet-mode)
 (add-hook 'web-mode-hook  'emmet-mode)
 
+
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+
+(require 'dockerfile-mode)
+(add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+
+(require 'qml-mode)
+(autoload 'qml-mode "qml-mode" "Editing Qt Declarative." t)
+(add-to-list 'auto-mode-alist '("\\.qml$" . qml-mode))
+(add-hook 'qml-mode-hook '(lambda ()
+                           (js2-mode-exit)
+                           (message "js2-mode exited")))
+
+
 (require 'flycheck)
 
-;; C++ w/ RTags
-;; http://martinsosic.com/development/emacs/2017/12/09/emacs-cpp-ide.html
-;;
-;; https://oracleyue.github.io/2017/12/04/emacs-init-cc-irony/
+; C++ w/ RTags (sort of automated with cmake-ide...)
+; https://github.com/atilaneves/cmake-ide
+; http://martinsosic.com/development/emacs/2017/12/09/emacs-cpp-ide.html
+;
+; https://oracleyue.github.io/2017/12/04/emacs-init-cc-irony/
 (require 'rtags)
 (require 'flycheck-rtags)
 (require 'ivy-rtags)
 (setq rtags-display-result-backend 'ivy)
-(unless (rtags-executable-find "rc") (error "Binary rc is not installed!"))
-(unless (rtags-executable-find "rdm") (error "Binary rdm is not installed!"))
-(define-key c-mode-base-map (kbd "M-.") 'rtags-find-symbol-at-point)
-(define-key c-mode-base-map (kbd "M-,") 'rtags-find-references-at-point)
-(define-key c-mode-base-map (kbd "M-?") 'rtags-display-summary)
-(rtags-enable-standard-keybindings)
-(add-hook 'c++-mode-hook
-          '(lambda ()
-             (require 'company-rtags)
-             (company-mode t)
-             (setq rtags-autostart-diagnostics t)
-             (rtags-diagnostics)
-             (setq rtags-completions-enabled t)
-             (add-to-list 'company-backends 'company-rtags)))
-(defun setup-flycheck-rtags ()
-  (flycheck-select-checker 'rtags)
-  (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays.
-  (setq-local flycheck-check-syntax-automatically nil)
-  (rtags-set-periodic-reparse-timeout 2.0)  ;; Run flycheck 2 seconds after being idle.
+(if
+    (and (rtags-executable-find "rc") (rtags-executable-find "rc"))
+    (progn
+      (define-key c-mode-base-map (kbd "M-.") 'rtags-find-symbol-at-point)
+      (define-key c-mode-base-map (kbd "M-,") 'rtags-find-references-at-point)
+      (define-key c-mode-base-map (kbd "M-?") 'rtags-display-summary)
+      (define-key c-mode-base-map (kbd "M-*") 'rtags-location-stack-back)
+      (rtags-enable-standard-keybindings)
+      (add-hook 'c++-mode-hook
+                '(lambda ()
+                   (require 'company-rtags)
+                   (company-mode t)
+                   (setq rtags-autostart-diagnostics t)
+                   (rtags-diagnostics)
+                   (setq rtags-completions-enabled t)
+                   (add-to-list 'company-backends 'company-rtags)))
+      (defun setup-flycheck-rtags ()
+        (flycheck-select-checker 'rtags)
+        (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays.
+        (setq-local flycheck-check-syntax-automatically nil)
+        (rtags-set-periodic-reparse-timeout 2.0)  ;; Run flycheck 2 seconds after being idle.
+        )
+      (add-hook 'c++-mode-hook #'setup-flycheck-rtags)) 
+  ;; (progn
+  ;;   (unless (rtags-executable-find "rc") (error "Binary rc is not installed!"))
+  ;;   (unless (rtags-executable-find "rdm") (error "Binary rdm is not installed!")))
+  nil
   )
-(add-hook 'c++-mode-hook #'setup-flycheck-rtags)
+
+(require 'cmake-ide)
+;(setq cmake-ide-cmake-command "/home/local/RESQUARED/william.wedler/cmake-install/bin/cmake")
+(setq cmake-ide-cmake-command "/home/local/RESQUARED/william.wedler/.dotfiles-private/bin/cmake-catkin")
+; (list "cmake" "*cmake*" cmake-ide-cmake-command)
+(cmake-ide-setup)
+
 ; (global-flycheck-mode t)
 (require 'cmake-mode)
 ; (require 'cmake-font-lock) ;; see https://github.com/gonsie/dotfiles/blob/master/emacs/init.el
