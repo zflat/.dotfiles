@@ -688,6 +688,7 @@
 (add-hook 'php-mode-hook '(lambda ()
                             (local-set-key (kbd "RET") 'newline-and-indent)))
 
+(require 'string-inflection)
 (require 'yasnippet)
 (yas-global-mode 1)
 (setq yas-snippet-dirs
