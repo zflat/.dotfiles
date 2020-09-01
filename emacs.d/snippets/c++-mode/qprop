@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: q_property
+# key: qprop
+# (depends-on "string-inflection")
+# --
+
+
+Q_PROPERTY($2 $1 READ ${1:$(string-inflection-camelcase-function yas/text)} WRITE set${1:$(string-inflection-pascal-case-function yas/text)} NOTIFY ${1:$(string-inflection-camelcase-function yas/text)}Changed)
