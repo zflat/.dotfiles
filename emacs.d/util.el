@@ -238,3 +238,17 @@ Version 2018-09-29"
 ; TODO function to copy a region without indentation for pasting into code snippets
 ; https://emacs.stackexchange.com/questions/34966/copy-region-without-leading-indentation
 
+
+;; http://www.credmp.org/indexphp/2006/11/01/working_with_c/index.html
+(defun cxx-create-gaurds ()
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (setq guard (concat (upcase
+                         (file-name-sans-extension
+                          (file-name-nondirectory buffer-file-name)))
+                        "_H"))
+    (insert "#ifndef " guard  "\n")
+    (insert "#define " guard  "\n")
+    (goto-char (point-max))
+    (insert "\n#endif // " guard "\n")))
