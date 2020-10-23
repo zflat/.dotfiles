@@ -629,12 +629,21 @@
         (setq-local flycheck-check-syntax-automatically nil)
         (rtags-set-periodic-reparse-timeout 2.0)  ;; Run flycheck 2 seconds after being idle.
         )
-      (add-hook 'c++-mode-hook #'setup-flycheck-rtags)) 
+      (add-hook 'c++-mode-hook #'setup-flycheck-rtags))
   ;; (progn
   ;;   (unless (rtags-executable-find "rc") (error "Binary rc is not installed!"))
   ;;   (unless (rtags-executable-find "rdm") (error "Binary rdm is not installed!")))
   nil
   )
+(progn
+  (remove-hook 'c++-mode-hook 'c++-mode-hook-codestyle)
+  (defun c++-mode-hook-codestyle ()
+    "Set up coding style for c++-mode"
+    (progn ;; Make sure the editorconfig happens after other coding style is applied
+      (define-key c-mode-base-map [ret] 'newline-and-indent)
+      (editorconfig-apply)))
+  (add-hook 'c++-mode-hook 'c++-mode-hook-codestyle))
+(define-key c++-mode-map (kbd "<f5>") 'recompile)
 
 (require 'cmake-ide)
 ;(setq cmake-ide-cmake-command "/home/local/RESQUARED/william.wedler/cmake-install/bin/cmake")
@@ -709,6 +718,8 @@
 
 (require 'protobuf-mode)
 
+(setq clang-format-executable (concat (getenv "HOME") "/.pyenv/versions/3.8.5/bin/clang-format"))
+(require 'clang-format)
 
 ;; c-mode indentation https://stackoverflow.com/a/664525
 (defun my-c-mode-common-hook ()
