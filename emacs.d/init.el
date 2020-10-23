@@ -427,7 +427,7 @@
     (read-from-minibuffer "Ripgrep search for: " (thing-at-point 'symbol))))
   (ripgrep-regexp regexp
                   (projectile-project-root)
-                  (mapcar (lambda (val) (concat "--glob \!" val))
+                  (mapcar (lambda (val) (concat "--no-require-git --glob \!" val))
                           (append projectile-globally-ignored-files
                                   projectile-globally-ignored-directories
                                   (projectile-project-ignored)
@@ -633,6 +633,8 @@
 ; http://martinsosic.com/development/emacs/2017/12/09/emacs-cpp-ide.html
 ;
 ; https://oracleyue.github.io/2017/12/04/emacs-init-cc-irony/
+;
+; TODO https://nilsdeppe.com/posts/emacs-c++-ide2 LSP mode for completion (and possibly replace rtags?)
 (require 'rtags)
 (require 'flycheck-rtags)
 (require 'ivy-rtags)
