@@ -557,6 +557,8 @@
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.qrc\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.launch\\'" . web-mode))
 (setq web-mode-engines-alist '
       (("php" . "\\.phtml\\'")
        ("blade" . "\\.blade\\.")
@@ -662,6 +664,11 @@
        '(("CMakeLists\\.txt\\'" . cmake-mode))
        '(("\\.cmake\\'" . cmake-mode))
        auto-mode-alist))
+
+;; See ROSmacs
+;; https://wiki.ros.org/rosemacs
+(add-to-list 'auto-mode-alist '("\\.msg\\'" . gdb-script-mode))
+
 
 ;; ggtags config:
 ;; http://emacs.stackexchange.com/q/14685
