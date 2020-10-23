@@ -6,32 +6,36 @@
 # https://cupfullofcode.com/blog/2013/02/26/snippet-expansion-with-yasnippet/
 # --
 
-    Q_PROPERTY($2 $1 READ ${1:$(string-inflection-camelcase-function yas/text)} WRITE set${1:$(string-inflection-pascal-case-function yas/text)} NOTIFY ${1:$(string-inflection-camelcase-function yas/text)}Changed)
-
+    /***** BEGIN PROPERTY $1 ******/
+    public:
+    Q_PROPERTY($2 $1 READ ${1:$(string-inflection-camelcase-function yas/text)} /* WRITE set${1:$(string-inflection-pascal-case-function yas/text)} */ NOTIFY ${1:$(string-inflection-camelcase-function yas/text)}Changed)
     /**
      * Get $1
      *
      * @return $2
      */
     ${2:$(concat yas/text " ")} ${1:$(string-inflection-camelcase-function yas/text)}() const { return m_${1:$(string-inflection-camelcase-function yas/text)}; }
-
     /**
      * Set $1
      *
      * @param $2 val
      * @emits ${1:$(string-inflection-camelcase-function yas/text)}Changed
-     * @return this
+     * @return void
      */
-    MariaOcuApplicationData* setCameraTopicEoat($2 const& val)
+    void set${1:$(string-inflection-pascal-case-function yas/text)}($2 const& val)
     {
+        if(val == m_${1:$(string-inflection-camelcase-function yas/text)}) {
+            return;
+        }
         m_${1:$(string-inflection-camelcase-function yas/text)} = val;
         emit ${1:$(string-inflection-camelcase-function yas/text)}Changed();
-        return this;
     }
-
     /**
      * Signal that $1 has changed
      */
+    signals:
     void ${1:$(string-inflection-camelcase-function yas/text)}Changed();
-
+    private:
     ${2:$(concat yas/text " ")} m_${1:$(string-inflection-camelcase-function yas/text)};
+    /***** END PROPERTY $1 ******/
+    
