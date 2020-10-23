@@ -678,7 +678,9 @@
 ;;
 ;; (setq-local imenu-create-index-function #'ggtags-build-imenu-index)
 (ggtags-mode 1)
-(global-set-key (kbd "M-*") 'xref-pop-marker-stack) ; could also be 'pop-tag-mark
+;(global-set-key (kbd "M-*") 'xref-pop-marker-stack) ; could also be 'pop-tag-mark
+;; TODO also use (rtags-location-stack-back) when in c++ mode?
+
 (setq ggtags-completing-read-function nil)
                                         ; (setenv "GTAGSLIBPATH" "/showclix/config:/showclix/src:/showclix/tests/active_tests:/showclix/settings:/showclix/schema_evolutions:/showclix/public_html/classes:/showclix/public_html/actions:/showclix/public_html/templates:/showclix/public_html/controller")
 (setenv "GTAGSLIBPATH" nil)
