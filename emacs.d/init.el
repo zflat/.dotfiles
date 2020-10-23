@@ -278,7 +278,7 @@
 ;; Use arrow keys to quickly mark/skip next/previous occurances.
 (global-set-key (kbd "C-S-c C-s") 'mc/mark-more-like-this-extended)
 (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
-
+(global-set-key (kbd "s-/") `set-rectangular-region-anchor)
                                         ; setup multiple-cursors-hydra https://iqss.github.io/IQSS.emacs/init.html
 
 (require 'expand-region)
@@ -374,6 +374,8 @@
 (require 'ivy-hydra)
 (require 'ivy)
 (require 'ivy-pass)
+(global-set-key (kbd "<C-f12>") 'password-store-copy)
+
 (require 'counsel)
 (require 'swiper)
 (add-to-list 'swiper-font-lock-exclude 'php-mode)
@@ -594,7 +596,7 @@
 (add-hook 'qml-mode-hook '(lambda ()
                            (js2-mode-exit)
                            (message "js2-mode exited")))
-(define-key qml-mode-map (kbd "<f9>") 'recompile)
+(define-key qml-mode-map (kbd "<f5>") 'recompile)
 
 (require 'flycheck)
 
