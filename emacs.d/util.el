@@ -48,11 +48,13 @@
         (name (or file (if (eq major-mode 'dired-mode)
                            (dired-get-filename)
                          (or (buffer-file-name) ""))))
-        (proj-name
-                 (concat
-                  (file-name-as-directory
-                   (file-name-nondirectory (directory-file-name (projectile-project-root))))
-                  (string-remove-prefix (projectile-project-root) name))))
+        (proj-name (if (and (fboundp 'projectile-project-root)
+                            (projectile-project-root))
+                       (concat
+                        (file-name-as-directory
+                         (file-name-nondirectory (directory-file-name (projectile-project-root))))
+                        (string-remove-prefix (projectile-project-root) name))
+                     "")))
     (cond ((string-equal arg "p")
            proj-name)
           ((string-equal arg "r")
