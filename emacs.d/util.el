@@ -70,11 +70,14 @@
           (t nil))))
 (defun copy-buffer-file-name-as-kill(choice)
   "Copy the buffer-file-name to the kill-ring"
-  (interactive
+  (interactive ;; TODO: pre-compute projectile root  values and present them as options
    (list (let ((completions
                 (let ((choice-index 0))
                   (mapcar (lambda (arg) (append (list (concat (number-to-string (cl-incf choice-index)) "-" (car arg))) (last arg)))
-                          (append (if (and (fboundp 'projectile-project-root) (projectile-project-root)) '(("Project Path" "p") ("Path from project root" "r")))
+                          (append (if (and (fboundp 'projectile-project-root)
+                                           (projectile-project-root))
+                                      '(("Project Path" "p")
+                                        ("Path from project root" "r")))
                                   '(("Name" "n") ("Full" "f") ("Directory" "d")))))))
            (cadr (assoc (completing-read "Copy buffer name as kill: " completions) completions)))))
   (let ((new-kill-string)
@@ -85,6 +88,7 @@
                      (not (equal current-prefix-arg nil)) ; C-u argument given
                      (or
                       (string-equal choice "f")
+                      (string-equal choice "r")
                       (string-equal choice "p")))
                     (concat ":" (number-to-string (line-number-at-pos)))))
         (new-kill-string))
