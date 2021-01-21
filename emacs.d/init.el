@@ -447,6 +447,21 @@
   (local-set-key (kbd "o") #'my-compile-goto-error-same-window))
 (add-hook 'compilation-mode-hook #'my-compilation-mode-hook)
 
+;; Color output from compilation
+;; See https://zeekat.nl/articles/making-emacs-work-for-me.html
+;; https://stackoverflow.com/questions/3072648/cucumbers-ansi-colors-messing-up-emacs-compilation-buffer
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  ;; Only apply to the *compilation* buffer
+  (if (string-equal (buffer-name) "*compilation*")
+      (progn
+        (toggle-read-only)
+        (ansi-color-apply-on-region (point-min) (point-max))
+        (toggle-read-only))))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+;; Follow compilation output
+;; See https://zeekat.nl/articles/making-emacs-work-for-me.html
+(setq compilation-scroll-output t)
 
 (require 'editorconfig)
 (editorconfig-mode 1)
@@ -676,6 +691,11 @@
       (editorconfig-apply)))
   (add-hook 'c++-mode-hook 'c++-mode-hook-codestyle))
 (define-key c++-mode-map (kbd "<f5>") 'recompile)
+
+(defun clang-format-on-save ()
+  (add-hook 'before-save-hook #'clang-format-buffer nil 'local))
+(add-hook 'c++-mode-hook 'clang-format-on-save)
+(add-hook 'c-mode-hook 'clang-format-on-save)
 
 (require 'cmake-ide)
 ;(setq cmake-ide-cmake-command "/home/local/RESQUARED/william.wedler/cmake-install/bin/cmake")
