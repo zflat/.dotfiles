@@ -698,8 +698,7 @@
 (add-hook 'c-mode-hook 'clang-format-on-save)
 
 (require 'cmake-ide)
-;(setq cmake-ide-cmake-command "/home/local/RESQUARED/william.wedler/cmake-install/bin/cmake")
-(setq cmake-ide-cmake-command "/home/local/RESQUARED/william.wedler/.dotfiles-private/bin/cmake-catkin")
+(setq cmake-ide-cmake-command (concat (getenv "HOME") "/.dotfiles-private/bin/cmake-catkin"))
 ; (list "cmake" "*cmake*" cmake-ide-cmake-command)
 (cmake-ide-setup)
 
