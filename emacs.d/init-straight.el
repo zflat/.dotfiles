@@ -110,6 +110,7 @@
 ;; Packages
 ;;;;;;;;;;;;;;
 
+(straight-use-package 'avy)
 (straight-use-package 'beacon)
 (straight-use-package 'counsel)
 (straight-use-package 'dockerfile-mode)
@@ -122,10 +123,16 @@
 (straight-use-package 'move-dup)
 (straight-use-package 'multiple-cursors)
 (straight-use-package 'neotree)
+(straight-use-package 'solarized-theme)
 (straight-use-package 'swiper)
 (straight-use-package 'yaml-mode)
 (straight-use-package 'vlf) ; very large file
 (straight-use-package 'web-mode)
+
+(require 'avy)
+(global-set-key (kbd "M-s") 'avy-goto-char)
+(global-set-key (kbd "C-;") 'avy-goto-char-timer)
+(setq avy-background t)
 
 (require 'beacon)
 (beacon-mode 1)
@@ -203,6 +210,38 @@
                (if (find-font (font-spec :name "DejaVu Sans Mono"))
                    (set-frame-font "DejaVu Sans Mono 12")))
 (set-face-attribute 'default nil :height 130)
-(load-theme 'wombat t)
+
+
+(defun load-theme-solarized-dark ()
+  (interactive)
+  (progn
+    (require `solarized-theme)
+    (load-theme 'solarized-dark t)
+
+    (face-spec-set 'bm-face '((t (:foreground "gold" :overline nil))))
+
+    (setq beacon-color "LightGoldenrod3")
+
+    (set-face-background 'avy-goto-char-timer-face (face-background 'menu))
+    (set-face-foreground 'avy-goto-char-timer-face (face-foreground 'link)))
+  (when (fboundp 'sml/setup) (sml/setup)))
+
+(defun load-theme-solarized-light ()
+  (interactive)
+  (progn
+    (require `solarized-theme)
+    (load-theme 'solarized-light t)
+
+    (face-spec-set 'bm-face '((t (:foreground "maroon" :overline nil))))
+
+    (setq beacon-color (face-foreground 'menu))
+
+    (set-face-background 'avy-goto-char-timer-face (face-background 'menu))
+    (set-face-foreground 'avy-goto-char-timer-face (face-foreground 'link)))
+  (when (fboundp 'sml/setup) (sml/setup)))
+
+
+; (add-hook 'after-init-hook 'load-theme-solarized-dark)
+(load-theme-solarized-dark)
 
 (message "")
