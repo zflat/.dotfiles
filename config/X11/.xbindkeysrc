@@ -9,7 +9,7 @@
 "wmctrl -a -emacs"
   Control+Alt + k
 
-"wmctrl -a Terminator"
+"wmctrl -x -a terminator || wmctrl -x -a x-terminal"
   Control+Alt + j
 
 "wmctrl -a -browser"
@@ -21,7 +21,7 @@
 "wmctrl -x -a Firefox"
   Control+Alt + b
 
-"wmctrl -x -a slack"
+"wmctrl -x -a slack || wmctrl -x -a epiphany-chat"
   Control+Alt + y
 
 "wmctrl -a Visual Studio Code"

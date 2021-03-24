@@ -26,17 +26,21 @@
 (depends-on "elscreen")
 (depends-on "ess")
 (depends-on "expand-region")
+(depends-on "clang-format")
+(depends-on "cmake-ide")
 (depends-on "company")
 (depends-on "company-php")
 (depends-on "company-rtags")
 (depends-on "counsel")
 (depends-on "counsel-projectile")
+(depends-on "dockerfile-mode")
 (depends-on "emmet-mode")
 (depends-on "f")
 (depends-on "find-file-in-project")
 (depends-on "flx")
 (depends-on "flycheck")
 (depends-on "flycheck-rtags")
+(depends-on "geben")
 (depends-on "ggtags")
 (depends-on "htmlize")
 (depends-on "idle-highlight-mode") ; needs configuration. also consider http://emacsblog.org/2007/04/17/quick-tip-light-symbol-mode/ ?
@@ -63,6 +67,7 @@
 (depends-on "projectile")
 (depends-on "projectile-ripgrep")
 (depends-on "protobuf-mode")
+(depends-on "qml-mode")
 (depends-on "ripgrep")
 (depends-on "rtags")
 (depends-on "s")
@@ -70,6 +75,7 @@
 (depends-on "smart-mode-line")
 (depends-on "smooth-scrolling")
 (depends-on "swiper")
+(depends-on "string-inflection")
 (depends-on "transpose-frame")
 (depends-on "undo-tree")
 (depends-on "use-package")
@@ -78,10 +84,13 @@
 (depends-on "web-mode")
 (depends-on "yaml-mode")
 (depends-on "wolfram") ; https://github.com/hsjunnesson/wolfram.el
+(depends-on "yaml-mode")
 (depends-on "yasnippet")
 (depends-on "zoom") ; automatically balance windows sizes
+
 
 ; Themes
 (depends-on "zenburn-theme")
 (depends-on "solarized-theme")
 (depends-on "ample-theme")
+(depends-on "apropospriate-theme")

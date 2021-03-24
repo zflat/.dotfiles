@@ -2,7 +2,7 @@
 #
 # Save in directory /usr/share/X11/xkb/symbols/modremap
 # Edit layout symbols, "us(basic)", adding the following
-#     include "modremap(caps-cstgr)"
+#     include "modremap(mods-cstgr)"
 #
 # Or, add this to the "us" symbols file and edit accordingly
 #
@@ -24,3 +24,7 @@ xkb_symbols "mods-cstgr" {
 
 # If scroll lock is needed...
 # https://askubuntu.com/a/597757
+
+# To load the updated XKB config
+# https://askubuntu.com/a/968338
+# setxkbmap -layout us

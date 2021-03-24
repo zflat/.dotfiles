@@ -6,7 +6,13 @@ Load and install "dotfiles"
 
  * Prerequisites
   * Python 2.7
+  * (apt-get) wmctrl
+  * (apt-get) xbindkeys
   * Emacs26
+    * "Hack" font
+    * (apt-get) ack
+    * ag (apt-get silversearcher-ag)
+    * ripgrep
     * (apt-get) editorconfig
     * [GNU Global with ctags]
     * (apt-get) llvm clang
@@ -31,6 +37,12 @@ Upgrade dotbot:
 
 Upgrade submodules to their latest versions:
 `git submodule update --init --remote`.
+
+
+See Also
+--------
+
+Stow: http://brandon.invergo.net/news/2012-05-26-using-gnu-stow-to-manage-your-dotfiles.html
 
 
 License

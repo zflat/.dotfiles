@@ -47,13 +47,20 @@
   (let ((new-kill-string)
         (name (or file (if (eq major-mode 'dired-mode)
                            (dired-get-filename)
-                         (or (buffer-file-name) "")))))
+                         (or (buffer-file-name) ""))))
+        (proj-name (if (and (fboundp 'projectile-project-root)
+                            (projectile-project-root))
+                       (concat
+                        (file-name-as-directory
+                         (file-name-nondirectory (directory-file-name (projectile-project-root))))
+                        (string-remove-prefix (projectile-project-root) name))
+                     "")))
     (cond ((string-equal arg "p")
-           (setq new-kill-string
-                 (concat
-                  (file-name-as-directory
-                   (file-name-nondirectory (directory-file-name (projectile-project-root))))
-                  (string-remove-prefix (projectile-project-root) name))))
+           proj-name)
+          ((string-equal arg "r")
+           (string-remove-prefix (file-name-as-directory
+                                  (file-name-nondirectory (directory-file-name (projectile-project-root))))
+                                 proj-name))
           ((string-equal arg "f")
            name)
           ((string-equal arg "d")
@@ -63,23 +70,27 @@
           (t nil))))
 (defun copy-buffer-file-name-as-kill(choice)
   "Copy the buffer-file-name to the kill-ring"
-  (interactive
+  (interactive ;; TODO: pre-compute projectile root  values and present them as options
    (list (let ((completions
                 (let ((choice-index 0))
                   (mapcar (lambda (arg) (append (list (concat (number-to-string (cl-incf choice-index)) "-" (car arg))) (last arg)))
-                          (append (if (and (fboundp 'projectile-project-root) (projectile-project-root)) '(("Project Path" "p")))
+                          (append (if (and (fboundp 'projectile-project-root)
+                                           (projectile-project-root))
+                                      '(("Project Path" "p")
+                                        ("Path from project root" "r")))
                                   '(("Name" "n") ("Full" "f") ("Directory" "d")))))))
            (cadr (assoc (completing-read "Copy buffer name as kill: " completions) completions)))))
   (let ((new-kill-string)
         (name (if (eq major-mode 'dired-mode)
                   (dired-get-filename)
-                (or (buffer-file-name) "")))
+                (file-truename (or (buffer-file-name) ""))))
         (suffix (if (and
                      (not (equal current-prefix-arg nil)) ; C-u argument given
                      (or
                       (string-equal choice "f")
+                      (string-equal choice "r")
                       (string-equal choice "p")))
-                    (concat " L" (number-to-string (line-number-at-pos)))))
+                    (concat ":" (number-to-string (line-number-at-pos)))))
         (new-kill-string))
         (setq new-kill-string (concat (get-buffer-file-path choice name) suffix))
     (when new-kill-string
@@ -122,7 +133,7 @@ point reaches the beginning or end of the buffer, stop there."
 ;; http://stackoverflow.com/a/19567306
 (defun prefix-javadoc-return ()
   "Advanced C-m for Javadoc multiline comments.
-Inserts `*' at the beggining of the new line if
+Inserts `*' at the beggining of the new line
 unless return was pressed outside the comment"
   (interactive)
   (setq last (point))
@@ -143,7 +154,8 @@ unless return was pressed outside the comment"
     (insert "\n* ")
     (indent-for-tab-command))
     ;; else insert only new-line
-    (insert "\n")))
+    (newline-and-indent)
+))
 (add-hook 'c-mode-common-hook (lambda ()
   (local-set-key "\r" 'prefix-javadoc-return))) ; M-j keyboard sequence
 (add-hook 'php-mode-hook (lambda ()
@@ -232,3 +244,17 @@ Version 2018-09-29"
 ; TODO function to copy a region without indentation for pasting into code snippets
 ; https://emacs.stackexchange.com/questions/34966/copy-region-without-leading-indentation
 
+
+;; http://www.credmp.org/indexphp/2006/11/01/working_with_c/index.html
+(defun cxx-create-gaurds ()
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (setq guard (concat (upcase
+                         (file-name-sans-extension
+                          (file-name-nondirectory buffer-file-name)))
+                        "_H"))
+    (insert "#ifndef " guard  "\n")
+    (insert "#define " guard  "\n")
+    (goto-char (point-max))
+    (insert "\n#endif // " guard "\n")))
