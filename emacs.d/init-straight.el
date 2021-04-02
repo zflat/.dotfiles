@@ -1,6 +1,7 @@
 ;; (setq package-enable-at-startup nil) ;; emacs.d/early-init.el
 ;; emacs -q -l ~/.emacs.d/init-straight.el
 
+;; emacs --script ~/.emacs.d/init-straight.el
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -110,6 +111,8 @@
 ;; Packages
 ;;;;;;;;;;;;;;
 
+straight-register-package '(transient :build (:not compile))) ;; emacs25 workaround https://github.com/magit/magit/issues/3732#issuecomment-464058617
+
 (straight-use-package 'avy)
 (straight-use-package 'beacon)
 (straight-use-package 'counsel)
@@ -159,10 +162,13 @@
 ;; Line duplication
 (require 'move-dup)
 (global-set-key (kbd "M-<up>")       'move-dup-move-lines-up)
+(global-set-key (kbd "ESC <up>")       'move-dup-move-lines-up)
 (global-set-key (kbd "M-<down>")     'move-dup-move-lines-down)
+(global-set-key (kbd "ESC <down>")     'move-dup-move-lines-down)
 (global-set-key (kbd "C-S-d <down>") 'move-dup-duplicate-down)
+(global-set-key (kbd "ESC C-<down>") 'move-dup-duplicate-down)
 (global-set-key (kbd "C-S-d <up>")   'move-dup-duplicate-up)
-
+(global-set-key (kbd "ESC C-<up>")   'move-dup-duplicate-up)
 
 (global-set-key (kbd "C-x g") 'magit-status)
 
@@ -182,6 +188,7 @@
 (setq ivy-format-function 'ivy-format-function-line)
 (setq ivy-use-virtual-buffers t) ;; see also https://emacs.stackexchange.com/questions/36836/how-to-remove-files-from-recentf-ivy-virtual-buffers
 (setq ivy-virtual-abbreviate 'full) ;; helps to know files are from recentf instead of an open buffer
+(global-set-key (kbd "C-s") 'counsel-grep-or-swiper)
 
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
@@ -241,7 +248,10 @@
   (when (fboundp 'sml/setup) (sml/setup)))
 
 
+
 ; (add-hook 'after-init-hook 'load-theme-solarized-dark)
-(load-theme-solarized-dark)
+(if (display-graphic-p)
+    (load-theme-solarized-dark)
+  (load-theme 'solarized-zenburn t))
 
 (message "")
