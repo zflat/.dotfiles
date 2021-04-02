@@ -95,7 +95,8 @@
      (320 . "#8CD0D3")
      (340 . "#94BFF3")
      (360 . "#DC8CC3")) t)
- '(vc-annotate-very-old-color "#DC8CC3" t))
+ '(vc-annotate-very-old-color "#DC8CC3" t)
+ '(warning-suppress-types '(((package reinitialization)))))
 
 
 ;;;;;;;;;;;;;;
@@ -655,7 +656,7 @@
 (require 'ivy-rtags)
 (setq rtags-display-result-backend 'ivy)
 (if
-    (and (rtags-executable-find "rc") (rtags-executable-find "rc"))
+    (and (fboundp 'rtags-executable-find) (rtags-executable-find "rc") (rtags-executable-find "rc"))
     (progn
       (define-key c-mode-base-map (kbd "M-.") 'rtags-find-symbol-at-point)
       (define-key c-mode-base-map (kbd "M-,") 'rtags-find-references-at-point)
@@ -746,7 +747,7 @@
 (setq markdown-command "multimarkdown")
 
 (global-set-key (kbd "C-x g") 'magit-status)
-(global-magit-file-mode t)
+; (global-magit-file-mode t) ; this is no longer a thing? what did this do before
 (setq magit-completing-read-function 'ivy-completing-read)
 ; (setq magit-completing-read-function 'magit-ido-completing-read)
 
