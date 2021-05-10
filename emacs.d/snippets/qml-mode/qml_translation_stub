@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: qml_translation_stub
+# key: trid
+# --
+//: [$1] $2
+//% "$3"
+$0qsTrId("$1")
