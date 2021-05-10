@@ -208,6 +208,8 @@ Version 2018-09-29"
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Helper functions for opening a remote file (w/ sudo)
+;; See https://github.com/syl20bnr/spacemacs/issues/10969#issuecomment-409929968
+;; https://www.reddit.com/r/emacs/comments/5v0w6h/question_how_can_i_get_magit_to_use_my_ssh_key/
 (defun open-remote (username host)
   (interactive
    (open-remote-args))
@@ -258,3 +260,11 @@ Version 2018-09-29"
     (insert "#define " guard  "\n")
     (goto-char (point-max))
     (insert "\n#endif // " guard "\n")))
+
+
+
+
+;; Some emacs-fu
+;; Insert a column of incrementing numbers in emacs
+;; https://stackoverflow.com/a/9932745
+;; (rectangle-number-lines)
