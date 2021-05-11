@@ -110,50 +110,50 @@
 (setq js2-strict-trailing-comma-warning nil)
 
 
-;; Move cursor to different Panes by Arrow
-(when (fboundp 'windmove-default-keybindings)
-  (windmove-default-keybindings))
+;; ;; Move cursor to different Panes by Arrow
+;; (when (fboundp 'windmove-default-keybindings)
+;;   (windmove-default-keybindings))
 
 
-;; Buffer switching
-;; See https://www.emacswiki.org/emacs/SwitchingBuffers
-(defun switch-to-previous-buffer ()
-  (interactive)
-  (switch-to-buffer (other-buffer (current-buffer) 1)))
-; (global-set-key (kbd "<f1>") 'switch-to-previous-buffer)
-(global-set-key (kbd "<backtab>") 'switch-to-buffer)
+;; ;; Buffer switching
+;; ;; See https://www.emacswiki.org/emacs/SwitchingBuffers
+;; (defun switch-to-previous-buffer ()
+;;   (interactive)
+;;   (switch-to-buffer (other-buffer (current-buffer) 1)))
+;; ; (global-set-key (kbd "<f1>") 'switch-to-previous-buffer)
+;; (global-set-key (kbd "<backtab>") 'switch-to-buffer)
 
 
-;; show the current directory in the frame bar
-;; see http://stackoverflow.com/a/8945306
-(setq frame-title-format '("-emacs- " (:eval default-directory)))
+;; ;; show the current directory in the frame bar
+;; ;; see http://stackoverflow.com/a/8945306
+;; (setq frame-title-format '("-emacs- " (:eval default-directory)))
 
 
-;; Customizing backup settings
-;; TODO don't auto-save sensitive files https://stackoverflow.com/a/18330742
-;; store all backup and autosave files in the tmp dir
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
+;; ;; Customizing backup settings
+;; ;; TODO don't auto-save sensitive files https://stackoverflow.com/a/18330742
+;; ;; store all backup and autosave files in the tmp dir
+;; (setq backup-directory-alist
+;;       `((".*" . ,temporary-file-directory)))
+;; (setq auto-save-file-name-transforms
+;;       `((".*" ,temporary-file-directory t)))
 
-(message "Deleting old backup files...")
-(let ((week (* 60 60 24 7))
-      (current (float-time (current-time))))
-  (dolist (file (directory-files temporary-file-directory t))
-    (when (and (backup-file-name-p file)
-               (> (- current (float-time (nth 5 (file-attributes file))))
-                  week))
-      (message "%s" file)
-      (ignore-errors
-        (delete-file file)))))
+;; (message "Deleting old backup files...")
+;; (let ((week (* 60 60 24 7))
+;;       (current (float-time (current-time))))
+;;   (dolist (file (directory-files temporary-file-directory t))
+;;     (when (and (backup-file-name-p file)
+;;                (> (- current (float-time (nth 5 (file-attributes file))))
+;;                   week))
+;;       (message "%s" file)
+;;       (ignore-errors
+;;         (delete-file file)))))
 
-;;; coding systems
-(setq locale-coding-system 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(set-selection-coding-system 'utf-8)
-(prefer-coding-system 'utf-8)
+;; ;;; coding systems
+;; (setq locale-coding-system 'utf-8)
+;; (set-terminal-coding-system 'utf-8)
+;; (set-keyboard-coding-system 'utf-8)
+;; (set-selection-coding-system 'utf-8)
+;; (prefer-coding-system 'utf-8)
 
 ;; Scrolling tweaks
 ;; Delay updates to give Emacs a chance for other changes
@@ -163,22 +163,22 @@
 (setq scroll-preserve-screen-position t)
 
 
-;; disable the toolbar
-(if (boundp 'tool-bar-mode) (tool-bar-mode -1))
+;; ;; disable the toolbar
+;; (if (boundp 'tool-bar-mode) (tool-bar-mode -1))
 
-;; disable the menu bar
-;; Can get the menu with C-<mouse-3> or F10
-(if (boundp 'menu-bar-mode) (menu-bar-mode -1))
+;; ;; disable the menu bar
+;; ;; Can get the menu with C-<mouse-3> or F10
+;; (if (boundp 'menu-bar-mode) (menu-bar-mode -1))
 
-;; disable the scrollbar
-(if (boundp 'scroll-bar-mode)
-    (scroll-bar-mode -1)
-  (if (boundp 'toggle-scroll-bar)
-      (toggle-scroll-bar -1)))
-(if (boundp 'horizontal-scroll-bar-mode)
-    (horizontal-scroll-bar-mode -1)
-  (if (boundp 'toggle-horizontal-scroll-bar)
-      (toggle-horizontal-scroll-bar -1)))
+;; ;; disable the scrollbar
+;; (if (boundp 'scroll-bar-mode)
+;;     (scroll-bar-mode -1)
+;;   (if (boundp 'toggle-scroll-bar)
+;;       (toggle-scroll-bar -1)))
+;; (if (boundp 'horizontal-scroll-bar-mode)
+;;     (horizontal-scroll-bar-mode -1)
+;;   (if (boundp 'toggle-horizontal-scroll-bar)
+;;       (toggle-horizontal-scroll-bar -1)))
 
 
 ;;; auth-source config
@@ -194,21 +194,21 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(transient-mark-mode t) ; Standard selection-highlighting behavior of other editors.
+;; (transient-mark-mode t) ; Standard selection-highlighting behavior of other editors.
 
-(if (and
-     (>= emacs-major-version 24)
-     (>= emacs-minor-version 4))
-    (electric-pair-mode 1) ; Provides a way to easily insert matching delimiters
-  )
-(global-hl-line-mode t) ; highlight the line at point
+;; (if (and
+;;      (>= emacs-major-version 24)
+;;      (>= emacs-minor-version 4))
+;;     (electric-pair-mode 1) ; Provides a way to easily insert matching delimiters
+;;   )
+;; (global-hl-line-mode t) ; highlight the line at point
 
 ;; parenthesis customization
 ;; consider also http://www.emacswiki.org/emacs/HighlightParentheses
-(require 'paren)
-(show-paren-mode t)
-(setq show-paren-delay 0)
-; (set-face-background 'show-paren-match-face (face-background 'default))
+;; (require 'paren)
+;; (show-paren-mode t)
+;; (setq show-paren-delay 0)
+;; ; (set-face-background 'show-paren-match-face (face-background 'default))
 
 ;; How to show the matching paren when it is offscreen
 (defadvice show-paren-function
@@ -255,10 +255,10 @@
 ;;   (global-display-line-numbers-mode))
 
 
-;; Making buffer names unique
-;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Uniquify.html
-(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
-;; See also http://www.lonecpluspluscoder.com/2014/08/23/unique-buffer-names-in-emacs/
+;; ;; Making buffer names unique
+;; ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Uniquify.html
+;; (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+;; ;; See also http://www.lonecpluspluscoder.com/2014/08/23/unique-buffer-names-in-emacs/
 
 
 ; (setq vc-git-annotate-switches '("--minimal -w -c --date=short --abbrev=0"))
@@ -283,9 +283,11 @@
 (setq emacs-config-dir (file-name-directory
                         (or (buffer-file-name) load-file-name)))
 
+(load-file (concat emacs-config-dir "init-straight.el"))
 
-(require 'cask "~/.cask/cask.el")
-(cask-initialize)
+
+;; (require 'cask "~/.cask/cask.el")
+;; (cask-initialize)
 ; (or (load-file (buffer-file-name)) (package-initialize))
 
 ;;;
@@ -297,44 +299,48 @@
 (setq recentf-auto-cleanup 'never) ;; disable before we start recentf!
 (recentf-mode t)
 
-;; Muliple cursors
-(require 'multiple-cursors)
-;; Cursor at each line in selected region
-;; Note: <S> is shift
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-;; Use arrow keys to quickly mark/skip next/previous occurances.
-(global-set-key (kbd "C-S-c C-s") 'mc/mark-more-like-this-extended)
-(global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
-(global-set-key (kbd "s-/") `set-rectangular-region-anchor)
-                                        ; setup multiple-cursors-hydra https://iqss.github.io/IQSS.emacs/init.html
+;; ;; Muliple cursors
+;; (require 'multiple-cursors)
+;; ;; Cursor at each line in selected region
+;; ;; Note: <S> is shift
+;; (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+;; ;; Use arrow keys to quickly mark/skip next/previous occurances.
+;; (global-set-key (kbd "C-S-c C-s") 'mc/mark-more-like-this-extended)
+;; (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
+;; (global-set-key (kbd "s-/") `set-rectangular-region-anchor)
+;;                                         ; setup multiple-cursors-hydra https://iqss.github.io/IQSS.emacs/init.html
 
-(require 'expand-region)
-(global-set-key (kbd "C-=") 'er/expand-region)
+;; (require 'expand-region)
+;; (global-set-key (kbd "C-=") 'er/expand-region)
 
 
-;; Line duplication
-(require 'move-dup)
-(global-set-key (kbd "M-<up>")       'md-move-lines-up)
-(global-set-key (kbd "M-<down>")     'md-move-lines-down)
-(global-set-key (kbd "C-S-d <down>") 'md-duplicate-down)
-(global-set-key (kbd "C-S-d <up>")   'md-duplicate-up)
+;; ;; Line duplication
+;; (require 'move-dup)
+;; (global-set-key (kbd "M-<up>")       'md-move-lines-up)
+;; (global-set-key (kbd "M-<down>")     'md-move-lines-down)
+;; (global-set-key (kbd "C-S-d <down>") 'md-duplicate-down)
+;; (global-set-key (kbd "C-S-d <up>")   'md-duplicate-up)
 
 
 ;; Elscreen
+(straight-use-package 'elscreen)
 (require 'elscreen)
 (elscreen-start)
 (setq elscreen-display-tab nil)
 (global-set-key (kbd "C-z C-z") 'elscreen-toggle)
 
 ;; Transpose Frame
+(straight-use-package 'transpose-frame)
 (require 'transpose-frame)
 
 ;; Close popup windows with C-g
+(straight-use-package 'popwin)
 (require 'popwin)
 (popwin-mode 1)
 (push '(ag-mode :dedicated t :stick t :position bottom) popwin:special-display-config)
                                         ;(pop popwin:special-display-config)
 
+(straight-use-package 'smart-mode-line)
 (require 'smart-mode-line)
 (setq sml/no-confirm-load-theme t)
 (setq sml/mule-info nil)
@@ -354,6 +360,7 @@
 ;; Completely disable automatic find file
 ;; (setq ido-auto-merge-work-directories-length -1)
 
+(straight-use-package 'neotree)
 (require 'neotree)
 (global-set-key [f7] 'neotree-find)
 (global-set-key (kbd "<S-f7>") 'neotree-toggle)
@@ -362,6 +369,7 @@
 ;; http://www.emacswiki.org/emacs/ModeLineDirtrack
 
 ;; Visual Bookmarks
+(straight-use-package 'bm)
 (require 'bm)
 (global-set-key (kbd "<C-f2>") 'bm-toggle)
 (global-set-key (kbd "<f2>")   'bm-next)
@@ -387,37 +395,42 @@
     (t (:background "DarkSlateGray4"))) "")
 (setq visible-mark-max 3)
 (setq visible-mark-faces `(visible-mark-face1 visible-mark-face2 visible-mark-face3))
+(straight-use-package 'visible-mark)
 (require 'visible-mark)
 
 
+(straight-use-package 'zoom)
 (require 'zoom)
 (zoom-mode 1)
 (setq zoom-size '(0.666 . 0.666))
 (global-set-key (kbd "C-<f1>") 'zoom-mode) ; toggle zoom mode easily
 
+(straight-use-package 'ag)
 (require 'ag)
 
-(require 'flx) ; scoring mechanism from flx is used by ivy–regex-fuzzy
-(require 'ivy-hydra)
-(require 'ivy)
+;; (require 'flx) ; scoring mechanism from flx is used by ivy–regex-fuzzy
+;; (require 'ivy-hydra)
+;; (require 'ivy)
+(straight-use-package 'ivy-hydra)
+(straight-use-package 'ivy-pass)
 (require 'ivy-pass)
 (global-set-key (kbd "<C-f12>") 'password-store-copy)
 
-(require 'counsel)
-(require 'swiper)
-(add-to-list 'swiper-font-lock-exclude 'php-mode)
-(ivy-mode 1)
-; see https://oremacs.com/2016/01/06/ivy-flx/
-(setq ivy-re-builders-alist
-      '((swiper . ivy--regex-plus)
-        (counsel-projectile-find-file . ivy--regex-plus)
-        (t . ivy--regex-fuzzy)))
-(setq ivy-format-function 'ivy-format-function-line)
-(setq ivy-use-virtual-buffers t) ;; see also https://emacs.stackexchange.com/questions/36836/how-to-remove-files-from-recentf-ivy-virtual-buffers
-(setq ivy-virtual-abbreviate 'full) ;; helps to know files are from recentf instead of an open buffer
+;; (require 'counsel)
+;; (require 'swiper)
+;; (add-to-list 'swiper-font-lock-exclude 'php-mode)
+;; (ivy-mode 1)
+;; ; see https://oremacs.com/2016/01/06/ivy-flx/
+;; (setq ivy-re-builders-alist
+;;       '((swiper . ivy--regex-plus)
+;;         (counsel-projectile-find-file . ivy--regex-plus)
+;;         (t . ivy--regex-fuzzy)))
+;; (setq ivy-format-function 'ivy-format-function-line)
+;; (setq ivy-use-virtual-buffers t) ;; see also https://emacs.stackexchange.com/questions/36836/how-to-remove-files-from-recentf-ivy-virtual-buffers
+;; (setq ivy-virtual-abbreviate 'full) ;; helps to know files are from recentf instead of an open buffer
 
 
-
+(straight-use-package 'ripgrep)
 (require 'ripgrep)
 
 (add-to-list 'ripgrep-arguments "-M 120")
@@ -464,12 +477,14 @@
 ;; See https://zeekat.nl/articles/making-emacs-work-for-me.html
 (setq compilation-scroll-output t)
 
-(require 'editorconfig)
-(editorconfig-mode 1)
+;; (require 'editorconfig)
+;; (editorconfig-mode 1)
 
 ;; Enable Projectile
 ;;
 ;; list of commands: C-c p C-h
+(straight-use-package 'projectile)
+(straight-use-package 'counsel-projectile)
 (require 'projectile)
 (require 'counsel-projectile)
 (counsel-projectile-mode)
@@ -504,14 +519,14 @@
 ; (require 'find-file-in-project) ;; TODO install and configure and compare w/ projectile
 ; (global-set-key (kbd "C-<f6> e") 'find-file-in-project)
 
-; (global-set-key (kbd "C-s") 'swiper)
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(defun wrapped-ivy-immediate-done (&rest ignore)
-    (interactive)
-    (if ( > (minibuffer-depth) 0) (ivy-immediate-done) nil))
-(global-set-key (kbd "C-c C-f") 'wrapped-ivy-immediate-done) ;; useful for creating a new file
-(global-set-key (kbd "C-c C-r") 'ivy-resume)
+;; ; (global-set-key (kbd "C-s") 'swiper)
+;; (global-set-key (kbd "M-x") 'counsel-M-x)
+;; (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+;; (defun wrapped-ivy-immediate-done (&rest ignore)
+;;     (interactive)
+;;     (if ( > (minibuffer-depth) 0) (ivy-immediate-done) nil))
+;; (global-set-key (kbd "C-c C-f") 'wrapped-ivy-immediate-done) ;; useful for creating a new file
+;; (global-set-key (kbd "C-c C-r") 'ivy-resume)
 
 
                                         ; Updating tags via git hook: https://stackoverflow.com/q/42680131
@@ -528,24 +543,29 @@
 ;; (require 'helm-gtags)
 ;; (helm-gtags-mode t)
 
-(require 'avy)
-(global-set-key (kbd "M-s") 'avy-goto-char)
-(global-set-key (kbd "C-;") 'avy-goto-char-timer)
-(setq avy-background t)
+;; (require 'avy)
+;; (global-set-key (kbd "M-s") 'avy-goto-char)
+;; (global-set-key (kbd "C-;") 'avy-goto-char-timer)
+;; (setq avy-background t)
 
-(require 'beacon)
-(beacon-mode 1)
-(setq beacon-dont-blink-commands
-   (quote
-    (next-line previous-line forward-line mwheel-scroll)))
+;; (require 'beacon)
+;; (beacon-mode 1)
+;; (setq beacon-dont-blink-commands
+;;    (quote
+;;     (next-line previous-line forward-line mwheel-scroll)))
 (setq beacon-color "LightGoldenrod3")
 
+(straight-use-package 'company)
 (require 'company)
 (setq company-idle-delay 0.2)
 
+(straight-use-package 'geben)
 (require 'geben)
 (setq geben-display-window-function 'popwin:switch-to-buffer)
 
+(straight-use-package
+'(php-extras :type git :host github :repo "arnested/php-extras"))
+(straight-use-package 'php-mode)
 (require 'php-extras)
 (require 'php-mode)
 (setq ac-php-php-executable (executable-find "php7"))  ; NOTE: use php-build to build php 7 and then symlink the binary to /usr/local/bin
@@ -561,6 +581,7 @@
       (editorconfig-apply)))
   (add-hook 'php-mode-hook 'php-mode-hook-codestyle))
 
+(straight-use-package 'company-php)
 (progn
   (remove-hook 'php-mode-hook 'php-mode-hook-autocomplete)
   (defun php-mode-hook-autocomplete ()
@@ -577,6 +598,7 @@
 
 (add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
 
+(straight-use-package 'js2-mode)
 (require 'js2-mode)
 ;; Enable js2-mode like this instead of with js-mode-hook so that
 ;; qml-mode, which uses js-mode does not also include js2-mode. May
@@ -585,9 +607,11 @@
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 ; (add-hook 'js-mode-hook 'visible-mark-mode)
 
+(straight-use-package 'sass-mode)
 (require 'sass-mode)
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . web-mode))
 
+(straight-use-package 'web-mode)
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.tag\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
@@ -604,9 +628,7 @@
 (setq web-mode-engines-alist '
       (("php" . "\\.phtml\\'")
        ("blade" . "\\.blade\\.")
-       ("riot" . "\\.tag\\'"))
-      )
-
+       ("riot" . "\\.tag\\'")))
 (add-to-list 'auto-mode-alist '("/checkout/src/.*\\.js[x]?\\'" . web-mode))
 (setq web-mode-content-types-alist
   '(("jsx"  . "/src.*/components/.*\\.js[x]?\\'")))
@@ -624,16 +646,18 @@
 (set-face-attribute 'web-mode-current-column-highlight-face nil :background (face-attribute 'hl-line :background))
 
 
+(straight-use-package 'emmet-mode)
 (require 'emmet-mode)
 (add-hook 'web-mode-hook  'emmet-mode)
 
 
-(require 'yaml-mode)
-(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+;; (require 'yaml-mode)
+;; (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 
-(require 'dockerfile-mode)
-(add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+;; (require 'dockerfile-mode)
+;; (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
 
+(straight-use-package 'qml-mode)
 (require 'qml-mode)
 (autoload 'qml-mode "qml-mode" "Editing Qt Declarative." t)
 (add-to-list 'auto-mode-alist '("\\.qml$" . qml-mode))
@@ -642,6 +666,7 @@
                            (message "js2-mode exited")))
 (define-key qml-mode-map (kbd "<f5>") 'recompile)
 
+(straight-use-package 'flycheck)
 (require 'flycheck)
 
 ; C++ w/ RTags (sort of automated with cmake-ide...)
@@ -651,8 +676,11 @@
 ; https://oracleyue.github.io/2017/12/04/emacs-init-cc-irony/
 ;
 ; TODO https://nilsdeppe.com/posts/emacs-c++-ide2 LSP mode for completion (and possibly replace rtags?)
+(straight-use-package 'rtags)
 (require 'rtags)
+(straight-use-package 'flycheck-rtags)
 (require 'flycheck-rtags)
+(straight-use-package 'ivy-rtags)
 (require 'ivy-rtags)
 (setq rtags-display-result-backend 'ivy)
 (if
@@ -698,12 +726,14 @@
 (add-hook 'c++-mode-hook 'clang-format-on-save)
 (add-hook 'c-mode-hook 'clang-format-on-save)
 
+(straight-use-package 'cmake-ide)
 (require 'cmake-ide)
 (setq cmake-ide-cmake-command (concat (getenv "HOME") "/.dotfiles-private/bin/cmake-catkin"))
 ; (list "cmake" "*cmake*" cmake-ide-cmake-command)
 (cmake-ide-setup)
 
 ; (global-flycheck-mode t)
+(straight-use-package 'cmake-mode)
 (require 'cmake-mode)
 ; (require 'cmake-font-lock) ;; see https://github.com/gonsie/dotfiles/blob/master/emacs/init.el
 ;; CMake
@@ -725,15 +755,14 @@
 ;; Exclude dirs: https://github.com/syl20bnr/spacemacs/issues/3273#issuecomment-145984669
 ;;
 ;; (setq-local imenu-create-index-function #'ggtags-build-imenu-index)
-(ggtags-mode 1)
+;; (ggtags-mode 1)
 ;(global-set-key (kbd "M-*") 'xref-pop-marker-stack) ; could also be 'pop-tag-mark
 ;; TODO also use (rtags-location-stack-back) when in c++ mode?
-
-(setq ggtags-completing-read-function nil)
+;; (setq ggtags-completing-read-function nil)
                                         ; (setenv "GTAGSLIBPATH" "/showclix/config:/showclix/src:/showclix/tests/active_tests:/showclix/settings:/showclix/schema_evolutions:/showclix/public_html/classes:/showclix/public_html/actions:/showclix/public_html/templates:/showclix/public_html/controller")
-(setenv "GTAGSLIBPATH" nil)
+;; (setenv "GTAGSLIBPATH" nil)
 
-
+(straight-use-package 'smooth-scrolling)
 (require 'smooth-scrolling)
 (smooth-scrolling-mode t)
 ;; todo https://superuser.com/questions/134921/smooth-scrolling-in-emacs-windows
@@ -743,6 +772,7 @@
 
 ;; Getting markdown preview to work...
 ;; http://www.maheshsubramaniya.com/article/install-markdown-for-emacs.html
+(straight-use-package 'markdown-mode)
 (require 'markdown-mode)
 (setq markdown-command "multimarkdown")
 
@@ -756,7 +786,9 @@
 (add-hook 'php-mode-hook '(lambda ()
                             (local-set-key (kbd "RET") 'newline-and-indent)))
 
+(straight-use-package 'string-inflection)
 (require 'string-inflection)
+(straight-use-package 'yasnippet)
 (require 'yasnippet)
 (yas-global-mode 1)
 (setq yas-snippet-dirs
@@ -770,14 +802,16 @@
 (setq-local hippie-expand-try-functions-list
             (cons 'ggtags-try-complete-tag hippie-expand-try-functions-list))
 
-(require 'wolfram)
-(setq  wolfram-alpha-app-id "TBD") ; Need to sign up with an account & keep this key a secret :(
 
+(straight-use-package 'ess)
 (require 'ess)
 
+
+(straight-use-package 'protobuf-mode)
 (require 'protobuf-mode)
 
 (setq clang-format-executable (concat (getenv "HOME") "/.pyenv/versions/3.8.5/bin/clang-format"))
+(straight-use-package 'clang-format)
 (require 'clang-format)
 
 ;; c-mode indentation https://stackoverflow.com/a/664525
@@ -786,6 +820,7 @@
   (c-set-offset 'substatement-open 0)
   (c-set-offset 'arglist-intro 2)
   )
+(straight-use-package 'modern-cpp-font-lock)
 (require 'modern-cpp-font-lock)
 (modern-c++-font-lock-global-mode t)
 (add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
@@ -919,6 +954,7 @@
 ;; https://www.reddit.com/r/emacs/comments/4f2iee/efficient_use_of_multibutton_mice_with_emacs/d260em2/
 
 ;; See https://www.reddit.com/r/emacs/comments/445w6s/whats_some_small_thing_in_your_dotemacs_that_you/cznzmh9/
+(straight-use-package 'mouse-copy)
 (require 'mouse-copy)
 (global-set-key [C-down-mouse-1] 'mouse-drag-secondary-pasting)
 (global-set-key [C-S-down-mouse-1] nil)
@@ -934,6 +970,7 @@
 
 ;; Setup diminish after all modes have finished initializing
 ;; To list minor modes: M-x describe-mode
+(straight-use-package 'diminish)
 (require 'diminish)
 (diminish 'auto-revert-mode)
 (diminish 'abbrev-mode "Abv")
@@ -1001,34 +1038,35 @@
 ;; Color Themes
 ;;
 
-(defun load-theme-solarized-dark ()
-  (interactive)
-  (progn
-    (require `solarized-theme)
-    (load-theme 'solarized-dark t)
+;; (defun load-theme-solarized-dark ()
+;;   (interactive)
+;;   (progn
+;;     (require `solarized-theme)
+;;     (load-theme 'solarized-dark t)
 
-    (face-spec-set 'bm-face '((t (:foreground "gold" :overline nil))))
+;;     (face-spec-set 'bm-face '((t (:foreground "gold" :overline nil))))
 
-    (setq beacon-color "LightGoldenrod3")
+;;     (setq beacon-color "LightGoldenrod3")
 
-    (set-face-background 'avy-goto-char-timer-face (face-background 'menu))
-    (set-face-foreground 'avy-goto-char-timer-face (face-foreground 'link)))
-  (when (fboundp 'sml/setup) (sml/setup)))
+;;     (set-face-background 'avy-goto-char-timer-face (face-background 'menu))
+;;     (set-face-foreground 'avy-goto-char-timer-face (face-foreground 'link)))
+;;   (when (fboundp 'sml/setup) (sml/setup)))
 
-(defun load-theme-solarized-light ()
-  (interactive)
-  (progn
-    (require `solarized-theme)
-    (load-theme 'solarized-light t)
+;; (defun load-theme-solarized-light ()
+;;   (interactive)
+;;   (progn
+;;     (require `solarized-theme)
+;;     (load-theme 'solarized-light t)
 
-    (face-spec-set 'bm-face '((t (:foreground "maroon" :overline nil))))
+;;     (face-spec-set 'bm-face '((t (:foreground "maroon" :overline nil))))
 
-    (setq beacon-color (face-foreground 'menu))
+;;     (setq beacon-color (face-foreground 'menu))
 
-    (set-face-background 'avy-goto-char-timer-face (face-background 'menu))
-    (set-face-foreground 'avy-goto-char-timer-face (face-foreground 'link)))
-  (when (fboundp 'sml/setup) (sml/setup)))
+;;     (set-face-background 'avy-goto-char-timer-face (face-background 'menu))
+;;     (set-face-foreground 'avy-goto-char-timer-face (face-foreground 'link)))
+;;   (when (fboundp 'sml/setup) (sml/setup)))
 
+(straight-use-package 'zenburn-theme)
 (defun load-theme-zenburn ()
   (interactive)
   (progn

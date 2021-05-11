@@ -111,7 +111,7 @@
 ;; Packages
 ;;;;;;;;;;;;;;
 
-straight-register-package '(transient :build (:not compile))) ;; emacs25 workaround https://github.com/magit/magit/issues/3732#issuecomment-464058617
+(straight-register-package '(transient :build (:not compile))) ;; emacs25 workaround https://github.com/magit/magit/issues/3732#issuecomment-464058617
 
 (straight-use-package 'avy)
 (straight-use-package 'beacon)
@@ -171,6 +171,8 @@ straight-register-package '(transient :build (:not compile))) ;; emacs25 workaro
 (global-set-key (kbd "ESC C-<up>")   'move-dup-duplicate-up)
 
 (global-set-key (kbd "C-x g") 'magit-status)
+(setq magit-completing-read-function 'ivy-completing-read)
+
 
 (require 'flx) ; scoring mechanism from flx is used by ivy–regex-fuzzy
 (require 'ivy-hydra)
