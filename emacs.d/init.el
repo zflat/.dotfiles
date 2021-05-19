@@ -34,6 +34,8 @@
 (setq tramp-ssh-controlmaster-options nil)
 
 (setq-default gc-cons-threshold 100000000)
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
+(setq lsp-idle-delay 0.500)
 
 (add-to-list 'load-path "~/.emacs.d/elisp/")
 (let ((default-directory  "~/.emacs.d/elisp/"))
@@ -563,6 +565,27 @@
 (require 'geben)
 (setq geben-display-window-function 'popwin:switch-to-buffer)
 
+(straight-use-package 'lsp-mode)
+(require 'lsp-mode)
+(add-hook 'c++-mode-hook #'lsp-deferred)
+
+;; LSP over Tramp
+;; (lsp-register-client
+;;     (make-lsp-client :new-connection (lsp-tramp-connection "clangd-8")
+;;                      :major-modes '(c++-mode)
+;;                      :remote? t
+;;                      :server-id 'bro_system))
+
+
+;                     :activation-fn nil)
+; (start-file-process-shell-command "my-remote" "*my-remote*" '("stty" "raw" ";" "clangd-9" "2>/tmp/my-remote-16-stderr"))
+
+;; see also  https://github.com/emacs-lsp/lsp-mode/issues/1741
+;; see also, https://github.com/emacs-lsp/lsp-mode/issues/2375
+; Maybe dir local with  lsp-enabled-clients/lsp-disabled-clients
+
+
+
 (straight-use-package
 '(php-extras :type git :host github :repo "arnested/php-extras"))
 (straight-use-package 'php-mode)
@@ -684,7 +707,8 @@
 (require 'ivy-rtags)
 (setq rtags-display-result-backend 'ivy)
 (if
-    (and (fboundp 'rtags-executable-find) (rtags-executable-find "rc") (rtags-executable-find "rc"))
+    (and nil
+         (fboundp 'rtags-executable-find) (rtags-executable-find "rc") (rtags-executable-find "rc"))
     (progn
       (define-key c-mode-base-map (kbd "M-.") 'rtags-find-symbol-at-point)
       (define-key c-mode-base-map (kbd "M-,") 'rtags-find-references-at-point)
@@ -729,8 +753,7 @@
 (straight-use-package 'cmake-ide)
 (require 'cmake-ide)
 (setq cmake-ide-cmake-command (concat (getenv "HOME") "/.dotfiles-private/bin/cmake-catkin"))
-; (list "cmake" "*cmake*" cmake-ide-cmake-command)
-(cmake-ide-setup)
+; (cmake-ide-setup)
 
 ; (global-flycheck-mode t)
 (straight-use-package 'cmake-mode)
