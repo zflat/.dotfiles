@@ -15,6 +15,9 @@ Load and install "dotfiles"
     * ripgrep
     * (apt-get) editorconfig
     * [GNU Global with ctags]
+    * (apt-get) llvm clang
+    * [rtags]
+    * [ripgrep]
   * Cask http://cask.readthedocs.org/
  * Clone the repo into .dotfiles
  * Run the [dotbot] setup script
@@ -50,3 +53,5 @@ whatever you want with it without restriction.
 
 [dotbot]: https://github.com/anishathalye/dotbot
 [GNU Global with ctags]: https://github.com/leoliu/ggtags/wiki/Install-Global-with-support-for-exuberant-ctags
+[rtags]: https://github.com/Andersbakken/rtags/wiki/Installing-RTags#let-the-build-system-download-and-compile-llvmclang
+[ripgrep]: https://github.com/BurntSushi/ripgrep#installation

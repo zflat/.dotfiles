@@ -82,6 +82,7 @@
 (depends-on "visible-mark")
 (depends-on "vlf") ; very large file
 (depends-on "web-mode")
+(depends-on "yaml-mode")
 (depends-on "wolfram") ; https://github.com/hsjunnesson/wolfram.el
 (depends-on "yaml-mode")
 (depends-on "yasnippet")

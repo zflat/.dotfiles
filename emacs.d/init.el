@@ -374,6 +374,7 @@
 (straight-use-package 'bm)
 (require 'bm)
 (global-set-key (kbd "<C-f2>") 'bm-toggle)
+(global-set-key (kbd "<s-f2>") 'bm-toggle)
 (global-set-key (kbd "<f2>")   'bm-next)
 (global-set-key (kbd "<S-f2>") 'bm-previous)
 (setq bm-highlight-style 'bm-highlight-line-and-fringe)
@@ -507,6 +508,7 @@
 (global-set-key [f9] 'ag-project)
 (global-set-key (kbd "C-<f9>") 'ag-project-regexp)
 (global-set-key (kbd "C-<f6> s") 'my-projectile-ripgrep)
+(global-set-key (kbd "s-<f6> s") 'my-projectile-ripgrep)
 (setq counsel-grep-base-command
  "rg -i -M 120 --no-heading --line-number --color never '%s' %s")
 (global-set-key (kbd "C-s") 'counsel-grep-or-swiper)
@@ -514,6 +516,10 @@
   ;; (global-set-key [f8] 'helm-projectile-find-file)
   ;(global-set-key (kbd "C-<f6> f") 'projectile-find-file-dwim)
 (global-set-key (kbd "C-<f6> f") 'counsel-projectile-find-file)
+(global-set-key (kbd "s-<f6> f") 'counsel-projectile-find-file)
+
+; TODO find a better keybinding than C-x b to swith buffer to buffer
+;(global-set-key (kbd "C-<f1>") 'counsel-projectile-switch-to-buffer)
 
 
 ;; Note: Invalidate Projectile cache with  [C-c p i]
@@ -669,7 +675,12 @@
 (set-face-attribute 'web-mode-current-column-highlight-face nil :background (face-attribute 'hl-line :background))
 
 
-(straight-use-package 'emmet-mode)
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+
+;; (require 'company)
+;; (add-hook 'after-init-hook 'global-company-mode)
+
 (require 'emmet-mode)
 (add-hook 'web-mode-hook  'emmet-mode)
 
@@ -868,6 +879,7 @@
 
 ;; (global-set-key (kbd "M-<f6>") nil)
 (global-set-key (kbd "M-<f6>") 'imenu)
+(global-set-key (kbd "s-x") 'imenu)
 (global-set-key (kbd "C-x C-q") 'kill-buffer-and-window)
 
 
