@@ -5,6 +5,8 @@
 #*.lock
 *.DS_Store
 
+/emacs.d/lsp_docker_client_config.el
+/emacs.d/tramp_remote_hosts.el
 /emacs.d/.*
 /emacs.d/abbrevs
 emacs.d/auto-save-list
