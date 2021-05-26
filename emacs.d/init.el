@@ -571,9 +571,9 @@
 (require 'geben)
 (setq geben-display-window-function 'popwin:switch-to-buffer)
 
+(straight-use-package 'docker-tramp)
 (straight-use-package 'lsp-mode)
 (require 'lsp-mode)
-(add-hook 'c++-mode-hook #'lsp-deferred)
 
 ;; LSP over Tramp
 ;; (lsp-register-client
@@ -591,6 +591,35 @@
 ; Maybe dir local with  lsp-enabled-clients/lsp-disabled-clients
 
 
+(straight-use-package 'ccls)
+(straight-use-package '(lsp-docker :host github :repo "zflat/lsp-docker" :branch "continer-name"))
+(require 'lsp-docker)
+; (require 'ccls)
+(setq lsp-docker-client-packages
+      '(lsp-bash lsp-pyls ccls))
+;; Load a file that defines
+;; * lsp-docker-client-configs
+;;   * See lsp-docker usage
+;; * lsp-docker-default-configs
+;;   * A plist for lsp-docker-init-clients keyword arguments
+(let ((path "~/.emacs.d")
+      (file "lsp_docker_client_config.el"))
+  (if (locate-file file (list path))
+      (load (concat path "/" file))))
+
+(gethash 'ccls lsp-clients)
+(gethash 'ccls-docker lsp-clients)
+
+;; Force c++ to use the ccls-docker client
+(setq lsp-disabled-clients '(clangd ccls))
+;; Other examples are:
+;; (setq lsp-enabled-clients '(foo-bar)) will run only client foo-bar
+;; (setq lsp-disabled-clients '(foo-bar)) will disable client foo-bar
+;; (setq lsp-client-packages '(lsp-foo-bar)) will load only the definition for foo-bar.
+
+; (setq lsp-file-watch-threshold 3000)
+(setq lsp-enable-file-watchers nil)
+(add-hook 'c++-mode-hook #'lsp-deferred)
 
 (straight-use-package
 '(php-extras :type git :host github :repo "arnested/php-extras"))
@@ -790,7 +819,7 @@
 ;;
 ;; (setq-local imenu-create-index-function #'ggtags-build-imenu-index)
 ;; (ggtags-mode 1)
-;(global-set-key (kbd "M-*") 'xref-pop-marker-stack) ; could also be 'pop-tag-mark
+(global-set-key (kbd "M-*") 'xref-pop-marker-stack) ; could also be 'pop-tag-mark
 ;; TODO also use (rtags-location-stack-back) when in c++ mode?
 ;; (setq ggtags-completing-read-function nil)
                                         ; (setenv "GTAGSLIBPATH" "/showclix/config:/showclix/src:/showclix/tests/active_tests:/showclix/settings:/showclix/schema_evolutions:/showclix/public_html/classes:/showclix/public_html/actions:/showclix/public_html/templates:/showclix/public_html/controller")
