@@ -72,10 +72,11 @@
 
 (transient-mark-mode t) ; Standard selection-highlighting behavior of other editors.
 
-(if (and
-     (>= emacs-major-version 24)
-     (>= emacs-minor-version 4))
+(if (or (>= emacs-major-version 25)
+        (and (>= emacs-major-version 24)
+             (>= emacs-minor-version 4)))
     (electric-pair-mode 1)) ; Provides a way to easily insert matching delimiters
+
 
 (global-hl-line-mode t) ; highlight the line at point
 (set-face-underline hl-line-face nil)
