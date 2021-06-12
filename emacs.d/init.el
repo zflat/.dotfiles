@@ -909,10 +909,10 @@
 ; See also https://github.com/jmorag/kakoune.el
 (straight-use-package 'god-mode)
 ;; (setq god-exempt-major-modes nil)
+(add-to-list 'god-exempt-major-modes 'magit-mode)
 ;; (setq god-exempt-predicates nil)
 (setq god-mode-enable-function-key-translation nil)
 (require 'god-mode)
-(global-set-key (kbd "<escape>") #'god-local-mode)
 (god-mode)
 ; https://emacs.zdx.cat/#org16c18e2
 ; (defun my-god-mode-update-cursor-type ()
@@ -922,7 +922,8 @@
                                     (setq cursor-type '(hbar . 8))))
 (add-hook 'god-mode-disabled-hook '(lambda ()
                                      (setq cursor-type 'box)))
-(define-key god-local-mode-map (kbd "i") #'god-local-mode)
+(global-set-key (kbd "<f11>") (lambda () (interactive) (or (god-local-mode-resume))))
+(define-key god-local-mode-map (kbd "i") (lambda () (interactive) (god-local-mode-pause)))
 (define-key god-local-mode-map (kbd ".") #'repeat)
 ;; god-mode is greedy and tries to prefix everything with C- so
 ;; modify some common keybindings to work better in god-mode.
