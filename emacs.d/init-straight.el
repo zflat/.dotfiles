@@ -119,6 +119,7 @@
 (straight-use-package 'counsel)
 (straight-use-package 'dockerfile-mode)
 (straight-use-package 'editorconfig)
+(straight-use-package 'emmet-mode)
 (straight-use-package 'expand-region)
 (straight-use-package 'flx)
 (straight-use-package 'ivy)
@@ -139,6 +140,7 @@
 (setq avy-background t)
 
 (require 'beacon)
+; see also https://github.com/rolandwalker/nav-flash
 (beacon-mode 1)
 (setq beacon-dont-blink-commands
    (quote
@@ -201,10 +203,22 @@
 (global-set-key (kbd "C-c C-f") 'wrapped-ivy-immediate-done) ;; useful for creating a new file
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
 
+(straight-use-package 'ivy-xref)
+(require 'ivy-xref)
+
+(straight-use-package 'dumb-jump)
+(require 'dumb-jump)
+(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+
+
 (require 'editorconfig)
 (editorconfig-mode 1)
 
+
 (require 'web-mode)
+
+(require 'emmet-mode)
+(add-hook 'web-mode-hook  'emmet-mode)
 
 (require 'dockerfile-mode)
 (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))

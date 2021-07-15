@@ -573,6 +573,9 @@
 
 (straight-use-package 'docker-tramp)
 (straight-use-package 'lsp-mode)
+(with-eval-after-load 'lsp-mode
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\build\\'")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\logs\\'"))
 (require 'lsp-mode)
 
 ;; LSP over Tramp
@@ -594,7 +597,7 @@
 (straight-use-package 'ccls)
 (straight-use-package '(lsp-docker :host github :repo "zflat/lsp-docker" :branch "continer-name"))
 (require 'lsp-docker)
-; (require 'ccls)
+(require 'ccls)
 (setq lsp-docker-client-packages
       '(lsp-bash lsp-pyls ccls))
 ;; Load a file that defines
@@ -620,6 +623,11 @@
 ; (setq lsp-file-watch-threshold 3000)
 (setq lsp-enable-file-watchers nil)
 (add-hook 'c++-mode-hook #'lsp-deferred)
+
+
+(straight-use-package 'docker)
+(require 'docker)
+(global-set-key (kbd "C-c C-d") 'docker)
 
 (straight-use-package
 '(php-extras :type git :host github :repo "arnested/php-extras"))
@@ -681,6 +689,7 @@
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode)) ; see also https://dev.to/viglioni/how-i-set-up-my-emacs-for-typescript-3eeh
 (add-to-list 'auto-mode-alist '("\\.qrc\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.launch\\'" . web-mode))
 (setq web-mode-engines-alist '
@@ -786,8 +795,9 @@
 (define-key c++-mode-map (kbd "<f5>") 'recompile)
 
 (defun clang-format-on-save ()
+  (interactive)
   (add-hook 'before-save-hook #'clang-format-buffer nil 'local))
-(add-hook 'c++-mode-hook 'clang-format-on-save)
+(add-hook 'c++-mode-hook 'clang-format-on-save 10)
 (add-hook 'c-mode-hook 'clang-format-on-save)
 
 (straight-use-package 'cmake-ide)
@@ -909,19 +919,28 @@
 ; See also https://github.com/jmorag/kakoune.el
 (straight-use-package 'god-mode)
 ;; (setq god-exempt-major-modes nil)
-(add-to-list 'god-exempt-major-modes 'magit-mode)
 ;; (setq god-exempt-predicates nil)
 (setq god-mode-enable-function-key-translation nil)
 (require 'god-mode)
+(add-to-list 'god-exempt-major-modes 'magit-mode)
 (god-mode)
+(straight-use-package '(dimmer :host github :repo "emacsmirror/dimmer" :branch "master"))
+(require 'dimmer)
 ; https://emacs.zdx.cat/#org16c18e2
 ; (defun my-god-mode-update-cursor-type ()
 ;  (setq cursor-type (if (or god-local-mode buffer-read-only) 'box 'bar)))
 ; (add-hook 'post-command-hook #'my-god-mode-update-cursor-type)
 (add-hook 'god-mode-enabled-hook '(lambda ()
-                                    (setq cursor-type '(hbar . 8))))
+                                    (progn
+                                      (dimmer-mode -1)
+                                      ;; (dimmer-process-all)
+                                      (setq cursor-type '(hbar . 8)))))
 (add-hook 'god-mode-disabled-hook '(lambda ()
-                                     (setq cursor-type 'box)))
+                                     (progn
+                                       (dimmer-mode t)
+                                       ;; (dimmer-dim-all)
+                                       ;; (dimmer-process-all)
+                                       (setq cursor-type 'box))))
 (global-set-key (kbd "<f11>") (lambda () (interactive) (or (god-local-mode-resume))))
 (define-key god-local-mode-map (kbd "i") (lambda () (interactive) (god-local-mode-pause)))
 (define-key god-local-mode-map (kbd ".") #'repeat)
