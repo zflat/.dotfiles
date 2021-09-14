@@ -21,7 +21,7 @@
 "wmctrl -x -a Firefox || wmctrl -x -a Vivaldi || wmctrl -x -a Chromium"
   Control+Alt + b
 
-"wmctrl -x -a slack || wmctrl -x -a epiphany-chat"
+"wmctrl -x -a slack || wmctrl -x -a teams"
   Control+Alt + y
 
 "wmctrl -a Visual Studio Code"
@@ -29,6 +29,11 @@
 
 "wmctrl -a MySQL Workbench"
   Control+Alt + m
+
+"nmcli r wifi off && notify-send Off"
+  Control + XF86RFKill
+"nmcli r wifi on && notify-send On"
+  Alt + XF86RFKill
 
 ########
 # Notes:
@@ -38,4 +43,3 @@
 #   `xprop | grep WM_CLASS | awk '{print $3 $4}'`
 # * Reload xbindkeys changes with
 #  `killall -HUP xbindkeys`
-#  (or with `xbindkeys -p` ?)
