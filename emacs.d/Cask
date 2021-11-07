@@ -55,6 +55,7 @@
 ; (depends-on "lsp-mode") Consider this for PHP IDE capabilities
 (depends-on "magit")
 (depends-on "magit-libgit") ; opt-in to using experimental libgit2
+(depends-on "magit-delta") ; TODO
 (depends-on "markdown-mode")
 (depends-on "multiple-cursors")
 (depends-on "move-dup") ; Copy/move line(s) up or down
