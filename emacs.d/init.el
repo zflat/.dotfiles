@@ -120,8 +120,8 @@
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
 ; (global-set-key (kbd "<f1>") 'switch-to-previous-buffer)
-(global-set-key (kbd "<backtab>") 'switch-to-buffer)
-
+; (global-set-key (kbd "<backtab>") 'switch-to-buffer)
+(global-set-key (kbd "<backtab>") 'switch-to-previous-buffer)
 
 ;; show the current directory in the frame bar
 ;; see http://stackoverflow.com/a/8945306
@@ -896,7 +896,13 @@
 
 (require 'go-back-buffer "~/proj/go-back-buffer/go-back-buffer.el")
 (go-back-buffer-mode)
-(global-set-key (kbd "<f1>") 'gbb--display-prev-buffer)
+; (global-set-key (kbd "<f1>") 'gbb-display-prev-buffer)
+(global-set-key (kbd "<f1>") 'display-prev-buffer-in-window)
+(global-set-key (kbd "M-o") 'switch-to-buffer)
+;; TODO see: 
+;; https://github.com/jrosdahl/iflipb
+;; https://github.com/killdash9/buffer-flip.el
+
 
 ;; mouse vs keyboard
 ;; https://www.reddit.com/r/emacs/comments/4f2iee/efficient_use_of_multibutton_mice_with_emacs/d260em2/
