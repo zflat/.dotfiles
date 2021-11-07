@@ -727,7 +727,6 @@
 (setq markdown-command "multimarkdown")
 
 (global-set-key (kbd "C-x g") 'magit-status)
-(global-magit-file-mode t)
 (setq magit-completing-read-function 'ivy-completing-read)
 ; (setq magit-completing-read-function 'magit-ido-completing-read)
 
@@ -890,10 +889,14 @@
 (global-set-key (kbd "C-s-e") 'xah-show-in-desktop)
 
 
-(require 'go-back-buffer "~/.emacs.d/packages/go-back-buffer/go-back-buffer.el")
+;; (require 'go-back-buffer "~/.emacs.d/packages/go-back-buffer/go-back-buffer.el")
+;; (global-set-key (kbd "<f1>") 'gbb--display-prev-buffer)
+;; (advice-add 'set-window-buffer :before 'gbb--update-history)
+;; (advice-add 'delete-window :before 'gbb--cleanup-history)
+
+(require 'go-back-buffer "~/proj/go-back-buffer/go-back-buffer.el")
+(go-back-buffer-mode)
 (global-set-key (kbd "<f1>") 'gbb--display-prev-buffer)
-(advice-add 'set-window-buffer :before 'gbb--update-history)
-(advice-add 'delete-window :before 'gbb--cleanup-history)
 
 ;; mouse vs keyboard
 ;; https://www.reddit.com/r/emacs/comments/4f2iee/efficient_use_of_multibutton_mice_with_emacs/d260em2/
