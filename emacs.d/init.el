@@ -957,7 +957,8 @@
                                        ;; (dimmer-process-all)
                                        (setq cursor-type 'box))))
 (global-set-key (kbd "<f11>") (lambda () (interactive) (or (god-local-mode-resume))))
-(global-set-key (kbd "<pause>") (lambda () (interactive) (or (god-local-mode-resume))))
+;; Toggle god-local-mode
+(global-set-key (kbd "<pause>") (lambda () (interactive) (or (god-local-mode-resume) (god-local-mode-pause))))
 (define-key god-local-mode-map (kbd "i") (lambda () (interactive) (god-local-mode-pause)))
 (define-key god-local-mode-map (kbd ".") #'repeat)
 ;; god-mode is greedy and tries to prefix everything with C- so
@@ -1075,10 +1076,13 @@
 (global-set-key (kbd "C-s-e") 'xah-show-in-desktop)
 
 
-(require 'go-back-buffer "~/.emacs.d/packages/go-back-buffer/go-back-buffer.el")
-(global-set-key (kbd "<f1>") 'gbb--display-prev-buffer)
-(advice-add 'set-window-buffer :before 'gbb--update-history)
-(advice-add 'delete-window :before 'gbb--cleanup-history)
+;; Switching to recent buffers
+;; TODO see:
+;; https://github.com/jrosdahl/iflipb
+;; https://github.com/killdash9/buffer-flip.el
+(global-set-key (kbd "<f9>") 'switch-to-prev-buffer)
+(global-set-key (kbd "<f10>") 'switch-to-next-buffer)
+(global-set-key (kbd "M-o") 'switch-to-buffer)
 
 ;; mouse vs keyboard
 ;; https://www.reddit.com/r/emacs/comments/4f2iee/efficient_use_of_multibutton_mice_with_emacs/d260em2/
