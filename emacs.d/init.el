@@ -595,7 +595,7 @@
 
 
 (straight-use-package 'ccls)
-(straight-use-package '(lsp-docker :host github :repo "zflat/lsp-docker" :branch "continer-name"))
+(straight-use-package 'lsp-docker)
 (require 'lsp-docker)
 (require 'ccls)
 (setq lsp-docker-client-packages
