@@ -32,3 +32,5 @@ emacs.d/auto-save-list/*
 /emacs.d/smex-items
 /emacs.d/ido.last
 /config/Vagrant/.vagrant/*
+
+.local/**
