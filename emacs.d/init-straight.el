@@ -126,8 +126,10 @@
 
 (straight-use-package 'avy)
 (straight-use-package 'beacon)
+(straight-use-package 'cmake-font-lock)
 (straight-use-package 'counsel)
 (straight-use-package 'dockerfile-mode)
+(straight-use-package 'dynamic-spaces)
 (straight-use-package 'editorconfig)
 (straight-use-package 'emmet-mode)
 (straight-use-package 'expand-region)
@@ -224,6 +226,9 @@
 (require 'editorconfig)
 (editorconfig-mode 1)
 
+(require 'dynamic-spaces)
+
+(require 'cmake-font-lock)
 
 (require 'web-mode)
 
