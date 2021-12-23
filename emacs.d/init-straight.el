@@ -67,6 +67,16 @@
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Uniquify.html
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
+
+
+;; Keyboard shortcut to toggle show/hide function content
+;; See https://emacs.wordpress.com/2007/01/16/quick-and-dirty-code-folding/
+(defun jao-toggle-selective-display (column)
+  (interactive "P")
+  (set-selective-display
+   (if selective-display column (or column 1))))
+(global-set-key (kbd "<f12>") 'jao-toggle-selective-display)
+
 ;;;;;;;;;;;;;;
 ;; Minor modes
 
@@ -116,8 +126,10 @@
 
 (straight-use-package 'avy)
 (straight-use-package 'beacon)
+(straight-use-package 'cmake-font-lock)
 (straight-use-package 'counsel)
 (straight-use-package 'dockerfile-mode)
+(straight-use-package 'dynamic-spaces)
 (straight-use-package 'editorconfig)
 (straight-use-package 'emmet-mode)
 (straight-use-package 'expand-region)
@@ -214,6 +226,9 @@
 (require 'editorconfig)
 (editorconfig-mode 1)
 
+(require 'dynamic-spaces)
+
+(require 'cmake-font-lock)
 
 (require 'web-mode)
 

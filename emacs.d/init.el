@@ -419,6 +419,15 @@
 (require 'ivy-pass)
 (global-set-key (kbd "<C-f12>") 'password-store-copy)
 
+;; magit ssh auth issue with SSH_AUTH_SOCK
+;; See https://github.com/syl20bnr/spacemacs/issues/10969
+;; (straight-use-package 'keychain-environment)
+;; (require 'keychain-environment)
+;; (keychain-refresh-environment)
+;; Possibly more permanent than this?
+;; https://github.com/syl20bnr/spacemacs/issues/10969#issuecomment-409929968
+
+
 ;; (require 'counsel)
 ;; (require 'swiper)
 ;; (add-to-list 'swiper-font-lock-exclude 'php-mode)
@@ -463,6 +472,8 @@
 (defun my-compilation-mode-hook ()
   (local-set-key (kbd "o") #'my-compile-goto-error-same-window))
 (add-hook 'compilation-mode-hook #'my-compilation-mode-hook)
+
+(setq compilation-always-kill t)
 
 ;; Color output from compilation
 ;; See https://zeekat.nl/articles/making-emacs-work-for-me.html
@@ -614,7 +625,8 @@
 (gethash 'ccls-docker lsp-clients)
 
 ;; Force c++ to use the ccls-docker client
-(setq lsp-disabled-clients '(clangd ccls))
+;; Force python to use pyls-docker-xxx client(s)
+(setq lsp-disabled-clients '(clangd ccls pyls pylsp))
 ;; Other examples are:
 ;; (setq lsp-enabled-clients '(foo-bar)) will run only client foo-bar
 ;; (setq lsp-disabled-clients '(foo-bar)) will disable client foo-bar
@@ -797,6 +809,9 @@
 (defun clang-format-on-save ()
   (interactive)
   (add-hook 'before-save-hook #'clang-format-buffer nil 'local))
+;; (defun clang-format-on-save-remove ()
+;;   (interactive)
+;;   (remove-hook 'before-save-hook #'clang-format-buffer))
 (add-hook 'c++-mode-hook 'clang-format-on-save 10)
 (add-hook 'c-mode-hook 'clang-format-on-save)
 
@@ -956,6 +971,7 @@
 
 
 ;; (global-set-key (kbd "M-<f6>") nil)
+(global-set-key (kbd "M-o") #'ivy-switch-buffer)
 (global-set-key (kbd "M-<f6>") 'imenu)
 (global-set-key (kbd "s-x") 'imenu)
 (global-set-key (kbd "C-x C-q") 'kill-buffer-and-window)
@@ -1099,6 +1115,7 @@
 (diminish 'ggtags-mode)
 (diminish 'beacon-mode)
 (diminish 'emmet-mode)
+(diminish 'god-local-mode)
 
 
 
