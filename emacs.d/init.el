@@ -957,6 +957,7 @@
                                        ;; (dimmer-process-all)
                                        (setq cursor-type 'box))))
 (global-set-key (kbd "<f11>") (lambda () (interactive) (or (god-local-mode-resume))))
+(global-set-key (kbd "<pause>") (lambda () (interactive) (or (god-local-mode-resume))))
 (define-key god-local-mode-map (kbd "i") (lambda () (interactive) (god-local-mode-pause)))
 (define-key god-local-mode-map (kbd ".") #'repeat)
 ;; god-mode is greedy and tries to prefix everything with C- so

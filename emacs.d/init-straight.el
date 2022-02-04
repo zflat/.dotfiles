@@ -136,6 +136,7 @@
 (straight-use-package 'flx)
 (straight-use-package 'ivy)
 (straight-use-package 'ivy-hydra)
+(straight-use-package 'literate-calc-mode)
 (straight-use-package 'magit)
 (straight-use-package 'move-dup)
 (straight-use-package 'multiple-cursors)
