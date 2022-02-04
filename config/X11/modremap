@@ -19,8 +19,14 @@ xkb_symbols "mods-cstgr" {
     #     type[Group1] = "TWO_LEVEL",
     #     symbols[Group1] = [ALT_R, space]
     # };
-};
 
+    # Right shift modification
+    key <RTSH> {
+        type[Group1] = "TWO_LEVEL",
+        symbols[Group1] = [Pause, Escape],
+        actions[Group1] = [NoAction(), NoAction()]
+    };
+};
 
 # If scroll lock is needed...
 # https://askubuntu.com/a/597757
@@ -28,3 +34,10 @@ xkb_symbols "mods-cstgr" {
 # To load the updated XKB config
 # https://askubuntu.com/a/968338
 # setxkbmap -layout us
+
+# See the following for how key codes are named:
+# /usr/share/X11/xkb/keycodes/evdev
+# /usr/include/X11/keysymdef.h
+
+# See more information at
+# https://help.ubuntu.com/community/Custom%20keyboard%20layout%20definitions?action=show&redirect=Howto%3A+Custom+keyboard+layout+definitions
