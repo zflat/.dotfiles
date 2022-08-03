@@ -1080,8 +1080,7 @@
 
 ;; Switching to recent buffers
 (require 'go-back-buffer "~/.emacs.d/packages/go-back-buffer/go-back-buffer.el")
-(global-set-key (kbd "<f1>") 'gbb--display-prev-buffer)
-(advice-add 'set-window-buffer :before 'gbb--update-history)
+(global-set-key (kbd "<f1>") 'go-back-buffer--display-prev-buffer-in-window)
 (global-set-key (kbd "<f9>") 'switch-to-prev-buffer)
 (global-set-key (kbd "<f10>") 'switch-to-next-buffer)
 (global-set-key (kbd "M-o") 'switch-to-buffer)
@@ -1173,6 +1172,7 @@
 (global-set-key [s-down] 'buffer-order-next-mark)
 (global-set-key [s-up] 'buffer-order-prev-mark)
 
+(straight-use-package 'package-lint)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Color Themes
