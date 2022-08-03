@@ -128,6 +128,7 @@
 (straight-use-package 'beacon)
 (straight-use-package 'cmake-font-lock)
 (straight-use-package 'counsel)
+(straight-use-package 'docker)
 (straight-use-package 'dockerfile-mode)
 (straight-use-package 'dynamic-spaces)
 (straight-use-package 'editorconfig)

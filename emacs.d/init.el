@@ -411,6 +411,8 @@
 (straight-use-package 'ag)
 (require 'ag)
 
+(straight-use-package 'vterm)
+
 ;; (require 'flx) ; scoring mechanism from flx is used by ivy–regex-fuzzy
 ;; (require 'ivy-hydra)
 ;; (require 'ivy)
