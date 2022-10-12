@@ -736,9 +736,8 @@
 (require 'emmet-mode)
 (add-hook 'web-mode-hook  'emmet-mode)
 
-
-;; (require 'yaml-mode)
-;; (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+;; Requires a valid yaml checker
+(add-hook 'yaml-mode-hook 'flycheck-mode)
 
 ;; (require 'dockerfile-mode)
 ;; (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
@@ -752,8 +751,6 @@
                            (message "js2-mode exited")))
 (define-key qml-mode-map (kbd "<f5>") 'recompile)
 
-(straight-use-package 'flycheck)
-(require 'flycheck)
 
 ; C++ w/ RTags (sort of automated with cmake-ide...)
 ; https://github.com/atilaneves/cmake-ide
@@ -972,6 +969,7 @@
 (define-key god-local-mode-map (kbd "C-x C-o") #'other-window)
 (define-key god-local-mode-map (kbd "C-x C-b") #'ivy-switch-buffer)
 (define-key god-local-mode-map (kbd "C-x C-c") #'list-buffers) ;; Re-bind to prevent accidental exit
+(define-key god-local-mode-map (kbd "C-x C-m") #'kmacro-end-and-call-macro)
 
 
 ;; (global-set-key (kbd "M-<f6>") nil)

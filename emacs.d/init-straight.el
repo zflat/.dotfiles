@@ -224,6 +224,8 @@
 (require 'dumb-jump)
 (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 
+(straight-use-package 'flycheck)
+(require 'flycheck)
 
 (require 'editorconfig)
 (editorconfig-mode 1)
@@ -241,8 +243,8 @@
 (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
 
 (require 'yaml-mode)
-(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
-
+(add-to-list 'auto-mode-alist '("\\.yml$'" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.yaml$'" . yaml-mode))
 
 ;; Set font
 ;; http://askubuntu.com/questions/23603/how-to-change-font-size-in-emacs
