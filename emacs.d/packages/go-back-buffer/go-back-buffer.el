@@ -101,7 +101,7 @@ Optional argument WINDOW overrides the default, `selected-window', to get the cu
          (go-back-buffer--history-buffer prev-history)
          (go-back-buffer--history-win-start prev-history)
          (go-back-buffer--history-win-point prev-history))
-      (mode-line-other-buffer))))
+      (previous-buffer 1))))
 
 (defun go-back-buffer--cleanup-history (&optional window)
   "Clean up buffer history.
