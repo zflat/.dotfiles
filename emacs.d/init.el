@@ -864,6 +864,7 @@
 (setq markdown-command "multimarkdown")
 
 (global-set-key (kbd "C-x g") 'magit-status)
+
 ; (global-magit-file-mode t) ; this is no longer a thing? what did this do before
 (setq magit-completing-read-function 'ivy-completing-read)
 ; (setq magit-completing-read-function 'magit-ido-completing-read)
@@ -905,8 +906,7 @@
 (defun my-c-mode-common-hook ()
   ;; my customizations for all of c-mode, c++-mode, objc-mode, java-mode
   (c-set-offset 'substatement-open 0)
-  (c-set-offset 'arglist-intro 2)
-  )
+  (c-set-offset 'arglist-intro 4))
 (straight-use-package 'modern-cpp-font-lock)
 (require 'modern-cpp-font-lock)
 (modern-c++-font-lock-global-mode t)
@@ -1075,13 +1075,21 @@
 
 (global-set-key (kbd "C-s-e") 'xah-show-in-desktop)
 
-
 ;; Switching to recent buffers
-(require 'go-back-buffer "~/.emacs.d/packages/go-back-buffer/go-back-buffer.el")
-(global-set-key (kbd "<f1>") 'go-back-buffer--display-prev-buffer-in-window)
+(defun display-prev-buffer-in-window ()
+  "Changes to the most recent buffer in the current window"
+  (interactive)
+  (apply 'set-window-buffer-start-and-point
+         (append (list (selected-window))
+                 (nth 0 (window-prev-buffers (selected-window))))))
+(global-set-key (kbd "<f1>") 'display-prev-buffer-in-window)
 (global-set-key (kbd "<f9>") 'switch-to-prev-buffer)
 (global-set-key (kbd "<f10>") 'switch-to-next-buffer)
 (global-set-key (kbd "M-o") 'switch-to-buffer)
+;(require 'go-back-buffer "~/.emacs.d/packages/go-back-buffer/go-back-buffer.el")
+; (go-back-buffer-mode t)
+;(global-set-key (kbd "<f1>") 'go-back-buffer--display-prev-buffer-in-window)
+
 ;; TODO also try these:
 ;; https://github.com/jrosdahl/iflipb
 ;; https://github.com/killdash9/buffer-flip.el
