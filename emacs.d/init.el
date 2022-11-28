@@ -1080,8 +1080,9 @@
 
 ;; Switching to recent buffers
 (require 'go-back-buffer "~/.emacs.d/packages/go-back-buffer/go-back-buffer.el")
+(go-back-buffer-mode t)
 (global-set-key (kbd "<f1>") 'gbb--display-prev-buffer)
-(advice-add 'set-window-buffer :before 'gbb--update-history)
+;(advice-add 'set-window-buffer :before 'gbb--update-history)
 (global-set-key (kbd "<f9>") 'switch-to-prev-buffer)
 (global-set-key (kbd "<f10>") 'switch-to-next-buffer)
 (global-set-key (kbd "M-o") 'switch-to-buffer)

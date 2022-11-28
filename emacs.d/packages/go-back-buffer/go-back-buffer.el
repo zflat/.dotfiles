@@ -140,6 +140,30 @@ for compatibility with advice."
   (interactive)
   (gbb--display-prev-buffer-in-window))
 
+(defun go-back-buffer--add-advices ()
+    "Add all advices needed for go-back-buffer to work.
+This function is called when `go-back-buffer-mode' is activated."
+  (advice-add 'set-window-buffer :before #'gbb--update-history)
+  (advice-add 'delete-window :before #'gbb--cleanup-history))
+
+(defun go-back-buffer--remove-advices ()
+    "Remove all advices needed for Purpose to work.
+This function is called when `go-back-buffer-mode' is deactivated."
+    (advice-remove 'set-window-buffer #'go-back-buffer--update-history)
+  (advice-remove 'delete-window #'go-back-buffer--cleanup-history))
+
+(defvar go-back-buffer--active-p nil)
+
+;;;###autoload
+(define-minor-mode go-back-buffer-mode nil
+  :global t
+  (if go-back-buffer-mode
+      (progn
+        (go-back-buffer--add-advices)
+        (setq go-back-buffer--active-p t))
+    (go-back-buffer--remove-advices)
+    (setq go-back-buffer--active-p nil)))
+
 ; (advice-add 'set-window-buffer :before 'gbb--update-history)
 ; (advice-add 'delete-window :before 'gbb--cleanup-history)
 ; (advice-remove 'set-window-buffer #'gbb--update-history)
