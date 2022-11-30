@@ -67,7 +67,7 @@
      (go-back-buffer--history-key curr-screen curr-window)
      (get 'go-back-buffer--prev-history 'history))))
 
-(defun go-back-buffer--update-history (&optional window)
+(defun go-back-buffer--update-history (&optional window next-buffer)
   "Store the window's current buffer in the previous buffer.
 Optional argument WINDOW overrides the default, `selected-window', to get the current buffer of the window."
   (let* ((curr-window (or window (selected-window)))
@@ -77,7 +77,8 @@ Optional argument WINDOW overrides the default, `selected-window', to get the cu
          (buffer-live-p curr-buffer)
          (not (equal
                (go-back-buffer--history-buffer prev-history)
-               curr-buffer)))
+               curr-buffer))
+         (not (equal curr-buffer next-buffer)))
         (setcdr
          prev-history
          (list (go-back-buffer--history-val
