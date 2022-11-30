@@ -1079,9 +1079,12 @@
 (defun display-prev-buffer-in-window ()
   "Changes to the most recent buffer in the current window"
   (interactive)
-  (apply 'set-window-buffer-start-and-point
-         (append (list (selected-window))
-                 (nth 0 (window-prev-buffers (selected-window))))))
+  (if (not (null (window-prev-buffers (selected-window))))
+      (apply 'set-window-buffer-start-and-point
+             (append
+              (list (selected-window))
+              (nth 0 (window-prev-buffers (selected-window)))))
+    (previous-buffer 1)))
 (global-set-key (kbd "<f1>") 'display-prev-buffer-in-window)
 (global-set-key (kbd "<f9>") 'switch-to-prev-buffer)
 (global-set-key (kbd "<f10>") 'switch-to-next-buffer)
