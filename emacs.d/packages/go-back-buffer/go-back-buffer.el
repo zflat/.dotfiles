@@ -109,23 +109,25 @@ Optional argument WINDOW overrides the default, `selected-window', to get the cu
 Delete the buffer history for any window that is no longer valid
 or for screens that no longer exist.  Argument WINDOW is provided
 for compatibility with advice."
-  (mapcar
-   (lambda (history)
-     (let* ((win-obj (go-back-buffer--history-window history))
-            (screen-ref (go-back-buffer--history-screen history)))
-       (if (and
-            (not (eq window win-obj))
-            (or
-             (not (and (fboundp 'elscreen-get-conf-list)
-                       (member
-                        screen-ref
-                        (elscreen-get-conf-list 'screen-history))))
-             (not (window-valid-p win-obj))))
-           (put 'go-back-buffer--prev-history 'history
-                (delq
-                 history
-                 (get 'go-back-buffer--prev-history 'history))))))
-   (get 'go-back-buffer--prev-history 'history)))
+  (some
+   (lambda (x) x)
+   (mapcan
+    (lambda (history)
+      (let* ((win-obj (go-back-buffer--history-window history))
+             (screen-ref (go-back-buffer--history-screen history)))
+        (if  (or
+              (not (and (fboundp 'elscreen-get-conf-list)
+                        (member
+                         screen-ref
+                         (elscreen-get-conf-list 'screen-history))))
+              (not (window-valid-p win-obj)))
+            (and
+             (put 'go-back-buffer--prev-history 'history
+                  (delq
+                   history
+                   (get 'go-back-buffer--prev-history 'history)))
+             (eq window win-obj)))))
+    (get 'go-back-buffer--prev-history 'history))))
 
 ;; Maintaining state
 ;; (http://ergoemacs.org/emacs/elisp_toggle_command.html)
