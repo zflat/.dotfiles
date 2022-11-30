@@ -1085,13 +1085,13 @@
               (list (selected-window))
               (nth 0 (window-prev-buffers (selected-window)))))
     (previous-buffer 1)))
-(global-set-key (kbd "<f1>") 'display-prev-buffer-in-window)
+; (global-set-key (kbd "<f1>") 'display-prev-buffer-in-window)
+(require 'go-back-buffer "~/.emacs.d/packages/go-back-buffer/go-back-buffer.el")
+(go-back-buffer-mode t)
+(global-set-key (kbd "<f1>") 'go-back-buffer--display-prev-buffer-in-window)
 (global-set-key (kbd "<f9>") 'switch-to-prev-buffer)
 (global-set-key (kbd "<f10>") 'switch-to-next-buffer)
 (global-set-key (kbd "M-o") 'switch-to-buffer)
-;(require 'go-back-buffer "~/.emacs.d/packages/go-back-buffer/go-back-buffer.el")
-; (go-back-buffer-mode t)
-;(global-set-key (kbd "<f1>") 'go-back-buffer--display-prev-buffer-in-window)
 
 ;; TODO also try these:
 ;; https://github.com/jrosdahl/iflipb
