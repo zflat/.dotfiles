@@ -1131,7 +1131,7 @@
 (diminish 'beacon-mode)
 (diminish 'emmet-mode)
 (diminish 'god-local-mode)
-
+(diminish 'gc-buffers-mode)
 
 
 ;; Speed up emacs start:

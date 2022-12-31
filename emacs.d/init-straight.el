@@ -138,6 +138,9 @@
 (straight-use-package 'ivy)
 (straight-use-package 'ivy-hydra)
 (straight-use-package 'literate-calc-mode)
+(straight-use-package
+ '(gc-buffers :type git
+              :repo "https://codeberg.org/akib/emacs-gc-buffers.git"))
 (straight-use-package 'magit)
 (straight-use-package 'move-dup)
 (straight-use-package 'multiple-cursors)
@@ -254,6 +257,7 @@
                    (set-frame-font "DejaVu Sans Mono 12")))
 (set-face-attribute 'default nil :height 130)
 
+(gc-buffers-mode)
 
 (defun load-theme-solarized-dark ()
   (interactive)
