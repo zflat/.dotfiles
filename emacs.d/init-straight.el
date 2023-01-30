@@ -126,6 +126,7 @@
 
 (straight-use-package 'avy)
 (straight-use-package 'beacon)
+(straight-use-package 'beginend)
 (straight-use-package 'cmake-font-lock)
 (straight-use-package 'counsel)
 (straight-use-package 'docker)
@@ -142,6 +143,7 @@
  '(gc-buffers :type git
               :repo "https://codeberg.org/akib/emacs-gc-buffers.git"))
 (straight-use-package 'magit)
+(straight-use-package 'modern-cpp-font-lock)
 (straight-use-package 'move-dup)
 (straight-use-package 'multiple-cursors)
 (straight-use-package 'neotree)
@@ -223,6 +225,9 @@
 (straight-use-package 'ivy-xref)
 (require 'ivy-xref)
 
+(require 'beginend)
+(beginend-global-mode)
+
 (straight-use-package 'dumb-jump)
 (require 'dumb-jump)
 (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
@@ -248,6 +253,15 @@
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml$'" . yaml-mode))
+
+(require 'modern-cpp-font-lock)
+(modern-c++-font-lock-global-mode t)
+(add-to-list 'modern-c++-operators "=")
+(add-to-list 'modern-c++-operators "->")
+(add-to-list 'modern-c++-operators "&&")
+(add-to-list 'modern-c++-operators "||")
+(add-to-list 'modern-c++-operators "<<")
+
 
 ;; Set font
 ;; http://askubuntu.com/questions/23603/how-to-change-font-size-in-emacs
