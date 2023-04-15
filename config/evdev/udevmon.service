@@ -1,5 +1,8 @@
 # Link to
 # /etc/systemd/system/udevmon.service
+# sudo ln -s $HOME/.dotfiles/config/evdev/udevmon.service /etc/systemd/system
+# Then enable
+# sudo systemctl enable udevmon.service
 
 [Unit]
 Description=Monitor input devices for launching tasks
