@@ -35,5 +35,5 @@
       path: "local/share/applications/terminator.desktop"
       force: false
 
-- shell:
-   - cask install --path ./emacs.d
+# - shell:
+#    - cask install --path ./emacs.d
