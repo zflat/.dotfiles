@@ -1277,6 +1277,9 @@
     (customize-set-variable 'nrepl-message-colors
                             (quote
                              ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3"))))
+
+  (set-face-attribute 'web-mode-current-column-highlight-face nil :background (face-attribute 'hl-line :background))
+
   (when (fboundp 'sml/setup)
     (sml/setup)
     (sml/apply-theme 'respectful)))

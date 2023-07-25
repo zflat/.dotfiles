@@ -284,7 +284,8 @@
     (setq beacon-color "LightGoldenrod3")
 
     (set-face-background 'avy-goto-char-timer-face (face-background 'menu))
-    (set-face-foreground 'avy-goto-char-timer-face (face-foreground 'link)))
+    (set-face-foreground 'avy-goto-char-timer-face (face-foreground 'link))
+    (set-face-attribute 'web-mode-current-column-highlight-face nil :background (face-attribute 'hl-line :background)))
   (when (fboundp 'sml/setup) (sml/setup)))
 
 (defun load-theme-solarized-light ()
@@ -298,7 +299,8 @@
     (setq beacon-color (face-foreground 'menu))
 
     (set-face-background 'avy-goto-char-timer-face (face-background 'menu))
-    (set-face-foreground 'avy-goto-char-timer-face (face-foreground 'link)))
+    (set-face-foreground 'avy-goto-char-timer-face (face-foreground 'link))
+    (set-face-attribute 'web-mode-current-column-highlight-face nil :background (face-attribute 'hl-line :background)))
   (when (fboundp 'sml/setup) (sml/setup)))
 
 
