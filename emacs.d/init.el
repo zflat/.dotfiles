@@ -1051,7 +1051,7 @@
 (global-set-key (kbd "s-x") 'imenu)
 (global-set-key (kbd "C-x C-q") 'kill-buffer-and-window)
 
-;; Ctrl+Alt+d
+;; Ctrl+Alt+d shows desktop in Unubntu
 
 ;; Keybindings Notes
 ;;
