@@ -45,6 +45,9 @@
   (if (boundp 'toggle-horizontal-scroll-bar)
       (toggle-horizontal-scroll-bar -1)))
 
+;; Turn off the bell
+;; https://www.emacswiki.org/emacs/AlarmBell#h5o-5
+ (setq ring-bell-function 'ignore)
 
 ;; Move cursor to different Panes by Arrow
 (when (fboundp 'windmove-default-keybindings)

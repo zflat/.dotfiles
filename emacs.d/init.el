@@ -706,6 +706,8 @@
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode)) ; see also https://dev.to/viglioni/how-i-set-up-my-emacs-for-typescript-3eeh
 (add-to-list 'auto-mode-alist '("\\.qrc\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.launch\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.xml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
 (setq web-mode-engines-alist '
       (("php" . "\\.phtml\\'")
        ("blade" . "\\.blade\\.")
@@ -725,6 +727,10 @@
   (editorconfig-apply))
 (add-hook 'web-mode-hook 'my-web-mode-hook)
 (set-face-attribute 'web-mode-current-column-highlight-face nil :background (face-attribute 'hl-line :background))
+
+
+(straight-use-package 'typescript-mode)
+(require 'typescript-mode)
 
 
 (require 'yaml-mode)
@@ -1045,6 +1051,7 @@
 (global-set-key (kbd "s-x") 'imenu)
 (global-set-key (kbd "C-x C-q") 'kill-buffer-and-window)
 
+;; Ctrl+Alt+d
 
 ;; Keybindings Notes
 ;;
