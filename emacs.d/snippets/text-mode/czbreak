@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: commitizen_breaking_change
+# key: czbreak
+# --
+BREAKING CHANGE: $0
