@@ -893,7 +893,7 @@
   (setq pretty-magit-alist nil)
   (setq pretty-magit-prompt nil)
   ;; (pretty-magit "main"    ?✩ nil t)
-  (pretty-magit "origin"   ?🌐 nil t)
+  (pretty-magit "origin"   ?🌐 (:height 0.75) t)
   (pretty-magit "build" ?🔨 nil)
   (pretty-magit "ci" ?◐ (:foreground "#3F681C" :height 1.2))
   (pretty-magit "chore" ?🧹 nil)
@@ -937,9 +937,9 @@
     (insert (ivy-read "Commit Type " pretty-magit-prompt
                       :require-match t :sort t :preselect "feat: "))))
 
-(remove-hook 'git-commit-setup-hook 'with-editor-usage-message)
-(add-hook 'git-commit-setup-hook 'magit-commit-prompt)
-(advice-add 'magit-commit :after 'use-magit-commit-prompt)
+;; (remove-hook 'git-commit-setup-hook 'with-editor-usage-message)
+;; (add-hook 'git-commit-setup-hook #'magit-commit-prompt)
+;; (advice-add 'magit-commit :after 'use-magit-commit-prompt)
 
 
 (add-hook 'web-mode-hook '(lambda ()
