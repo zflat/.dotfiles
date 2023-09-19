@@ -22,7 +22,7 @@
 "wmctrl -x -a Firefox || wmctrl -x -a Vivaldi || wmctrl -x -a Chromium"
   Control+Alt + b
 
-"wmctrl -x -a slack || wmctrl -x -a teams"
+"wmctrl -x -a slack || wmctrl -x -a teams || wmctrl -a teams"
   Control+Alt + y
 
 "wmctrl -a Visual Studio Code"
