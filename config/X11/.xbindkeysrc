@@ -10,7 +10,7 @@
 "wmctrl -a -emacs"
   Control+Alt + k
 
-"wmctrl -x -a terminator || wmctrl -x -a -terminal"
+"wmctrl -x -a terminator || wmctrl -x -a -terminal || wmctrl -x -a konsole"
   Control+Alt + j
 
 "wmctrl -a -browser"

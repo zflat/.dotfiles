@@ -10,15 +10,15 @@ Load and install "dotfiles"
   * (apt-get) xbindkeys
   * Emacs26
     * "Hack" font
-    * (apt-get) ack
-    * ag (apt-get silversearcher-ag)
+    * ~~(apt-get) ack~~
+    * ~~ag (apt-get silversearcher-ag)~~
     * ripgrep
     * (apt-get) editorconfig
-    * [GNU Global with ctags]
+    * ~~[GNU Global with ctags]~~
     * (apt-get) llvm clang
-    * [rtags]
+    * ~~[rtags]~~
     * [ripgrep]
-  * Cask http://cask.readthedocs.org/
+  * [~~Cask~~](http://cask.readthedocs.org/)
  * Clone the repo into .dotfiles
  * Run the [dotbot] setup script
 
