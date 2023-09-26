@@ -584,7 +584,7 @@
 (require 'geben)
 (setq geben-display-window-function 'popwin:switch-to-buffer)
 
-(straight-use-package 'docker-tramp)
+(require 'tramp-container)
 (straight-use-package 'lsp-mode)
 (with-eval-after-load 'lsp-mode
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\build\\'")

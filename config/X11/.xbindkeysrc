@@ -19,7 +19,7 @@
 "wmctrl -a -👁️"
   Control+Alt + n
 
-"wmctrl -x -a Firefox || wmctrl -x -a Vivaldi || wmctrl -x -a Chromium"
+"wmctrl -x -a Firefox || wmctrl -x -a Vivaldi || wmctrl -x -a Chromium || wmctrl -x -a Brave"
   Control+Alt + b
 
 "wmctrl -x -a slack || wmctrl -x -a teams || wmctrl -a teams"
