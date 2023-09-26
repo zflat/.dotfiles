@@ -67,7 +67,7 @@
      (go-back-buffer--history-key curr-screen curr-window)
      (get 'go-back-buffer--prev-history 'history))))
 
-(defun go-back-buffer--update-history (&optional window next-buffer)
+(defun go-back-buffer--update-history (&optional window next-buffer keep-margins)
   "Store the window's current buffer in the previous buffer.
 Optional argument WINDOW overrides the default, `selected-window', to get the current buffer of the window."
   (let* ((curr-window (or window (selected-window)))
