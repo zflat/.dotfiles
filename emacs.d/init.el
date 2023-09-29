@@ -893,7 +893,7 @@
   (setq pretty-magit-alist nil)
   (setq pretty-magit-prompt nil)
   ;; (pretty-magit "main"    ?✩ nil t)
-  (pretty-magit "origin"   ?🌐 (:height 0.75) t)
+  (pretty-magit "origin/"  ?🌐 (:height 0.75) t)
   (pretty-magit "build" ?🔨 nil)
   (pretty-magit "ci" ?◐ (:foreground "#3F681C" :height 1.2))
   (pretty-magit "chore" ?🧹 nil)
