@@ -909,17 +909,18 @@
 (defun add-magit-faces ()
   "Add face properties and compose symbols for buffer from pretty-magit."
   (interactive)
-  (with-silent-modifications
-    (--each pretty-magit-alist
-      (-let (((rgx icon props) it))
-        (save-excursion
-          (goto-char (point-min))
-          (while (search-forward-regexp rgx nil t)
-            (compose-region
-             (match-beginning 1) (match-end 1) icon)
-            (when props
-              (add-face-text-property
-               (match-beginning 1) (match-end 1) props))))))))
+  (when (derived-mode-p 'magit-log-mode)
+    (with-silent-modifications
+      (--each pretty-magit-alist
+        (-let (((rgx icon props) it))
+          (save-excursion
+            (goto-char (point-min))
+            (while (search-forward-regexp rgx nil t)
+              (compose-region
+               (match-beginning 1) (match-end 1) icon)
+              (when props
+                (add-face-text-property
+                 (match-beginning 1) (match-end 1) props)))))))))
 
 (advice-add 'magit-status :after 'add-magit-faces)
 (advice-add 'magit-refresh-buffer :after 'add-magit-faces)
