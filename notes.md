@@ -24,3 +24,6 @@
 * KDE wallet for ssh agent (and gpg agent?)
   * https://forum.manjaro.org/t/howto-use-kwallet-as-a-login-keychain-for-storing-ssh-key-passphrases-on-kde/7088
   * https://forum.manjaro.org/t/configuring-ssh-agent-to-autostart-and-automatically-add-ssh-keys-to-it/99715/2
+* hunspell spell checking
+  * Install the hunspell-en_us package
+  * Confirm with `hunspell -D`
