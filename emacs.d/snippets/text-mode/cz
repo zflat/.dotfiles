@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
 # name: commitizen_type_prefix
-# key: cz
+# key: zz
 # --
 ${2:$$(yas-choose-value '("feat" "build" "ci" "chore" "docs" "feat" "fix" "perf" "refactor" "style" "test"))}: $0

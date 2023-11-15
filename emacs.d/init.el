@@ -579,12 +579,12 @@
 (straight-use-package 'company)
 (require 'company)
 (setq company-idle-delay 0.2)
+(setq company-backends '((company-capf company-dabbrev-code)))
 
 (straight-use-package 'geben)
 (require 'geben)
 (setq geben-display-window-function 'popwin:switch-to-buffer)
 
-(require 'tramp-container)
 (straight-use-package 'lsp-mode)
 (with-eval-after-load 'lsp-mode
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\build\\'")
@@ -869,7 +869,7 @@
 (require 'markdown-mode)
 (setq markdown-command "multimarkdown")
 
-(global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-x g") 'magit-status-quick)
 
 ; (global-magit-file-mode t) ; this is no longer a thing? what did this do before
 (setq magit-completing-read-function 'ivy-completing-read)
@@ -1374,6 +1374,12 @@
 
 (add-hook 'after-init-hook 'load-theme-solarized-dark)
 ;; Note: Change theme with M-x load-theme RET {themename}
+
+
+(defun now ()
+  "Insert string for the current time formatted like '2:34 PM'."
+  (interactive)                 ; permit invocation in minibuffer
+  (insert (concat (format-time-string "%F %-I:%M %p") " (" (replace-regexp-in-string "\n$" "" (shell-command-to-string "date +%s")) ")")))
 
 
 (message "load_end")
