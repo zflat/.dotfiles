@@ -1,5 +1,6 @@
 # Link to
 # /etc/systemd/system/udevmon.service
+# ln -s ~/.dotfiles/config/evdev/udevmon.service /etc/systemd/system/udevmon.service
 
 [Unit]
 Description=udevmon
