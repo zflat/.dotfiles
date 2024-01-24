@@ -39,60 +39,62 @@
       (message "Copied buffer file name '%s' to the clipboard." filename))))
 
 
+
 ;; http://www.emacswiki.org/emacs/buffer-extension.el
 ;; http://stackoverflow.com/a/9411825
 ;; https://stackoverflow.com/a/2382677
 ;; https://stackoverflow.com/a/35392142
-(defun get-buffer-file-path (arg &optional file)
-  (let ((new-kill-string)
-        (name (or file (if (eq major-mode 'dired-mode)
-                           (dired-get-filename)
-                         (or (buffer-file-name) ""))))
-        (proj-name (if (and (fboundp 'projectile-project-root)
-                            (projectile-project-root))
-                       (concat
-                        (file-name-as-directory
-                         (file-name-nondirectory (directory-file-name (projectile-project-root))))
-                        (string-remove-prefix (projectile-project-root) name))
-                     "")))
-    (cond ((string-equal arg "p")
-           proj-name)
-          ((string-equal arg "r")
-           (string-remove-prefix (file-name-as-directory
-                                  (file-name-nondirectory (directory-file-name (projectile-project-root))))
-                                 proj-name))
-          ((string-equal arg "f")
-           name)
-          ((string-equal arg "d")
-           (file-name-directory name))
-          ((string-equal arg "n")
-           (file-name-nondirectory name))
-          (t nil))))
-(defun copy-buffer-file-name-as-kill(choice)
+(defun copy-buffer-file-name-as-kill(choice name directory nondir project-full-relative-name project-dir-relative-name)
   "Copy the buffer-file-name to the kill-ring"
-  (interactive ;; TODO: pre-compute projectile root  values and present them as options
-   (list (let ((completions
-                (let ((choice-index 0))
-                  (mapcar (lambda (arg) (append (list (concat (number-to-string (cl-incf choice-index)) "-" (car arg))) (last arg)))
-                          (append (if (and (fboundp 'projectile-project-root)
-                                           (projectile-project-root))
-                                      '(("Project Path" "p")
-                                        ("Path from project root" "r")))
-                                  '(("Name" "n") ("Full" "f") ("Directory" "d")))))))
-           (cadr (assoc (completing-read "Copy buffer name as kill: " completions) completions)))))
-  (let ((new-kill-string)
-        (name (if (eq major-mode 'dired-mode)
+  (interactive
+   (let* ;; Use pre-computed values in presented options
+       ((name (if (eq major-mode 'dired-mode)
                   (dired-get-filename)
                 (file-truename (or (buffer-file-name) ""))))
-        (suffix (if (and
+        (directory (file-name-directory name))
+        (nondir (file-name-nondirectory name))
+        (project-full-relative-name
+         (if (and (fboundp 'projectile-project-root)
+                  (projectile-project-root))
+             (concat
+              (file-name-as-directory
+               (file-name-nondirectory (directory-file-name (projectile-project-root))))
+              (string-remove-prefix (projectile-project-root) name))
+           ""))
+        (project-dir-relative-name
+         (string-remove-prefix (file-name-as-directory
+                                (file-name-nondirectory (directory-file-name (projectile-project-root))))
+                               project-full-relative-name))
+        )
+     (list (let ((completions
+                  (let ((choice-index 0))
+                    (mapcar (lambda (arg) (append (list (concat (number-to-string (cl-incf choice-index)) "-" (car arg))) (last arg)))
+                            (append (if (and (fboundp 'projectile-project-root)
+                                             (projectile-project-root))
+                                        (list (list (format "Project Path (%s)" project-full-relative-name) "p")
+                                              (list (format "Path from project root (%s)" project-dir-relative-name) "r")))
+                                    (list (list (format "Name (%s)" nondir) "n")
+                                          (list (format "Full (%s)" name) "f")
+                                          (list (format "Directory (%s)" directory) "d"))
+
+)))))
+             (cadr (assoc (completing-read "Copy buffer name as kill: " completions) completions)))
+           name directory nondir project-full-relative-name project-dir-relative-name)))
+  (let* ((suffix (if (and
                      (not (equal current-prefix-arg nil)) ; C-u argument given
                      (or
                       (string-equal choice "f")
                       (string-equal choice "r")
                       (string-equal choice "p")))
-                    (concat ":" (number-to-string (line-number-at-pos)))))
-        (new-kill-string))
-        (setq new-kill-string (concat (get-buffer-file-path choice name) suffix))
+                     (concat ":" (number-to-string (line-number-at-pos)))))
+         (name-selection
+          (cond ((string-equal choice "p") project-full-relative-name)
+                ((string-equal choice "r") project-dir-relative-name)
+                ((string-equal choice "f") name)
+                ((string-equal choice "d") directory)
+                ((string-equal choice "n") nondir)
+                (t nil)))
+         (new-kill-string (concat name-selection suffix)))
     (when new-kill-string
       (message "%s copied" new-kill-string)
       (kill-new new-kill-string))))
