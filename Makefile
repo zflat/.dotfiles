@@ -16,7 +16,7 @@ all: user system
 # These are relative to the home folder
 
 .PHONEY: user
-user: git xbindkeys
+user: git gnupg vagrant vscode xbindkeys
 
 define run-user-stow
 cd stows/user && stow -v --target=${HOME} $@
@@ -24,6 +24,18 @@ endef
 
 .PHONEY: git
 git:
+	$(run-user-stow)
+
+.PHONEY: gnupg
+gnupg:
+	$(run-user-stow)
+
+.PHONEY: vagrant
+vagrant:
+	$(run-user-stow)
+
+.PHONEY: vscode
+vscode:
 	$(run-user-stow)
 
 .PHONEY: xbindkeys

@@ -167,10 +167,10 @@ unless return was pressed outside the comment"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun sql-format-region (beg end)
-  "Beautify SQL in region between beg and END."
+  "Beautify SQL in region between BEG and END."
   (interactive "r")
   (save-excursion
-    (shell-command-on-region beg end "fsqlf --config-file ~/.dotfiles/config/fsqlf/formatting.conf" nil t)))
+    (shell-command-on-region beg end "fsqlf --config-file ~/.config/fsqlf/formatting.conf" nil t)))
 
 
 

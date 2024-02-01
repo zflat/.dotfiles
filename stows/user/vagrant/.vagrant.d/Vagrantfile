@@ -1,0 +1,7 @@
+# Vagrantfile that is merged when `vagrant` loads project specific Vagrantfiles
+# See https://mkrmr.wordpress.com/2012/08/12/add-your-own-customization-to-vagrant-boxes/
+# and https://developer.hashicorp.com/vagrant/docs/vagrantfile#load-order-and-merging
+Vagrant.configure("2") do |config|
+  config.vm.synced_folder File.expand_path("~/.dotfiles"), "/home/vagrant/.dotfiles" 
+  # config.vm.provision :shell, :path => File.join(File.dirname(__FILE__), "scripts", "provision")
+end

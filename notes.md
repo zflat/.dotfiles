@@ -23,6 +23,10 @@
     * (apt-get) editorconfig
     * (apt-get) llvm clang
     * [ripgrep](https://github.com/BurntSushi/ripgrep#installation)
+    ```bash
+    sudo snap install emacs --classic
+    ln -s $HOME/.dotfiles/emacs.d .emacs.d
+    ```
 
 ## Desktop environment specifics: 
 
