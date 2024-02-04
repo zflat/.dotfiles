@@ -252,6 +252,8 @@
 
 (require 'dockerfile-mode)
 (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+(require 'docker)
+(global-set-key (kbd "C-c d") 'docker)
 
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$'" . yaml-mode))
