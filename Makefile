@@ -23,10 +23,10 @@ cd stows/user && stow -v --target=${HOME} $@
 endef
 
 ${HOME}/.config:
-	mkdir -p ${HOME}/.config
+	@mkdir -p ${HOME}/.config
 
 ${HOME}/.local/bin:
-	mkdir -p ${HOME}/.local/bin
+	@mkdir -p ${HOME}/.local/bin
 
 .PHONEY: git
 git: ${HOME}/.config
@@ -34,12 +34,12 @@ git: ${HOME}/.config
 
 .PHONEY: gnupg
 gnupg:
-	mkdir -p ${HOME}/.gnupg
+	@mkdir -p ${HOME}/.gnupg
 	$(run-user-stow)
 
 .PHONEY: vagrant
 vagrant:
-	mkdir -p ${HOME}/.vagrant.d
+	@mkdir -p ${HOME}/.vagrant.d
 	$(run-user-stow)
 
 .PHONEY: vscode
