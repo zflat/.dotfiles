@@ -16,7 +16,7 @@ all: user system
 # These are relative to the home folder
 
 .PHONEY: user
-user: git gnupg vagrant vscode xbindkeys
+user: git gnupg vagrant vscode xbindkeys ${HOME}/.emacs.d
 
 define run-user-stow
 cd stows/user && stow -v --target=${HOME} $@
@@ -49,6 +49,9 @@ vscode: ${HOME}/.config
 .PHONEY: xbindkeys
 xbindkeys: ${HOME}/.local/bin
 	$(run-user-stow)
+
+${HOME}/.emacs.d:
+	mkdir -p ${HOME}/.emacs.d
 
 ###########################################
 # System level packages and configs
