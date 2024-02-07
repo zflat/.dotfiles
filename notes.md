@@ -3,9 +3,9 @@
 ## General setup
 
 * GPG and SSH Keys and `pass` and `dmenu` and `xclip`
-  * Import gpg keys, ssh keys
+  * Import gpg keys
   * Sync ssh keys (may require `chmod 600 ~/.ssh/id*`)
-  * Sync ~/.password-store content
+  * Sync `~/.password-store content`
   * Add custom keyboard shortcut to `passmenu` script
 * Install `stow` and set up dotfiles
   * For cross-platform "stow" see [dploy](https://github.com/arecarn/dploy)
@@ -14,12 +14,13 @@
   * asdf
   * gimp gmic
   * docker
-    ```bash
-    systemctl start docker.service
-    systemctl enable docker.service
-    sudo usermod -aG docker $USER
-    ```
-  * Emacs >= 26
+    * Post-instal:
+      ```bash
+      systemctl start docker.service
+      systemctl enable docker.service
+      sudo usermod -aG docker $USER
+      ```
+  * Emacs >= 26 and editing tools
     * (apt-get) editorconfig
     * (apt-get) llvm clang
     * [ripgrep](https://github.com/BurntSushi/ripgrep#installation)
