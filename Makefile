@@ -22,26 +22,33 @@ define run-user-stow
 cd stows/user && stow -v --target=${HOME} $@
 endef
 
+${HOME}/.config:
+	mkdir -p ${HOME}/.config
+
+${HOME}/.local/bin:
+	mkdir -p ${HOME}/.local/bin
+
 .PHONEY: git
-git:
+git: ${HOME}/.config
 	$(run-user-stow)
 
 .PHONEY: gnupg
 gnupg:
+	mkdir -p ${HOME}/.gnupg
 	$(run-user-stow)
 
 .PHONEY: vagrant
 vagrant:
+	mkdir -p ${HOME}/.vagrant.d
 	$(run-user-stow)
 
 .PHONEY: vscode
-vscode:
+vscode: ${HOME}/.config
 	$(run-user-stow)
 
 .PHONEY: xbindkeys
-xbindkeys:
+xbindkeys: ${HOME}/.local/bin
 	$(run-user-stow)
-
 
 ###########################################
 # System level packages and configs
@@ -63,6 +70,6 @@ xkb:
 	$(run-system-stow)
 .PHONEY: xkb-edits
 xkb-edits: xkb
-	grep modremap /usr/share/X11/xkb/symbols/us || sudo sed --in-place=-stock \
+	grep modremap /usr/share/X11/xkb/symbols/us || sudo sed --in-place=.old \
 	  's/xkb_symbols "basic" {/xkb_symbols "basic" {\n\n    include "modremap(mods-cstgr)"/' \
 	  /usr/share/X11/xkb/symbols/us
