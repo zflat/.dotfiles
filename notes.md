@@ -16,14 +16,14 @@
       gpg --list-secret-keys
       gpg --edit-key KEY trust quit
       ```
-    * If a key is expired it can be renewed with the [expire edit command](https://gist.github.com/krisleech/760213ed287ea9da85521c7c9aac1df0)
+    * If a key is expired it can be renewed with the [expire edit command](https://gist.github.com/krisleech/760213ed287ea9da85521c7c9aac1df0).
   * Sync ssh keys (may require `chmod 600 ~/.ssh/id*`)
     * Add to the ssh-agent
       ```bash
       eval "$(ssh-agent -s)"
       ssh-add ~/.ssh/id_ed25519
       ```
-  * Sync `~/.password-store content`
+  * Sync `~/.password-store` content
   * Add custom keyboard shortcut to `passmenu` script
 * Install `stow` and set up dotfiles
   * For cross-platform "stow" see [dploy](https://github.com/arecarn/dploy)
@@ -85,7 +85,7 @@
         }
         ```
   * asdf
-    * Install `asdf` from website
+    * Install `asdf` following [instructions](https://asdf-vm.com/guide/getting-started.html)
       ```bash
       asdf plugin add nodejs
       asdf install nodejs latest
@@ -109,7 +109,7 @@
         lzma \
         lzma-dev \
         zlib1g-dev
-    ```
+        ```
   * Devcontainer CLI
     ```bash
     npm install -g @devcontainers/cli
