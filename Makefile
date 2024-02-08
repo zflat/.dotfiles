@@ -51,7 +51,7 @@ xbindkeys: ${HOME}/.local/bin
 	$(run-user-stow)
 
 ${HOME}/.emacs.d:
-	mkdir -p ${HOME}/.emacs.d
+	ln -s ${HOME}/.dotfiles/emacs.d .emacs.d
 
 ###########################################
 # System level packages and configs
