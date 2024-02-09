@@ -50,8 +50,8 @@ vscode: ${HOME}/.config
 xbindkeys: ${HOME}/.local/bin
 	$(run-user-stow)
 
-${HOME}/.emacs.d:
-	ln -s ${HOME}/.dotfiles/emacs.d .emacs.d
+${HOME}/.emacs.d: emacs.d
+	ln -s `pwd`/$< $@
 
 ###########################################
 # System level packages and configs
