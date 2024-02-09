@@ -58,11 +58,15 @@ ${HOME}/.emacs.d: emacs.d
 # These are relative to the file sytem root
 
 .PHONEY: system
-system: evdev xkb-edits
+system: docker evdev xkb-edits
 
 define run-system-stow
 cd stows/system && sudo stow -v --target=/ $@
 endef
+
+.PHONEY: docker
+docker:
+	$(run-system-stow)
 
 .PHONEY: evdev
 evdev:
