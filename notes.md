@@ -43,6 +43,13 @@
         ```bash
         audo apt install clang-format-11
         ```
+      * with asdf
+        * See https://github.com/amrox/asdf-clang-tools
+        ```bash
+        asdf plugin add clang-format https://github.com/amrox/asdf-clang-tools.git
+        asdf install clang-format 11
+        asdf global clang-format 11
+        ```
     ```bash
     sudo snap install emacs --classic
     ln -s $HOME/.dotfiles/emacs.d .emacs.d
@@ -55,6 +62,11 @@
       ```bash
       sudo systemctl enable docker.service
       sudo systemctl enable containerd.service
+      ```
+    * Manage Docker as a non-root user
+      ```
+      sudo groupadd docker
+      sudo usermod -aG docker $USER
       ```
     * Credential Store
       ```bash

@@ -16,7 +16,7 @@ all: user system
 # These are relative to the home folder
 
 .PHONEY: user
-user: git gnupg vagrant vscode xbindkeys ${HOME}/.emacs.d
+user: git gnupg vagrant vscode xbindkeys ${HOME}/.emacs.d ${HOME}/.docker/config.json
 
 define run-user-stow
 cd stows/user && stow -v --target=${HOME} $@
@@ -27,6 +27,17 @@ ${HOME}/.config:
 
 ${HOME}/.local/bin:
 	@mkdir -p ${HOME}/.local/bin
+
+${HOME}/.local/bin/docker-credential-pass: ${HOME}/.local/bin
+	wget -O $@ https://github.com/docker/docker-credential-helpers/releases/download/v0.8.1/docker-credential-pass-v0.8.1.linux-amd64
+	chmod +x $@
+
+${HOME}/.docker/config.json:
+	mkdir -p ${HOME}/.docker
+	echo "{\n  \"credsStore\":\"pass\"\n}" >> $@
+
+${HOME}/.emacs.d: emacs.d
+	ln -s `pwd`/$< $@
 
 .PHONEY: git
 git: ${HOME}/.config
@@ -50,22 +61,20 @@ vscode: ${HOME}/.config
 xbindkeys: ${HOME}/.local/bin
 	$(run-user-stow)
 
-${HOME}/.emacs.d: emacs.d
-	ln -s `pwd`/$< $@
 
 ###########################################
 # System level packages and configs
 # These are relative to the file sytem root
 
 .PHONEY: system
-system: docker evdev xkb-edits
+system: docker-system evdev xkb-edits
 
 define run-system-stow
 cd stows/system && sudo stow -v --target=/ $@
 endef
 
-.PHONEY: docker
-docker:
+.PHONEY: docker-system
+docker-system:
 	$(run-system-stow)
 
 .PHONEY: evdev
