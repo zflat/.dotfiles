@@ -1,6 +1,3 @@
-[submodule "dotbot"]
-	path = dotbot
-	url = https://github.com/anishathalye/dotbot
 [submodule "emacs.d/snippets-official"]
 	path = emacs.d/snippets-official
 	url = https://github.com/AndreaCrotti/yasnippet-snippets.git
