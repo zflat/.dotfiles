@@ -5,7 +5,7 @@
 * GPG and SSH Keys and `pass` and `dmenu` and `xclip`
   * Export keys from a different machine with a passphrase
     ```
-    gpg --armor --export-secret-keys | gpg --armor --symmetric --cipher-algo AES256 -o myprivatekeys.asc.asc
+    gpg --armor --export-secret-keys username@email | gpg --armor --symmetric --cipher-algo AES256 -o myprivatekeys.asc.asc
     ```
   * Import gpg keys protected by the passphrase
     ```
