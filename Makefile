@@ -1,6 +1,8 @@
 ##########################
 # Tasks to set up dotfiles
 
+ROOT_DIR := $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
+
 .PHONEY: list
 list:
 	@echo "Tasks to set up dotfiles. Available actions:"
@@ -37,30 +39,26 @@ ${HOME}/.docker/config.json:
 	echo "{\n  \"credsStore\":\"pass\"\n}" >> $@
 
 ${HOME}/.emacs.d: emacs.d
-	ln -s `pwd`/$< $@
+	ln -sf ${ROOT_DIR}$< $@
 
-.PHONEY: git
 git: ${HOME}/.config
 	$(run-user-stow)
 
-.PHONEY: gnupg
 gnupg:
 	@mkdir -p ${HOME}/.gnupg
 	$(run-user-stow)
 
-.PHONEY: vagrant
 vagrant:
 	@mkdir -p ${HOME}/.vagrant.d
 	$(run-user-stow)
 
-.PHONEY: vscode
 vscode: ${HOME}/.config
 	$(run-user-stow)
 
-.PHONEY: xbindkeys
 xbindkeys: ${HOME}/.local/bin
 	$(run-user-stow)
 
+.PHONEY: git gnupg vagrant vscode xbindkeys
 
 ###########################################
 # System level packages and configs
@@ -73,19 +71,17 @@ define run-system-stow
 cd stows/system && sudo stow -v --target=/ $@
 endef
 
-.PHONEY: docker-system
 docker-system:
 	$(run-system-stow)
 
-.PHONEY: evdev
 evdev:
 	$(run-system-stow)
 
-.PHONEY: xkb
 xkb:
 	$(run-system-stow)
-.PHONEY: xkb-edits
 xkb-edits: xkb
 	grep modremap /usr/share/X11/xkb/symbols/us || sudo sed --in-place=.old \
 	  's/xkb_symbols "basic" {/xkb_symbols "basic" {\n\n    include "modremap(mods-cstgr)"/' \
 	  /usr/share/X11/xkb/symbols/us
+
+.PHONEY: docker-system evdev xkb xkb-edits
