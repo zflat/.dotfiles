@@ -141,6 +141,8 @@
 (straight-use-package 'flx)
 (straight-use-package 'ivy)
 (straight-use-package 'ivy-hydra)
+(straight-use-package 'justl)
+(straight-use-package 'just-mode)
 (straight-use-package 'literate-calc-mode)
 (straight-use-package
  '(gc-buffers :type git
@@ -267,6 +269,9 @@
 (add-to-list 'modern-c++-operators "||")
 (add-to-list 'modern-c++-operators "<<")
 
+
+(require 'just-mode)
+(require 'justl)
 
 ;; Set font
 ;; http://askubuntu.com/questions/23603/how-to-change-font-size-in-emacs
