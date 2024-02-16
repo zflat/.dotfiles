@@ -1,0 +1,11 @@
+* .dotfiles
+** Load and install "dotfiles"
+*** Prerequisites
+  - (apt-get) =stow=
+***  Clone the repo into ​~/.dotfiles and run the install task
+  #+begin_src bash
+    git clone git@github.com:zflat/.dotfiles.git ~/.dotfiles
+    make -f ~/.dotfiles/Makefile install
+  #+end_src
+** License
+This software is hereby released into the public domain. That means you can do whatever you want with it without restriction.
