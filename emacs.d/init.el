@@ -126,61 +126,12 @@
 ;; (global-set-key (kbd "<backtab>") 'switch-to-buffer)
 
 
-;; ;; show the current directory in the frame bar
-;; ;; see http://stackoverflow.com/a/8945306
-;; (setq frame-title-format '("-emacs- " (:eval default-directory)))
-
-
-;; ;; Customizing backup settings
-;; ;; TODO don't auto-save sensitive files https://stackoverflow.com/a/18330742
-;; ;; store all backup and autosave files in the tmp dir
-;; (setq backup-directory-alist
-;;       `((".*" . ,temporary-file-directory)))
-;; (setq auto-save-file-name-transforms
-;;       `((".*" ,temporary-file-directory t)))
-
-;; (message "Deleting old backup files...")
-;; (let ((week (* 60 60 24 7))
-;;       (current (float-time (current-time))))
-;;   (dolist (file (directory-files temporary-file-directory t))
-;;     (when (and (backup-file-name-p file)
-;;                (> (- current (float-time (nth 5 (file-attributes file))))
-;;                   week))
-;;       (message "%s" file)
-;;       (ignore-errors
-;;         (delete-file file)))))
-
-;; ;;; coding systems
-;; (setq locale-coding-system 'utf-8)
-;; (set-terminal-coding-system 'utf-8)
-;; (set-keyboard-coding-system 'utf-8)
-;; (set-selection-coding-system 'utf-8)
-;; (prefer-coding-system 'utf-8)
-
 ;; Scrolling tweaks
 ;; Delay updates to give Emacs a chance for other changes
 (setq linum-delay t)
 ;; scrolling to always be a line at a time
 (setq scroll-conservatively 10000)
 (setq scroll-preserve-screen-position t)
-
-
-;; ;; disable the toolbar
-;; (if (boundp 'tool-bar-mode) (tool-bar-mode -1))
-
-;; ;; disable the menu bar
-;; ;; Can get the menu with C-<mouse-3> or F10
-;; (if (boundp 'menu-bar-mode) (menu-bar-mode -1))
-
-;; ;; disable the scrollbar
-;; (if (boundp 'scroll-bar-mode)
-;;     (scroll-bar-mode -1)
-;;   (if (boundp 'toggle-scroll-bar)
-;;       (toggle-scroll-bar -1)))
-;; (if (boundp 'horizontal-scroll-bar-mode)
-;;     (horizontal-scroll-bar-mode -1)
-;;   (if (boundp 'toggle-horizontal-scroll-bar)
-;;       (toggle-horizontal-scroll-bar -1)))
 
 
 ;;; auth-source config
@@ -195,15 +146,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-;; (transient-mark-mode t) ; Standard selection-highlighting behavior of other editors.
-
-;; (if (and
-;;      (>= emacs-major-version 24)
-;;      (>= emacs-minor-version 4))
-;;     (electric-pair-mode 1) ; Provides a way to easily insert matching delimiters
-;;   )
-;; (global-hl-line-mode t) ; highlight the line at point
 
 ;; parenthesis customization
 ;; consider also http://www.emacswiki.org/emacs/HighlightParentheses
@@ -231,7 +173,7 @@
 ; (global-set-key (kbd "M-p") 'git-gutter:previous-hunk)
 ; (global-set-key (kbd "M-n") 'git-gutter:next-hunk)
 
-(setq auto-save-visited-interval 5)
+(setq auto-save-visited-interval 3)
 (setq auto-save-visited-file-name nil) ; explicitly disable a setting which would disable in-place autosaving.
 (auto-save-visited-mode 1)
 
@@ -252,9 +194,6 @@
 (ad-activate 'align-regexp)
 
 (global-auto-revert-mode t)
-
-;; (when (version<= "26.0.50" emacs-version )
-;;   (global-display-line-numbers-mode))
 
 
 ;; ;; Making buffer names unique
@@ -288,10 +227,6 @@
 (load-file (concat emacs-config-dir "init-straight.el"))
 
 
-;; (require 'cask "~/.cask/cask.el")
-;; (cask-initialize)
-; (or (load-file (buffer-file-name)) (package-initialize))
-
 ;;;
 ;;; Packages configuration / Initialization
 ;;;
@@ -300,28 +235,6 @@
 (require 'recentf)
 (setq recentf-auto-cleanup 'never) ;; disable before we start recentf!
 (recentf-mode t)
-
-;; ;; Muliple cursors
-;; (require 'multiple-cursors)
-;; ;; Cursor at each line in selected region
-;; ;; Note: <S> is shift
-;; (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-;; ;; Use arrow keys to quickly mark/skip next/previous occurances.
-;; (global-set-key (kbd "C-S-c C-s") 'mc/mark-more-like-this-extended)
-;; (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
-;; (global-set-key (kbd "s-/") `set-rectangular-region-anchor)
-;;                                         ; setup multiple-cursors-hydra https://iqss.github.io/IQSS.emacs/init.html
-
-;; (require 'expand-region)
-;; (global-set-key (kbd "C-=") 'er/expand-region)
-
-
-;; ;; Line duplication
-;; (require 'move-dup)
-;; (global-set-key (kbd "M-<up>")       'md-move-lines-up)
-;; (global-set-key (kbd "M-<down>")     'md-move-lines-down)
-;; (global-set-key (kbd "C-S-d <down>") 'md-duplicate-down)
-;; (global-set-key (kbd "C-S-d <up>")   'md-duplicate-up)
 
 
 ;; Elscreen
@@ -366,9 +279,6 @@
 (require 'neotree)
 (global-set-key [f7] 'neotree-find)
 (global-set-key (kbd "<S-f7>") 'neotree-toggle)
-
-;; TODO: Show the buffer directory in the mode-line
-;; http://www.emacswiki.org/emacs/ModeLineDirtrack
 
 ;; Visual Bookmarks
 (straight-use-package 'bm)
@@ -429,21 +339,6 @@
 ;; Possibly more permanent than this?
 ;; https://github.com/syl20bnr/spacemacs/issues/10969#issuecomment-409929968
 
-
-;; (require 'counsel)
-;; (require 'swiper)
-;; (add-to-list 'swiper-font-lock-exclude 'php-mode)
-;; (ivy-mode 1)
-;; ; see https://oremacs.com/2016/01/06/ivy-flx/
-;; (setq ivy-re-builders-alist
-;;       '((swiper . ivy--regex-plus)
-;;         (counsel-projectile-find-file . ivy--regex-plus)
-;;         (t . ivy--regex-fuzzy)))
-;; (setq ivy-format-function 'ivy-format-function-line)
-;; (setq ivy-use-virtual-buffers t) ;; see also https://emacs.stackexchange.com/questions/36836/how-to-remove-files-from-recentf-ivy-virtual-buffers
-;; (setq ivy-virtual-abbreviate 'full) ;; helps to know files are from recentf instead of an open buffer
-
-
 (straight-use-package 'ripgrep)
 (require 'ripgrep)
 
@@ -493,9 +388,6 @@
 ;; See https://zeekat.nl/articles/making-emacs-work-for-me.html
 (setq compilation-scroll-output t)
 
-;; (require 'editorconfig)
-;; (editorconfig-mode 1)
-
 ;; Enable Projectile
 ;;
 ;; list of commands: C-c p C-h
@@ -540,41 +432,9 @@
 ; (require 'find-file-in-project) ;; TODO install and configure and compare w/ projectile
 ; (global-set-key (kbd "C-<f6> e") 'find-file-in-project)
 
-;; ; (global-set-key (kbd "C-s") 'swiper)
-;; (global-set-key (kbd "M-x") 'counsel-M-x)
-;; (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-;; (defun wrapped-ivy-immediate-done (&rest ignore)
-;;     (interactive)
-;;     (if ( > (minibuffer-depth) 0) (ivy-immediate-done) nil))
-;; (global-set-key (kbd "C-c C-f") 'wrapped-ivy-immediate-done) ;; useful for creating a new file
-;; (global-set-key (kbd "C-c C-r") 'ivy-resume)
-
 
                                         ; Updating tags via git hook: https://stackoverflow.com/q/42680131
 
-;; (with-eval-after-load 'helm-gtags
-;;   (global-set-key (kbd "M-t") 'helm-gtags-find-tag)
-;;   (global-set-key (kbd "M-r") 'helm-gtags-find-rtag)
-;;   (global-set-key (kbd "M-g M-p") 'helm-gtags-parse-file)
-;;   (global-set-key (kbd "C-c <") 'helm-gtags-previous-history)
-;;   (global-set-key (kbd "C-c >") 'helm-gtags-next-history)
-;;   (global-set-key (kbd "M-,") 'helm-gtags-pop-stack))
-;; (add-hook 'php-mode-hook 'helm-gtags-mode)
-;; (add-hook 'dired-mode-hook 'helm-gtags-mode)
-;; (require 'helm-gtags)
-;; (helm-gtags-mode t)
-
-;; (require 'avy)
-;; (global-set-key (kbd "M-s") 'avy-goto-char)
-;; (global-set-key (kbd "C-;") 'avy-goto-char-timer)
-;; (setq avy-background t)
-
-;; (require 'beacon)
-;; (beacon-mode 1)
-;; (setq beacon-dont-blink-commands
-;;    (quote
-;;     (next-line previous-line forward-line mwheel-scroll)))
-(setq beacon-color "LightGoldenrod3")
 
 (straight-use-package 'company)
 (require 'company)
@@ -735,9 +595,6 @@
 
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
-
-;; (require 'company)
-;; (add-hook 'after-init-hook 'global-company-mode)
 
 (require 'emmet-mode)
 (add-hook 'web-mode-hook  'emmet-mode)
@@ -1003,6 +860,9 @@
 ;;   default: 160
 ;;   always split horizontal: 0
 
+;; Use dimmer with god-mode for visual cue of editing mode
+(straight-use-package '(dimmer :host github :repo "emacsmirror/dimmer" :branch "master"))
+(require 'dimmer)
 
 ; Set up god-mode for modal editing
 ; See also https://github.com/jmorag/kakoune.el
@@ -1013,8 +873,6 @@
 (require 'god-mode)
 (add-to-list 'god-exempt-major-modes 'magit-mode)
 (god-mode)
-(straight-use-package '(dimmer :host github :repo "emacsmirror/dimmer" :branch "master"))
-(require 'dimmer)
 ; https://emacs.zdx.cat/#org16c18e2
 ; (defun my-god-mode-update-cursor-type ()
 ;  (setq cursor-type (if (or god-local-mode buffer-read-only) 'box 'bar)))
@@ -1022,15 +880,13 @@
 (add-hook 'god-mode-enabled-hook '(lambda ()
                                     (progn
                                       (dimmer-mode -1)
-                                      ;; (dimmer-process-all)
                                       (setq cursor-type '(hbar . 8)))))
 (add-hook 'god-mode-disabled-hook '(lambda ()
                                      (progn
                                        (dimmer-mode t)
                                        ;; (dimmer-dim-all)
-                                       ;; (dimmer-process-all)
+                                       (dimmer-process-all)
                                        (setq cursor-type 'box))))
-(global-set-key (kbd "<f11>") (lambda () (interactive) (or (god-local-mode-resume))))
 ;; Toggle god-local-mode
 (global-set-key (kbd "<pause>") (lambda () (interactive) (or (god-local-mode-resume) (god-local-mode-pause))))
 (global-set-key (kbd "<end>") (lambda () (interactive) (or (god-local-mode-resume) (god-local-mode-pause))))
@@ -1046,7 +902,6 @@
 (define-key god-local-mode-map (kbd "C-x C-b") #'ivy-switch-buffer)
 (define-key god-local-mode-map (kbd "C-x C-c") #'list-buffers) ;; Re-bind to prevent accidental exit
 (define-key god-local-mode-map (kbd "C-x C-m") #'kmacro-end-and-call-macro)
-
 
 ;; (global-set-key (kbd "M-<f6>") nil)
 (global-set-key (kbd "M-o") #'ivy-switch-buffer)

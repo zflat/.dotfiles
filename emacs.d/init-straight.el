@@ -55,6 +55,8 @@
 
 ;; show the current directory in the frame bar
 ;; see http://stackoverflow.com/a/8945306
+;; current directory similar to displaying in mode-line
+;; http://www.emacswiki.org/emacs/ModeLineDirtrack
 (setq frame-title-format '("-emacs- " (:eval default-directory)))
 
 
@@ -161,6 +163,7 @@
 (require 'avy)
 (global-set-key (kbd "M-s") 'avy-goto-char)
 (global-set-key (kbd "C-;") 'avy-goto-char-timer)
+(global-set-key (kbd "<home>") 'avy-goto-char-timer)
 (setq avy-background t)
 
 (require 'beacon)
@@ -184,6 +187,7 @@
 
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
+(global-set-key (kbd "C-+") 'er/contract-region) ;; Also can use minus to contract
 
 
 ;; Line duplication
