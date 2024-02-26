@@ -1067,7 +1067,9 @@
 (diminish 'emmet-mode)
 (diminish 'god-local-mode)
 (diminish 'gc-buffers-mode)
-
+(dolist (mode (cons 'beginend-global-mode (mapcar #'cdr beginend-modes)))
+  (diminish mode))
+(diminish 'zoom-mode)
 
 ;; Speed up emacs start:
 ;; https://www.reddit.com/r/emacs/comments/3kqt6e/2_easy_little_known_steps_to_speed_up_emacs_start/
