@@ -153,6 +153,7 @@
 (straight-use-package 'modern-cpp-font-lock)
 (straight-use-package 'move-dup)
 (straight-use-package 'multiple-cursors)
+(straight-use-package 'mwim)
 (straight-use-package 'neotree)
 (straight-use-package 'solarized-theme)
 (straight-use-package 'swiper)
@@ -165,6 +166,10 @@
 (global-set-key (kbd "C-;") 'avy-goto-char-timer)
 (global-set-key (kbd "<home>") 'avy-goto-char-timer)
 (setq avy-background t)
+
+(require 'mwim)
+(global-set-key (kbd "C-a") 'mwim-beginning)
+(global-set-key (kbd "C-e") 'mwim-end)
 
 (require 'beacon)
 ; see also https://github.com/rolandwalker/nav-flash
