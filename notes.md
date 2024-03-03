@@ -54,6 +54,10 @@
     sudo snap install emacs --classic
     ln -s $HOME/.dotfiles/emacs.d .emacs.d
     ```
+
+    ```
+    systemctl --user enable emacs.service
+    ```
   * docker
     * Install and postinstall
       * https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository

@@ -1,6 +1,9 @@
-# Link to
+# Link to (or install at)
 # /etc/systemd/system/udevmon.service
 # ln -s ~/.dotfiles/config/evdev/udevmon.service /etc/systemd/system/udevmon.service
+#
+# Create a `udevmon-run` symlink to handle different installation locations
+# ln -sf $(which udevmon) /usr/local/bin/udevmon-run
 
 [Unit]
 Description=udevmon
@@ -8,7 +11,7 @@ Wants=systemd-udev-settle.service
 After=systemd-udev-settle.service
 
 [Service]
-ExecStart=/usr/bin/nice -n -20 /usr/local/bin/udevmon -c /etc/udevmon.yaml
+ExecStart=/usr/bin/nice -n -20 /usr/local/bin/udevmon-run -c /etc/udevmon.yaml
 
 [Install]
 WantedBy=multi-user.target
