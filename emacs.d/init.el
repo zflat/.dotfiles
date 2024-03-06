@@ -1229,17 +1229,17 @@
 ;; Set font
 ;; http://askubuntu.com/questions/23603/how-to-change-font-size-in-emacs
 (if (find-font (font-spec :name "Hack"))
-               (set-frame-font "Hack 12")
-               (if (find-font (font-spec :name "DejaVu Sans Mono"))
-                   (set-frame-font "DejaVu Sans Mono 12")))
-(set-face-attribute 'default nil :height 130)
+    (progn (set-frame-font "Hack 12")
+           (set-face-attribute 'default nil :height 130))
+  (if (find-font (font-spec :name "DejaVu Sans Mono"))
+      (set-frame-font "DejaVu Sans Mono 12")))
 
 (if (find-font (font-spec :name "VictorMono NF"))
-               (set-frame-font "VictorMono NF 12")
-               (if (find-font (font-spec :name "DejaVu Sans Mono"))
-                   (set-frame-font "DejaVu Sans Mono 12")))
-(set-face-attribute 'default nil :height 115)
-
+    (progn
+      (set-frame-font "VictorMono NF")
+      (set-face-attribute 'default nil :height 130))
+  (if (find-font (font-spec :name "DejaVu Sans Mono"))
+      (set-frame-font "DejaVu Sans Mono 12")))
 
 (add-hook 'after-init-hook 'load-theme-solarized-dark)
 ;; Note: Change theme with M-x load-theme RET {themename}
