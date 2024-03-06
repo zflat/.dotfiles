@@ -737,6 +737,11 @@
 ;; http://www.modernemacs.com/post/pretty-magit/
 ;; https://gist.github.com/sebastiencs/f03129ade6a699f7c596e13b0aae31f2
 ;; https://www.reddit.com/r/emacs/comments/6jegis/pretty_magit_integrating_commit_leaders/
+;;
+;; Maps commit type to configured unicode icon. Use a font like Noto
+;; Color Emoji to get icons for the unicode characters.
+;;
+;; Can check to see if emoji font is found (find-font (font-spec :name "Noto Color Emoji"))
 (defmacro pretty-magit (WORD ICON PROPS &optional NO-PROMPT?)
   "Replace sanitized WORD with ICON, PROPS and by default add to prompts."
   `(prog1
@@ -753,7 +758,7 @@
   (pretty-magit "origin/"  ?🌐 (:height 0.75) t)
   (pretty-magit "build" ?🔨 nil)
   (pretty-magit "ci" ?◐ (:foreground "#3F681C" :height 1.2))
-  (pretty-magit "chore" ?🧹 nil)
+  (pretty-magit "chore" ?🧹 nil) ;; Broom
   (pretty-magit "docs" ?📖 (:foreground "#3F681C" :height 1.2))
   (pretty-magit "feat!:" ?✓ (:box t :foreground "slate gray" :background "black" :height 1.2) t)
   (pretty-magit "feat" ?✓ nil)
@@ -761,7 +766,7 @@
   (pretty-magit "perf" ?📈 nil)
   (pretty-magit "refactor" ?✂ (:foreground "#375E97" :height 1.2))
   (pretty-magit "style"    ?↵ nil)
-  (pretty-magit "test"    ?🧪 nil))
+  (pretty-magit "test"    ?🧪 nil)) ;; Test tube
 
 (defun add-magit-faces ()
   "Add face properties and compose symbols for buffer from pretty-magit."
@@ -1228,6 +1233,12 @@
                (if (find-font (font-spec :name "DejaVu Sans Mono"))
                    (set-frame-font "DejaVu Sans Mono 12")))
 (set-face-attribute 'default nil :height 130)
+
+(if (find-font (font-spec :name "VictorMono NF"))
+               (set-frame-font "VictorMono NF 12")
+               (if (find-font (font-spec :name "DejaVu Sans Mono"))
+                   (set-frame-font "DejaVu Sans Mono 12")))
+(set-face-attribute 'default nil :height 115)
 
 
 (add-hook 'after-init-hook 'load-theme-solarized-dark)
