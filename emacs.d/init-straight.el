@@ -296,7 +296,7 @@
   (interactive)
   (progn
     (require `solarized-theme)
-    (load-theme 'solarized-dark t)
+    (load-theme 'solarized-dark-high-contrast t)
 
     (face-spec-set 'bm-face '((t (:foreground "gold" :overline nil))))
 
