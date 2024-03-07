@@ -764,7 +764,7 @@
       (pretty-magit "docs" ?📖 (:foreground "#3F681C" :height 1.2))
       (pretty-magit "feat!:" ?✓ (:box t :foreground "slate gray" :background "black" :height 1.2) t)
       (pretty-magit "feat" ?✓ nil)
-      (pretty-magit "fix"  ?🐛 nil)
+      (pretty-magit "fix"  ?🦋 nil)
       (pretty-magit "perf" ?📈 nil)
       (pretty-magit "refactor" ?✂ (:foreground "#375E97" :height 1.2))
       (pretty-magit "style"    ?↵ nil)
