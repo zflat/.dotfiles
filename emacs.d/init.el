@@ -297,16 +297,16 @@
 (defface visible-mark-face1
   '((((type tty) (class mono))
      (:inverse-video t))
-    (t (:background "#8E292C"))) "")
+    (t (:background "slateblue4"))) "")
 (defface visible-mark-face2
   '((((type tty) (class mono))
      (:inverse-video t))
-    (t (:background "#77450D"))) "")
+    (t (:background "slateblue3"))) "")
 (defface visible-mark-face3
   '((((type tty) (class mono))
      (:inverse-video t))
-    (t (:background "#165A36"))) "")
-(setq visible-mark-max 3)
+    (t (:background "slateblue2"))) "")
+(setq visible-mark-max 1)
 (setq visible-mark-faces `(visible-mark-face1 visible-mark-face2 visible-mark-face3))
 (straight-use-package 'visible-mark)
 (require 'visible-mark)
