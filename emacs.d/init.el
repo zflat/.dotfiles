@@ -741,7 +741,6 @@
 ;; Maps commit type to configured unicode icon. Use a font like Noto
 ;; Color Emoji to get icons for the unicode characters.
 ;;
-;; Can check to see if emoji font is found (find-font (font-spec :name "Noto Color Emoji"))
 (defmacro pretty-magit (WORD ICON PROPS &optional NO-PROMPT?)
   "Replace sanitized WORD with ICON, PROPS and by default add to prompts."
   `(prog1
@@ -751,22 +750,26 @@
      (unless ,NO-PROMPT?
        (add-to-list 'pretty-magit-prompt (concat ,WORD ": ")))))
 
-(progn
-  (setq pretty-magit-alist nil)
-  (setq pretty-magit-prompt nil)
-  ;; (pretty-magit "main"    ?✩ nil t)
-  (pretty-magit "origin/"  ?🌐 (:height 0.75) t)
-  (pretty-magit "build" ?🔨 nil)
-  (pretty-magit "ci" ?◐ (:foreground "#3F681C" :height 1.2))
-  (pretty-magit "chore" ?🧹 nil) ;; Broom
-  (pretty-magit "docs" ?📖 (:foreground "#3F681C" :height 1.2))
-  (pretty-magit "feat!:" ?✓ (:box t :foreground "slate gray" :background "black" :height 1.2) t)
-  (pretty-magit "feat" ?✓ nil)
-  (pretty-magit "fix"  ?🐛 nil)
-  (pretty-magit "perf" ?📈 nil)
-  (pretty-magit "refactor" ?✂ (:foreground "#375E97" :height 1.2))
-  (pretty-magit "style"    ?↵ nil)
-  (pretty-magit "test"    ?🧪 nil)) ;; Test tube
+;; Map to unicode only if we have a font that can render nicely.
+;; Check to see if emoji font is found.
+(if (find-font (font-spec :name "Noto Color Emoji"))
+    (progn
+      (setq pretty-magit-alist nil)
+      (setq pretty-magit-prompt nil)
+      ;; (pretty-magit "main"    ?✩ nil t)
+      (pretty-magit "origin/"  ?🌐 (:height 0.75) t)
+      (pretty-magit "build" ?🔨 nil)
+      (pretty-magit "ci" ?◐ (:foreground "#3F681C" :height 1.2))
+      (pretty-magit "chore" ?🧹 nil) ;; Broom
+      (pretty-magit "docs" ?📖 (:foreground "#3F681C" :height 1.2))
+      (pretty-magit "feat!:" ?✓ (:box t :foreground "slate gray" :background "black" :height 1.2) t)
+      (pretty-magit "feat" ?✓ nil)
+      (pretty-magit "fix"  ?🐛 nil)
+      (pretty-magit "perf" ?📈 nil)
+      (pretty-magit "refactor" ?✂ (:foreground "#375E97" :height 1.2))
+      (pretty-magit "style"    ?↵ nil)
+      (pretty-magit "test"    ?🧪 nil) ; Test tube
+      ))
 
 (defun add-magit-faces ()
   "Add face properties and compose symbols for buffer from pretty-magit."
