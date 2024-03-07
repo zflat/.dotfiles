@@ -751,25 +751,27 @@
        (add-to-list 'pretty-magit-prompt (concat ,WORD ": ")))))
 
 ;; Map to unicode only if we have a font that can render nicely.
+;; Find more emoji to use at https://github.com/yodamad/gitlab-emoji
 ;; Check to see if emoji font is found.
 (if (find-font (font-spec :name "Noto Color Emoji"))
     (progn
       (setq pretty-magit-alist nil)
       (setq pretty-magit-prompt nil)
       ;; (pretty-magit "main"    ?✩ nil t)
-      (pretty-magit "origin/"  ?🌐 (:height 0.75) t)
-      (pretty-magit "build" ?🔨 nil)
-      (pretty-magit "ci" ?◐ (:foreground "#3F681C" :height 1.2))
-      (pretty-magit "chore" ?🧹 nil) ;; Broom
-      (pretty-magit "docs" ?📖 (:foreground "#3F681C" :height 1.2))
-      (pretty-magit "feat!:" ?✓ (:box t :foreground "slate gray" :background "black" :height 1.2) t)
-      (pretty-magit "feat" ?✓ nil)
-      (pretty-magit "fix"  ?🦋 nil)
-      (pretty-magit "perf" ?📈 nil)
-      (pretty-magit "refactor" ?✂ (:foreground "#375E97" :height 1.2))
-      (pretty-magit "style"    ?↵ nil)
-      (pretty-magit "test"    ?🧪 nil) ; Test tube
-      ))
+      (pretty-magit "origin/"  ?🌐 (:height 0.75) t) ;; :globe_with_meridians:
+      (pretty-magit "build" ?🔨 nil) ;; :hammer:
+      (pretty-magit "ci" ?🚧 (:foreground "#3F681C" :height 1.2))
+      (pretty-magit "chore" ?🧹 nil) ;; :broom:
+      (pretty-magit "docs" ?📖 (:foreground "#3F681C" :height 1.2)) ;; :book:
+      (pretty-magit "feat!:" ?☑ (:box t :foreground "slate gray" :background "black" :height 1.2) t) ;; :ballot_box_with_check:
+      (pretty-magit "feat" ?☑ nil) ;; :ballot_box_with_check:
+      (pretty-magit "fix"  ?🦋 nil) ;; :butterfly:
+      (pretty-magit "perf" ?📈 nil) ;; :chart_with_upwards_trend:
+      (pretty-magit "refactor" ?✂ (:foreground "#375E97" :height 1.2)) ;; :scissors:
+      (pretty-magit "style"    ?🖌 nil) ;; :paintbrush:
+      (pretty-magit "test"    ?🧪 nil) ;; :test_tube:
+      (set-fontset-font t 'symbol
+                        (font-spec :family "Noto Color Emoji") nil 'prepend)))
 
 (defun add-magit-faces ()
   "Add face properties and compose symbols for buffer from pretty-magit."
