@@ -183,6 +183,7 @@
 (require 'multiple-cursors)
 ;; Cursor at each line in selected region
 ;; Note: <S> is shift
+;; See also https://github.com/fgallina/region-bindings-mode/ for a possibly easier way to invoke mc on selected region
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
 ;; Use arrow keys to quickly mark/skip next/previous occurances.
 (global-set-key (kbd "C-S-c C-s") 'mc/mark-more-like-this-extended)

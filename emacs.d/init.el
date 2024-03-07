@@ -293,24 +293,26 @@
 ;; http://pragmaticemacs.com/emacs/regions-marks-and-visual-mark/
 (defface visible-mark-active ;; put this before (require 'visible-mark)
   '((((type tty) (class mono)))
-    (t (:background "dark green"))) "")
+    (t (:background "LightGoldenrod3"))) "")
 (defface visible-mark-face1
   '((((type tty) (class mono))
      (:inverse-video t))
-    (t (:background "plum4"))) "")
+    (t (:background "#8E292C"))) "")
 (defface visible-mark-face2
   '((((type tty) (class mono))
      (:inverse-video t))
-    (t (:background "tan4"))) "")
+    (t (:background "#77450D"))) "")
 (defface visible-mark-face3
   '((((type tty) (class mono))
      (:inverse-video t))
-    (t (:background "DarkSlateGray4"))) "")
+    (t (:background "#165A36"))) "")
 (setq visible-mark-max 3)
 (setq visible-mark-faces `(visible-mark-face1 visible-mark-face2 visible-mark-face3))
 (straight-use-package 'visible-mark)
 (require 'visible-mark)
-
+(visible-mark-mode t)
+(setq set-mark-command-repeat-pop t)
+(setq mark-ring-max 4)
 
 (straight-use-package 'zoom)
 (require 'zoom)
@@ -918,6 +920,10 @@
 (global-set-key (kbd "M-<f6>") 'imenu)
 (global-set-key (kbd "s-x") 'imenu)
 (global-set-key (kbd "C-x C-q") 'kill-buffer-and-window)
+
+;; Remove some keybindings I don't use and do not want to trigger accidentally
+(global-set-key (kbd "C-<home>") nil)
+(global-set-key (kbd "C-<end>") nil)
 
 ;; Ctrl+Alt+d shows desktop in Unubntu
 
