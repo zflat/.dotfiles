@@ -34,7 +34,7 @@ STOW_USER_TARGETS =
 
 ${HOME}/.docker/config.json:
 	mkdir -p `dirname $@`
-	echo "{\n  \"credsStore\":\"pass\"\n}" >> $@
+	echo -e "{\n  \"credsStore\": \"pass\"\n}" > $@
 
 ${HOME}/.emacs.d: | ${ROOT_DIR}emacs.d
 	ln -sf $(firstword $|) $@
