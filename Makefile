@@ -46,6 +46,8 @@ $(lastword $(STOW_USER_TARGETS)): | ${HOME}/.config
 STOW_USER_TARGETS += gnupg
 $(lastword $(STOW_USER_TARGETS)):
 	mkdir -p ${HOME}/.$@ # prevents 1 level of tree folding
+	find ~/.gnupg -type f -exec chmod 600 {} \;
+	find ~/.gnupg -type d -exec chmod 700 {} \;
 	$(call run-user-stow, $@)
 
 STOW_USER_TARGETS += vagrant.d
