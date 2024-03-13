@@ -39,6 +39,10 @@ ${HOME}/.docker/config.json:
 ${HOME}/.emacs.d: | ${ROOT_DIR}emacs.d
 	ln -sf $(firstword $|) $@
 
+STOW_USER_TARGETS += dmenu
+$(lastword $(STOW_USER_TARGETS)): | ${HOME}/.config
+	$(call run-user-stow, $@)
+
 STOW_USER_TARGETS += git
 $(lastword $(STOW_USER_TARGETS)): | ${HOME}/.config
 	$(call run-user-stow, $@)
