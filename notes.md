@@ -24,7 +24,9 @@
       ssh-add ~/.ssh/id_ed25519
       ```
   * Sync `~/.password-store` content
-  * Add custom keyboard shortcut to `passmenu` script
+  * Add custom keyboard shortcut to [passmenu](https://git.zx2c4.com/password-store/tree/contrib/dmenu/passmenu) script
+    $ dpkg -L pass | grep passmenu
+    /usr/share/doc/pass/examples/dmenu/passmenu
 * Install `stow` and set up dotfiles
   * For cross-platform "stow" see [dploy](https://github.com/arecarn/dploy)
 * Install other tools
