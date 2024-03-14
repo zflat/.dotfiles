@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+killall gpg-agent
+eval `gpg-agent --enable-ssh-support --daemon`
+
+# TODO some different ways to integrate wallet to unlock keys
+
+# https://ebzzry.com/en/gsk/
+
+# https://unix.stackexchange.com/questions/724894/how-do-i-set-up-kde-kwallet-and-ssh-so-im-not-asked-to-enter-my-ssh-passphrase
+
+# https://kcore.org/2022/05/18/ssh-passphrases-kde/
+
+# https://dev.to/manekenpix/kde-plasma-ssh-keys-111e
+
+# How do I configure Kwallet to manage SSH and GPG keys? [SOLVED]
+# https://bbs.archlinux.org/viewtopic.php?id=151068
+
+# More on graphical prompt for passphrase
+# https://unix.stackexchange.com/a/635613
