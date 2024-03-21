@@ -1,0 +1,20 @@
+{
+    "KPlugin": {
+        "Name": "Raise Apps",
+        "Description": "Keybindings to raise specific application windows",
+        "Icon": "preferences-system-windows",
+        "Authors": [
+            {
+                "Email": "hello@email.test",
+                "Name": "Key Binding"
+            }
+        ],
+        "Id": "raise-apps",
+        "Version": "1.0",
+        "License": "GPLv3",
+        "Website": "https://develop.kde.org/docs/plasma/kwin/"
+    },
+    "X-Plasma-API": "javascript",
+    "X-Plasma-MainScript": "code/main.js",
+    "KPackageStructure": "KWin/Script"
+}

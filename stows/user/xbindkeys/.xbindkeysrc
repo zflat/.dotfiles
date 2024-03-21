@@ -42,6 +42,8 @@
 #   [System Settings => Keyboard => Shortcuts Tab => Launchers] "Home Folder" => Super+E
 # * Get the WM_CLASS for a window
 #   `xprop | grep WM_CLASS | awk '{print $3 $4}'`
+# * List of windows managed by wmctrl
+#   `wmctrl -l`
 # * Reload xbindkeys changes with
 #  `killall -HUP xbindkeys`
 
