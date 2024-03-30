@@ -25,7 +25,7 @@ function raiseApplication(names) {
       (name) => (clients[i].caption.toLocaleLowerCase('en-US').indexOf(name) >= 0)
     ) >= 0;
     if(is_target) {
-      show(clients[i]);
+      toggle(clients[i]);
       console.info(`Activated client: ${clients[i].active ? "true" : "false"}`);
       return;
     }
@@ -33,11 +33,15 @@ function raiseApplication(names) {
   console.info("Client not found");
 }
 
-function show(window) {
-    const windowWasOnAllDesktops = window.onAllDesktops;
+function toggle(window) {
+  const windowWasOnAllDesktops = window.onAllDesktops;
+  if (window == workspace.activeWindow) {
+    window.minimized = true;
+  } else {
     workspace.sendClientToScreen(window, workspace.activeScreen);
     window.onAllDesktops = true;
     window.minimized = false;
     workspace.activeWindow = window;
-    window.onAllDesktops = windowWasOnAllDesktops;
+  }
+  window.onAllDesktops = windowWasOnAllDesktops;
 }
