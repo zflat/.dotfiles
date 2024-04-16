@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+export EDITOR="emacs -nw -Q"
+
+# Disable START/STOP signals.
+# https://superuser.com/questions/124845/can-you-disable-the-ctrl-s-xoff-keystroke-in-putty
+stty -ixon
+
+# Turn off the bell in the terminal (https://tldp.org/HOWTO/Visual-Bell-8.html)
+bind 'set bell-style visible'
+
+# Add directory for convenient (conventional?) place for user binaries
+export PATH="${HOME}/.local/bin":$PATH
+
+export TOOLS_HOME="${HOME}/tools"
+
+# asdf
+if [[ -d "$HOME/.asdf" ]]; then
+  . "$HOME/.asdf/asdf.sh"
+  . "$HOME/.asdf/completions/asdf.bash"
+fi
+
+# cargo and Rust
+if [[ -d "$HOME/.cargo" ]]; then
+    . "$HOME/.cargo/env"
+fi
+
+# git-subrepo
+if [[ -d "${TOOLS_HOME}/pkgs/git-subrepo" ]]; then
+  source "${TOOLS_HOME}/pkgs/git-subrepo/.rc"
+fi
+
+# z - jump around
+if [[ -d "${TOOLS_HOME}/pkgs/z" ]]; then
+  . "${TOOLS_HOME}/pkgs/z/z.sh"
+fi
+
+# pnpm
+export PNPM_HOME="${HOME}/.local/share/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
+
+# Qt
+export QT_LOGGING_RULES="kwin_*.debug=true"

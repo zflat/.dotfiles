@@ -921,9 +921,15 @@
 (global-set-key (kbd "s-x") 'imenu)
 (global-set-key (kbd "C-x C-q") 'kill-buffer-and-window)
 
-;; Remove some keybindings I don't use and do not want to trigger accidentally
+;; Remove some keybindings I don't use and do not want to trigger
+;; accidentally or conflict with window manager shortcuts
 (global-set-key (kbd "C-<home>") nil)
 (global-set-key (kbd "C-<end>") nil)
+(global-set-key (kbd "C-<prior>") nil)
+(global-set-key (kbd "C-<next>") nil)
+(global-set-key (kbd "<prior>") nil)
+(global-set-key (kbd "<next>") nil)
+(global-set-key (kbd "C-M-b") nil)
 
 ;; Ctrl+Alt+d shows desktop in Unubntu
 

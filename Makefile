@@ -39,6 +39,11 @@ ${HOME}/.docker/config.json:
 ${HOME}/.emacs.d: | ${ROOT_DIR}emacs.d
 	ln -sf $(firstword $|) $@
 
+STOW_USER_TARGETS += bash
+$(lastword $(STOW_USER_TARGETS)): | ${HOME}/.config
+	$(call run-user-stow, $@)
+	@echo "Bash customization is set up in '.bash_aliases' which needs to be sourced from the '.bashrc' file."
+
 STOW_USER_TARGETS += dmenu
 $(lastword $(STOW_USER_TARGETS)): | ${HOME}/.config
 	$(call run-user-stow, $@)
