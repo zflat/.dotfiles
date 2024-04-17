@@ -7,12 +7,14 @@ export EDITOR="emacs -nw -Q"
 stty -ixon
 
 # Turn off the bell in the terminal (https://tldp.org/HOWTO/Visual-Bell-8.html)
-bind 'set bell-style visible'
+if [[ -n "${BASH_VERSINFO}"  ]]; then
+    bind 'set bell-style visible'
+fi
 
 # Add directory for convenient (conventional?) place for user binaries
 export PATH="${HOME}/.local/bin":$PATH
 
-export TOOLS_HOME="${HOME}/tools"
+export TOOLS_HOME="${HOME}/.tools"
 
 # asdf
 if [[ -d "$HOME/.asdf" ]]; then
