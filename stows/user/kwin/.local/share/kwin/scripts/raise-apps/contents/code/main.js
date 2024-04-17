@@ -13,12 +13,37 @@
  * qdbus org.kde.kglobalaccel /component/kwin org.kde.kglobalaccel.Component.cleanUp
  */
 
+
+// Support for different KDE KWin API versions by settings up aliases
+// to abstract away the API differences.
+// (https://discuss.kde.org/t/kwin-scripting-from-5-x-to-6-x-compatible/2905/32)
+//
+// See previous tagged code for old APIs
+// https://github.com/KDE/kwin/blob/v5.27.2/src/scripting/workspace_wrapper.h
+// https://github.com/KDE/kwin/blob/v5.27.2/src/window.h
+const isKDE6 = typeof workspace.windowList === 'function';
+let activeWindow;
+let setActiveWindow;
+let windowList;
+let connectWindowActivated;
+if (isKDE6) {
+  activeWindow                = () => workspace.activeWindow;
+  setActiveWindow             = (window) => { workspace.activeWindow = window; };
+  windowList                  = () => workspace.stackingOrder;
+  connectWindowActivated      = (handler) => workspace.windowActivated.connect(handler);
+} else {
+  activeWindow                = () => workspace.activeClient;
+  setActiveWindow             = (window) => { workspace.activeClient = window; };
+  windowList                  = () => workspace.clientList();
+  connectWindowActivated      = (handler) => workspace.clientActivated.connect(handler);
+}
+
 // Note: would be nice if this could query xdg-settings get default-web-browser when the function is invoked instead of use a list of browsers
 registerShortcut("RaiseApp-Browser", "Bring the browser application to the front", "Ctrl+Alt+B", () => {raiseApplication(["firefox", "brave"]);});
 
 function raiseApplication(names) {
   // See also code in https://github.com/eddy-geek/kwinactivate/blob/master/winactivate.kwinscript
-  const clients = workspace.stackingOrder;
+  const clients = windowList();
   for (var i = 0; i < clients.length; i++) {
     console.log(`${clients[i].caption} ${clients[i].pid}`);
     var is_target = names.findIndex(
@@ -35,13 +60,13 @@ function raiseApplication(names) {
 
 function toggle(window) {
   const windowWasOnAllDesktops = window.onAllDesktops;
-  if (window == workspace.activeWindow) {
+  if (window == activeWindow()) {
     window.minimized = true;
   } else {
     workspace.sendClientToScreen(window, workspace.activeScreen);
     window.onAllDesktops = true;
     window.minimized = false;
-    workspace.activeWindow = window;
+    setActiveWindow(window);
   }
   window.onAllDesktops = windowWasOnAllDesktops;
 }
