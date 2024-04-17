@@ -41,11 +41,15 @@ if (isKDE6) {
 // Note: would be nice if this could query xdg-settings get default-web-browser when the function is invoked instead of use a list of browsers
 registerShortcut("RaiseApp-Browser", "Bring the browser application to the front", "Ctrl+Alt+B", () => {raiseApplication(["firefox", "brave"]);});
 
+registerShortcut("RaiseApp-Emacs", "Bring the Emacs frame to the front", "Ctrl+Alt+K", () => {raiseApplication(["-emacs-"]);});
+
+registerShortcut("RaiseApp-Terminal", "Bring the terminal application to the front", "Ctrl+Alt+O", () => {raiseApplication(["— konsole"]);});
+
 function raiseApplication(names) {
   // See also code in https://github.com/eddy-geek/kwinactivate/blob/master/winactivate.kwinscript
   const clients = windowList();
   for (var i = 0; i < clients.length; i++) {
-    console.log(`${clients[i].caption} ${clients[i].pid}`);
+    console.log(`[Client ${String(i).padStart(2, "0")} ${clients[i].pid}] ${clients[i].caption}`);
     var is_target = names.findIndex(
       (name) => (clients[i].caption.toLocaleLowerCase('en-US').indexOf(name) >= 0)
     ) >= 0;
