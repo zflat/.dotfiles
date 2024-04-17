@@ -8,7 +8,7 @@ stty -ixon
 
 # Turn off the bell in the terminal (https://tldp.org/HOWTO/Visual-Bell-8.html)
 if [[ -n "${BASH_VERSINFO}"  ]]; then
-    bind 'set bell-style visible'
+  bind 'set bell-style visible'
 fi
 
 # Add directory for convenient (conventional?) place for user binaries
@@ -17,9 +17,19 @@ export PATH="${HOME}/.local/bin":$PATH
 export TOOLS_HOME="${HOME}/.tools"
 
 # asdf
+#
+# Install common plugins and versions:
+# asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+# asdf install nodejs latest
+# asdf global nodejs latest
+# asdf plugin-add pnpm
+# asdf install pnpm latest
+# asdf global pnpm latest
 if [[ -d "$HOME/.asdf" ]]; then
   . "$HOME/.asdf/asdf.sh"
-  . "$HOME/.asdf/completions/asdf.bash"
+  if [[ -n "${BASH_VERSINFO}"  ]]; then
+    . "$HOME/.asdf/completions/asdf.bash"
+  fi
 fi
 
 # cargo and Rust
