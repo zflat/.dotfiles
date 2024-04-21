@@ -727,6 +727,10 @@
 (straight-use-package 'markdown-mode)
 (require 'markdown-mode)
 (setq markdown-command "multimarkdown")
+(add-to-list 'auto-mode-alist '("\\.mdx\\'" . markdown-mode))
+;; Use outline minor mode to expand/collapse markdown document sections like you can in org-mode
+(add-hook 'markdown-mode-hook  '(lambda ()
+                            (outline-minor-mode 1)))
 
 (global-set-key (kbd "C-x g") 'magit-status-quick)
 

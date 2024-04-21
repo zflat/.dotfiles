@@ -167,6 +167,7 @@
 (global-set-key (kbd "<home>") 'avy-goto-char-timer)
 (setq avy-background t)
 
+;; Smart move to the beginning or end of lines and top of buffer
 (require 'mwim)
 (global-set-key (kbd "C-a") 'mwim-beginning)
 (global-set-key (kbd "C-e") 'mwim-end)
