@@ -45,6 +45,10 @@
   (if (boundp 'toggle-horizontal-scroll-bar)
       (toggle-horizontal-scroll-bar -1)))
 
+;; disable pop up UI dialogs when prompting
+;; (thanks for the tip https://systemcrafters.net/emacs-from-scratch/the-best-default-settings/)
+(setq use-dialog-box nil)
+
 ;; Turn off the bell
 ;; https://www.emacswiki.org/emacs/AlarmBell#h5o-5
  (setq ring-bell-function 'ignore)
