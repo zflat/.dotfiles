@@ -784,7 +784,7 @@
   (interactive)
   (when (derived-mode-p 'magit-log-mode)
     (with-silent-modifications
-      (--each pretty-magit-alist
+      (--each (if (boundp 'pretty-magit-alist) pretty-magit-alist '())
         (-let (((rgx icon props) it))
           (save-excursion
             (goto-char (point-min))
