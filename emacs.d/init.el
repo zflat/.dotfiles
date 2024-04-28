@@ -23,6 +23,11 @@
 ;; Debugging triggers
 ;; (setq debug-on-error t)
 ;; (setq debug-on-quit t) to let C-g trigger debug
+(defun set-debug-triggers ()
+  (interactive)
+  (setq debug-on-error t
+        debug-on-signal t
+        debug-on-quit t))
 (defun clear-debug-triggers ()
   (interactive)
   (setq debug-on-error nil
