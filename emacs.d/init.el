@@ -198,6 +198,8 @@
     ad-do-it))
 (ad-activate 'align-regexp)
 
+;; Avoid high CPU usage when many buffers are open
+(setq auto-revert-avoid-polling t)
 (global-auto-revert-mode t)
 
 
