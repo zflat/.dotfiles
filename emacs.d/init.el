@@ -852,8 +852,7 @@
 (straight-use-package 'protobuf-mode)
 (require 'protobuf-mode)
 
-;; (setq clang-format-executable (concat (getenv "HOME") "/.pyenv/versions/3.8.5/bin/clang-format"))
-(setq clang-format-executable "/usr/bin/clang-format-11")
+(setq clang-format-executable (locate-file "clang-format-11" exec-path))
 (straight-use-package 'clang-format)
 (require 'clang-format)
 
