@@ -32,6 +32,16 @@ if [[ -d "$HOME/.asdf" ]]; then
   fi
 fi
 
+# Helper to disable asdf for a tool in the current shell
+#
+# Example: asdf-disable python
+function asdf-disable() {
+    if [[ -n "$(which asdf)"  ]]; then
+        . "$(dirname $(which asdf))/../asdf.sh"
+        asdf shell "$1" system
+    fi
+}
+
 # cargo and Rust
 if [[ -d "$HOME/.cargo" ]]; then
     . "$HOME/.cargo/env"
