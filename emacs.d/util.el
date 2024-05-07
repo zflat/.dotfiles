@@ -62,9 +62,12 @@
               (string-remove-prefix (projectile-project-root) name))
            ""))
         (project-dir-relative-name
-         (string-remove-prefix (file-name-as-directory
+         (if (and (fboundp 'projectile-project-root)
+                  (projectile-project-root))
+             (string-remove-prefix (file-name-as-directory
                                 (file-name-nondirectory (directory-file-name (projectile-project-root))))
-                               project-full-relative-name))
+                                   project-full-relative-name)
+         ""))
         )
      (list (let ((completions
                   (let ((choice-index 0))
