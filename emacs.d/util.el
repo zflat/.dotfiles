@@ -78,9 +78,7 @@
                                               (list (format "Path from project root\t(%s)" project-dir-relative-name) "r")))
                                     (list (list (format "Name\t\t\t\t(%s)" nondir) "n")
                                           (list (format "Full\t\t\t\t(%s)" name) "f")
-                                          (list (format "Directory\t\t\t(%s)" directory) "d"))
-
-)))))
+                                          (list (format "Directory\t\t\t(%s)" directory) "d")))))))
              (cadr (assoc (completing-read "Copy buffer name as kill: " completions) completions)))
            name directory nondir project-full-relative-name project-dir-relative-name)))
   (let* ((suffix (if (and
@@ -97,7 +95,8 @@
                 ((string-equal choice "d") directory)
                 ((string-equal choice "n") nondir)
                 (t nil)))
-         (new-kill-string (concat name-selection suffix)))
+         (new-kill-string (if (not (equal name-selection nil))
+                              (concat name-selection suffix))))
     (when new-kill-string
       (message "%s copied" new-kill-string)
       (kill-new new-kill-string))))
