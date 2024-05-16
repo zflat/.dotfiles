@@ -67,7 +67,10 @@ function toggle(window) {
   if (window == activeWindow()) {
     window.minimized = true;
   } else {
-    workspace.sendClientToScreen(window, workspace.activeScreen);
+    if (window.minimized == true) {
+      // Only change the screen for the window if it is minimized
+      workspace.sendClientToScreen(window, workspace.activeScreen);
+    }
     window.onAllDesktops = true;
     window.minimized = false;
     setActiveWindow(window);
