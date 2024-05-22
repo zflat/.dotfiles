@@ -1272,12 +1272,6 @@
 ;; Note: Change theme with M-x load-theme RET {themename}
 
 
-(defun now ()
-  "Insert string for the current time formatted like '2:34 PM'."
-  (interactive)                 ; permit invocation in minibuffer
-  (insert (concat (format-time-string "%F %-I:%M %p") " (" (replace-regexp-in-string "\n$" "" (shell-command-to-string "date +%s")) ")")))
-
-
 (message "load_end")
 
 ; (provide 'init)

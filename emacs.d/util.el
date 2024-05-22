@@ -268,6 +268,19 @@ Version 2018-09-29"
 
 
 
+
+(defun generate-time-string-now (&optional ADD-EPOCH)
+  (concat (format-time-string "%F %-I:%M %p") (if ADD-EPOCH (concat " (" (replace-regexp-in-string "\n$" "" (shell-command-to-string "date +%s")) ")"))))
+
+(defun now ()
+  "Insert string for the current time formatted like '2:34 PM'."
+  (interactive)                 ; permit invocation in minibuffer
+  (insert (generate-time-string-now t)))
+
+(current-time-string)
+(generate-time-string-now)
+
+
 ;; Some emacs-fu
 ;; Insert a column of incrementing numbers in emacs
 ;; https://stackoverflow.com/a/9932745
