@@ -79,11 +79,14 @@
 
 
 ;; Keyboard shortcut to toggle show/hide function content
-;; See https://emacs.wordpress.com/2007/01/16/quick-and-dirty-code-folding/
+;; Based on https://emacs.wordpress.com/2007/01/16/quick-and-dirty-code-folding/
+;; Modified to use the current column at point.
 (defun jao-toggle-selective-display (column)
   (interactive "P")
   (set-selective-display
-   (if selective-display column (or column 1))))
+   (if selective-display column (or column (+ 1 (save-excursion
+                                                    (goto-char (point))
+                                                    (current-column)))))))
 (global-set-key (kbd "<f12>") 'jao-toggle-selective-display)
 
 ;;;;;;;;;;;;;;
