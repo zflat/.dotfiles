@@ -986,6 +986,10 @@
 ;;
 ;; M-/ ;; Dyanmic Abbreviations (pressed multiple times to cycle)
 ;;
+;; Under Ubuntu, there may be keybinding conflicts with C+; and C+. due to IBus emojii selection
+;; IBus can be configured to disable the shortcut key with `ibus-setup`
+;; See https://askubuntu.com/a/1436302
+;;
 ;; Commands notes
 ;;
 ;; After M-x cd stops emacs from tracking directories, run: M-x dirtrack-mode
