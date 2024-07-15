@@ -625,7 +625,8 @@
 (add-hook 'qml-mode-hook '(lambda ()
                            (js2-mode-exit)
                            (message "js2-mode exited")))
-(define-key qml-mode-map (kbd "<f5>") 'recompile)
+
+(define-key qml-mode-map (kbd "<f5>") (lambda () (interactive) (save-some-buffers t) (recompile)))
 
 
 ; C++ w/ RTags (sort of automated with cmake-ide...)
