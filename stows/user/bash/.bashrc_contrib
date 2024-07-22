@@ -47,6 +47,12 @@ if [[ -d "$HOME/.cargo" ]]; then
     . "$HOME/.cargo/env"
 fi
 
+# clyde, A cross-platform package manager for prebuilt applications
+# See available packages at https://github.com/agateau/clyde-store
+if [[ -d "${HOME}/.cache/clyde" ]]; then
+    . "${HOME}/.cache/clyde/scripts/activate.sh"
+fi
+
 # git-subrepo
 if [[ -d "${TOOLS_HOME}/pkgs/git-subrepo" ]]; then
   source "${TOOLS_HOME}/pkgs/git-subrepo/.rc"
