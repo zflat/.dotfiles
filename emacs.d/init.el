@@ -948,6 +948,14 @@
 
 ;; Ctrl+Alt+d shows desktop in Unubntu
 
+;; Sometimes a window steals focus away from the minibuffer while the
+;; minibuffer is in a prompt (like asking to create a directory that
+;; does not exist when saving a new file).
+;;
+;; Call 'minibuffer-keyboard-quit to force the prompt to close after
+;; focus has been stolen.
+(global-set-key (kbd "C-M-g") 'minibuffer-keyboard-quit)
+
 ;; Keybindings Notes
 ;;
 ;; Key Help
