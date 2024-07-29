@@ -178,7 +178,7 @@
 ; (global-set-key (kbd "M-p") 'git-gutter:previous-hunk)
 ; (global-set-key (kbd "M-n") 'git-gutter:next-hunk)
 
-(setq auto-save-visited-interval 3)
+(setq auto-save-visited-interval 10)
 (setq auto-save-visited-file-name nil) ; explicitly disable a setting which would disable in-place autosaving.
 (auto-save-visited-mode 1)
 ;; Automatically save files on lose focus in Emacs
@@ -329,7 +329,20 @@
 (require 'zoom)
 (zoom-mode 1)
 (setq zoom-size '(0.666 . 0.666))
-(global-set-key (kbd "C-<f1>") 'zoom-mode) ; toggle zoom mode easily
+
+ ; Toggle zoom and auto-save-visited modes. Having zoom mode disabled is a
+ ; vidual reminder that auto-save-visited-mode is not enabled
+(global-set-key (kbd "C-<f1>")
+                (lambda ()
+                  (interactive)
+                  (if (default-value 'zoom-mode)
+                      (progn
+                        (zoom-mode -1)
+                        (auto-save-visited-mode nil))
+                    (progn
+                      (zoom-mode 1)
+                      (auto-save-visited-mode 1)))
+                  ))
 
 (straight-use-package 'ag)
 (require 'ag)
