@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# name: q_property
-# key: qprop
+# name: q_inline_property
+# key: qinprop
 # (depends-on "string-inflection")
 # see https://gregorygrubbs.com/wordpress/snippets-with-emacs-lisp-power/
 # https://cupfullofcode.com/blog/2013/02/26/snippet-expansion-with-yasnippet/
@@ -14,7 +14,7 @@
      *
      * @return $2
      */
-    ${2:$(concat yas/text " ")} ${1:$(string-inflection-camelcase-function yas/text)}() const;
+    ${2:$(concat yas/text " ")} ${1:$(string-inflection-camelcase-function yas/text)}() const { return m_${1:$(string-inflection-camelcase-function yas/text)}; }
     /**
      * Set $1
      *
@@ -22,13 +22,20 @@
      * @emits ${1:$(string-inflection-camelcase-function yas/text)}Changed
      * @return void
      */
-    void set${1:$(string-inflection-pascal-case-function yas/text)}($2 const& val);
-    signals:
+    void set${1:$(string-inflection-pascal-case-function yas/text)}($2 const& val)
+    {
+        if(val == m_${1:$(string-inflection-camelcase-function yas/text)}) {
+            return;
+        }
+        m_${1:$(string-inflection-camelcase-function yas/text)} = val;
+        emit ${1:$(string-inflection-camelcase-function yas/text)}Changed();
+    }
     /**
      * Signal that $1 has changed
-     *
-     * @param $2 updated $1 value
      */
-    void ${1:$(string-inflection-camelcase-function yas/text)}Changed($2 const& val);
+    signals:
+    void ${1:$(string-inflection-camelcase-function yas/text)}Changed();
+    private:
+    ${2:$(concat yas/text " ")} m_${1:$(string-inflection-camelcase-function yas/text)};
     /***** END PROPERTY $1 ******/
     
