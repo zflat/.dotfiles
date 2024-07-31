@@ -25,7 +25,7 @@ export TOOLS_HOME="${HOME}/.tools"
 # asdf plugin-add pnpm
 # asdf install pnpm latest
 # asdf global pnpm latest
-if [[ -d "$HOME/.asdf" ]]; then
+if [[ -z "${ASDF_DIR}" && -d "$HOME/.asdf" ]]; then
   . "$HOME/.asdf/asdf.sh"
   if [[ -n "${BASH_VERSINFO}"  ]]; then
     . "$HOME/.asdf/completions/asdf.bash"
