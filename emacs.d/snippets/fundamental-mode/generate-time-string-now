@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: now
+# name: generate-time-string-now
 # key: now
 # --
 `(generate-time-string-now t)`

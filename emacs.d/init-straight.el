@@ -141,6 +141,7 @@
 (straight-use-package 'beginend)
 (straight-use-package 'cmake-font-lock)
 (straight-use-package 'counsel)
+(straight-use-package 'ctrlxo)
 (straight-use-package 'docker)
 (straight-use-package 'dockerfile-mode)
 (straight-use-package 'dynamic-spaces)
@@ -185,6 +186,10 @@
 (setq beacon-dont-blink-commands
    (quote
     (next-line previous-line forward-line mwheel-scroll)))
+
+;; Switch to the most recently used window
+(require 'ctrlxo)
+(global-set-key (kbd "C-<tab>") #'ctrlxo)
 
 
 ;; Muliple cursors

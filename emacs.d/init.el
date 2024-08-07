@@ -848,6 +848,7 @@
 (straight-use-package 'string-inflection)
 (require 'string-inflection)
 (straight-use-package 'yasnippet)
+(straight-use-package 'yasnippet-snippets)
 (require 'yasnippet)
 (yas-global-mode 1)
 (setq yas-snippet-dirs
@@ -941,6 +942,7 @@
 (define-key god-local-mode-map (kbd "C-x C-b") #'ivy-switch-buffer)
 (define-key god-local-mode-map (kbd "C-x C-c") #'list-buffers) ;; Re-bind to prevent accidental exit
 (define-key god-local-mode-map (kbd "C-x C-m") #'kmacro-end-and-call-macro)
+(define-key god-local-mode-map (kbd "<tab>") #'ctrlxo)
 
 ;; (global-set-key (kbd "M-<f6>") nil)
 (global-set-key (kbd "M-o") #'ivy-switch-buffer)
