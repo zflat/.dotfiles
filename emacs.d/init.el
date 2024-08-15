@@ -258,12 +258,13 @@
 (straight-use-package 'transpose-frame)
 (require 'transpose-frame)
 
-;; Close popup windows with C-g
+;; Close popup windows with C-g and bring them back with C-S-t
 (straight-use-package 'popwin)
 (require 'popwin)
 (popwin-mode 1)
 (push '(ag-mode :dedicated t :stick t :position bottom) popwin:special-display-config)
                                         ;(pop popwin:special-display-config)
+(global-set-key (kbd "C-S-t") 'popwin:display-last-buffer)
 
 (straight-use-package 'smart-mode-line)
 (require 'smart-mode-line)
@@ -942,7 +943,6 @@
 (define-key god-local-mode-map (kbd "C-x C-b") #'ivy-switch-buffer)
 (define-key god-local-mode-map (kbd "C-x C-c") #'list-buffers) ;; Re-bind to prevent accidental exit
 (define-key god-local-mode-map (kbd "C-x C-m") #'kmacro-end-and-call-macro)
-(define-key god-local-mode-map (kbd "<tab>") #'ctrlxo)
 
 ;; (global-set-key (kbd "M-<f6>") nil)
 (global-set-key (kbd "M-o") #'ivy-switch-buffer)
@@ -1300,6 +1300,7 @@
       (set-frame-font "DejaVu Sans Mono 12")))
 
 (add-hook 'after-init-hook 'load-theme-solarized-dark)
+(load-theme-solarized-dark)
 ;; Note: Change theme with M-x load-theme RET {themename}
 
 
