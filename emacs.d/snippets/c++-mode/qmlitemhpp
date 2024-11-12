@@ -1,0 +1,38 @@
+# -*- mode: snippet -*-
+# name: Qt QML Item value object class header file
+# (depends-on "string-inflection")
+# key: qmlitemhpp
+# --
+#pragma once
+
+#include <memory>
+
+#include "QObject"
+#include "QQuickItem"
+#include "${1:`(car (last (split-string (file-name-parent-directory (buffer-file-name)) "/" t)))`}/visibility_control.h"
+
+namespace $1 {
+
+struct ${1:$(concat (upcase yas/text) "_LOCAL")} ${2:$(yas/text)}Private;
+
+/**
+ * @class ${2:`(string-inflection-upper-camelcase-function (file-name-sans-extension (file-name-nondirectory (buffer-file-name))))`}
+ *
+ * ${2} is a value object that ${0}
+ */
+class ${1:$(concat (upcase yas/text) "_PUBLIC")} ${2} : public QObject {
+  Q_OBJECT
+  QML_ELEMENT
+
+ public:
+  explicit ${2}(QObject* parent = nullptr);
+
+  ~${2}();
+
+ signals:
+
+ private:
+  std::unique_ptr<${2}Private> m_priv{nullptr};
+};
+
+}  // namespace $1
