@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# name: Qt QML Item value object class SOURCE file
+# (depends-on "string-inflection")
+# key: qmlitemcpp
+# --
+#include "${1:`(car (last (split-string (file-name-parent-directory (buffer-file-name)) "/" t) 2))`}/`(file-name-sans-extension (file-name-nondirectory (buffer-file-name)))`.hpp"
+
+namespace ${1} {
+
+struct ${1:$(concat (upcase yas/text) "_LOCAL")} ${2:$(yas/text)}Private {
+  // private members
+};
+
+${2:`(string-inflection-upper-camelcase-function (file-name-sans-extension (file-name-nondirectory (buffer-file-name))))`}::${2}(QObject* parent)
+    : QObject(parent), m_priv(std::make_unique<${2}Private>()) {}
+
+${2}::~${2}() = default;
+
+}  // namespace ${1}

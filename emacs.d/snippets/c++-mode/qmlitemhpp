@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: Qt QML Item value object class header file
+# name: Qt QML Item value object class HEADER file
 # (depends-on "string-inflection")
 # key: qmlitemhpp
 # --
@@ -18,7 +18,7 @@ struct ${1:$(concat (upcase yas/text) "_LOCAL")} ${2:$(yas/text)}Private;
 /**
  * @class ${2:`(string-inflection-upper-camelcase-function (file-name-sans-extension (file-name-nondirectory (buffer-file-name))))`}
  *
- * ${2} is a value object that ${0}
+ * ${2} is a value object that persists ${2:$(string-replace "_" " " (string-inflection-underscore-function yas/text))}.${0}
  */
 class ${1:$(concat (upcase yas/text) "_PUBLIC")} ${2} : public QObject {
   Q_OBJECT
