@@ -1,0 +1,45 @@
+# -*- mode: snippet -*-
+# name: C visibility control header
+# (depends-on "string-inflection")
+# expand-env: ((yas-indent-line 'fixed))
+# key: visibility_control
+# --
+// This logic was borrowed from
+// https://github.com/ros2/ros2cli/blob/master/ros2pkg/ros2pkg/resource/cpp/visibility_control.h.em
+// which was borrowed (then namespaced) from the examples on the gcc wiki:
+// https://gcc.gnu.org/wiki/Visibility
+
+// clang-format off
+
+#ifndef ${1:`(upcase (car (last (split-string (file-name-parent-directory (buffer-file-name)) "/" t))))`}__VISIBILITY_CONTROL_H_
+#define ${1}__VISIBILITY_CONTROL_H_
+
+#if defined _WIN32 || defined __CYGWIN__
+  #ifdef __GNUC__
+    #define ${1}_EXPORT __attribute__ ((dllexport))
+    #define ${1}_IMPORT __attribute__ ((dllimport))
+  #else
+    #define ${1}_EXPORT __declspec(dllexport)
+    #define ${1}_IMPORT __declspec(dllimport)
+  #endif
+  #ifdef ${1}_BUILDING_LIBRARY
+    #define ${1}_PUBLIC ${1}_EXPORT
+  #else
+    #define ${1}_PUBLIC ${1}_IMPORT
+  #endif
+  #define ${1}_PUBLIC_TYPE ${1}_PUBLIC
+  #define ${1}_LOCAL
+#else
+  #define ${1}_EXPORT __attribute__ ((visibility("default")))
+  #define ${1}_IMPORT
+  #if __GNUC__ >= 4
+    #define ${1}_PUBLIC __attribute__ ((visibility("default")))
+    #define ${1}_LOCAL  __attribute__ ((visibility("hidden")))
+  #else
+    #define ${1}_PUBLIC
+    #define ${1}_LOCAL
+  #endif
+  #define ${1}_PUBLIC_TYPE
+#endif
+
+#endif  // ${1}__VISIBILITY_CONTROL_H_
