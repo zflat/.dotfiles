@@ -928,9 +928,15 @@
                                        ;; (dimmer-dim-all)
                                        (dimmer-process-all)
                                        (setq cursor-type 'box))))
-;; Toggle god-local-mode
-(global-set-key (kbd "<pause>") (lambda () (interactive) (or (god-local-mode-resume) (god-local-mode-pause))))
-(global-set-key (kbd "<end>") (lambda () (interactive) (or (god-local-mode-resume) (god-local-mode-pause))))
+;; Toggle (god-local-mode)
+(defun god-mode-toggle ()
+  "Toggles god local mode in the current buffer"
+  (interactive)
+  (if god-local-mode
+      (or (god-local-mode-pause) (god-local-mode-resume))
+    (god-local-mode)))
+(global-set-key (kbd "<pause>") 'god-mode-toggle)
+(global-set-key (kbd "<end>") 'god-mode-toggle);
 (define-key god-local-mode-map (kbd "i") (lambda () (interactive) (god-local-mode-pause)))
 (define-key god-local-mode-map (kbd ".") #'repeat)
 ;; god-mode is greedy and tries to prefix everything with C- so
