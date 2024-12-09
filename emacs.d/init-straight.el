@@ -142,6 +142,7 @@
 (straight-use-package 'cmake-font-lock)
 (straight-use-package 'counsel)
 (straight-use-package 'ctrlxo)
+(straight-use-package 'dirvish)
 (straight-use-package 'docker)
 (straight-use-package 'dockerfile-mode)
 (straight-use-package 'dynamic-spaces)
@@ -191,6 +192,10 @@
 (require 'ctrlxo)
 (global-set-key (kbd "C-<tab>") #'ctrlxo)
 
+;; Dirvish as a replacement to dired
+(dirvish-override-dired-mode)
+(dirvish-side-follow-mode)
+(setq dirvish-hide-cursor nil)
 
 ;; Muliple cursors
 (require 'multiple-cursors)
