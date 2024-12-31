@@ -186,7 +186,17 @@
 (beacon-mode 1)
 (setq beacon-dont-blink-commands
    (quote
-    (next-line previous-line forward-line mwheel-scroll)))
+    (next-line previous-line forward-line mwheel-scroll kill-line mwim-beginning
+               company-complete-common company-select-next-or-abort company-select-previous-or-abort company-next-page company-previous-page
+               company-filter-candidates company-search-candidates company-search-toggle-filtering company-call-frontends
+               company-abort company-search-abort company-cancel
+               company-complete-selection
+               company-complete-common company-preview-hide)))
+(add-hook 'beacon-dont-blink-predicates
+          (lambda () (or (bound-and-true-p company-search-mode)
+                         (company-tooltip-visible-p))))
+
+
 
 ;; Switch to the most recently used window
 (require 'ctrlxo)
