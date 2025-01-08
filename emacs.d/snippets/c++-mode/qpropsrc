@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: QObject property source definition
+# name: qpropsrc - QObject property source definition
 # key: qpropsrc
 # --
 ${2} ${3:`(string-inflection-upper-camelcase-function (file-name-sans-extension (file-name-nondirectory (buffer-file-name))))`}::${1:$(string-inflection-camelcase-function yas/text)}() const {
