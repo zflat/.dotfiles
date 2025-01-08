@@ -1090,16 +1090,26 @@
 (defun display-prev-buffer-in-window ()
   "Changes to the most recent buffer in the current window"
   (interactive)
-  (if (not (null (window-prev-buffers (selected-window))))
-      (apply 'set-window-buffer-start-and-point
-             (append
-              (list (selected-window))
-              (nth 0 (window-prev-buffers (selected-window)))))
-    (previous-buffer 1)))
-; (global-set-key (kbd "<f1>") 'display-prev-buffer-in-window)
-(require 'go-back-buffer "~/.emacs.d/packages/go-back-buffer/go-back-buffer.el")
-(go-back-buffer-mode t)
-(global-set-key (kbd "<f1>") 'go-back-buffer--display-prev-buffer-in-window)
+  (if (window-next-buffers)
+      (let
+          ((old-buffer (window-buffer))
+           (old-start (window-start))
+           (old-point (window-point)))
+        (while (window-next-buffers) (switch-to-next-buffer))
+        (let
+          ((new-buffer (window-buffer))
+           (new-start (window-start))
+           (new-point (window-point)))
+          (set-window-buffer-start-and-point
+           (selected-window) old-buffer old-start old-point)
+          (set-window-buffer-start-and-point
+           (selected-window) new-buffer new-start new-point)))
+    (switch-to-prev-buffer)))
+(global-set-key (kbd "<f1>") 'display-prev-buffer-in-window)
+;; (require 'go-back-buffer "~/.emacs.d/packages/go-back-buffer/go-back-buffer.el")
+;; (go-back-buffer-mode t)
+;; (global-set-key (kbd "<f1>") 'go-back-buffer--display-prev-buffer-in-window)
+
 (global-set-key (kbd "<f9>") 'switch-to-prev-buffer)
 (global-set-key (kbd "<f10>") 'switch-to-next-buffer)
 (global-set-key (kbd "M-o") 'switch-to-buffer)
