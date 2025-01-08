@@ -1091,17 +1091,31 @@
   "Changes to the most recent buffer in the current window"
   (interactive)
   (if (window-next-buffers)
+      ;; When called from a buffer that is not at the top of the
+      ;; window's buffer history, the current buffer is placed as the
+      ;; first previous buffer in the window history. The history
+      ;; update is done by storing a reference to the current buffer
+      ;; as "old", then visiting the top of the history and storing a
+      ;; reference to that buffer as new, then switch to the "old" and
+      ;; then back to "new".
       (let
+          ;; Keep a reference to the "old" buffer
           ((old-buffer (window-buffer))
            (old-start (window-start))
            (old-point (window-point)))
+        ;; Navigate back to the buffer at the top of the window's history
         (while (window-next-buffers) (switch-to-next-buffer))
         (let
-          ((new-buffer (window-buffer))
-           (new-start (window-start))
-           (new-point (window-point)))
+            ;; Keep a reference to the "new" buffer
+            ((new-buffer (window-buffer))
+             (new-start (window-start))
+             (new-point (window-point)))
+          ;; Set the window to the "old" buffer so it is first in the history
           (set-window-buffer-start-and-point
            (selected-window) old-buffer old-start old-point)
+          ;; Set the window to the "new" buffer so that it is current
+          ;; and then "old" becomes the first previous buffer in the
+          ;; window history
           (set-window-buffer-start-and-point
            (selected-window) new-buffer new-start new-point)))
     (switch-to-prev-buffer)))
