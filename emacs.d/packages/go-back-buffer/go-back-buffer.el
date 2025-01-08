@@ -23,13 +23,13 @@
 ;;    (add-to-list 'load-path "/path/to/go-back-buffer")
 ;;    (require 'go-back-buffer)
 ;; To activate Purpose at start-up, add this line to your init file:
-;;    (go-back-buffer-mode)
+;;    (go-back-buffer-mode t)
 ;; Recommended key binding: bind a function key to 'gbb-display-prev-buffer
-;;    (global-set-key (kbd "<f1>") 'gbb--display-prev-buffer)
+;;    (global-set-key (kbd "<f1>") 'go-back-buffer--display-prev-buffer-in-window)
 
 ;; Basic Usage:
 ;; 1. Switch to the most recently viewed buffer in the given window
-;;    `gbb--display-prev-buffer'
+;;    `go-back-buffer--display-prev-buffer-in-window
 
 ;;; License:
 
