@@ -32,8 +32,13 @@
 (if (boundp 'tool-bar-mode) (tool-bar-mode -1))
 
 ;; disable the menu bar
-;; Can get the menu with C-<mouse-3> or F10
-(if (boundp 'menu-bar-mode) (menu-bar-mode -1))
+;; Can get the menu with C-<mouse-3> or C-x F10
+(if (boundp 'menu-bar-mode)
+    (progn
+      (menu-bar-mode -1)
+      (global-set-key (kbd "C-x <f10>") 'menu-bar-open)
+      (global-set-key (kbd "C-x C-<f10>") 'menu-bar-open)))
+
 
 ;; disable the scrollbar
 (if (boundp 'scroll-bar-mode)
