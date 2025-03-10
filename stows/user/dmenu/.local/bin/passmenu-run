@@ -6,4 +6,5 @@ else
   passmenu=$(dpkg -L pass | grep passmenu)
 fi
 
-timeout 30s "$passmenu" -fn 'Noto Sans 18' -h 75
+# Set the font size in pixels since the -h option is actually a patch https://tools.suckless.org/dmenu/patches/line-height/
+timeout 30s "$passmenu" -fn 'Noto Sans:pixelsize=50' -l 5
