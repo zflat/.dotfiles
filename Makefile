@@ -44,6 +44,11 @@ $(lastword $(STOW_USER_TARGETS)): | ${HOME}/.config
 	$(call run-user-stow, $@)
 	@echo "Bash customization is set up in '.bash_aliases' which needs to be sourced from the '.bashrc' file."
 
+STOW_USER_TARGETS += zsh
+$(lastword $(STOW_USER_TARGETS)): | ${HOME}/.config
+	$(call run-user-stow, $@)
+	@echo "Zsh customization is set up in '.zshrc_contrib' which needs to be sourced from the '.zshrc' file."
+
 STOW_USER_TARGETS += dmenu
 $(lastword $(STOW_USER_TARGETS)): | ${HOME}/.config
 	$(call run-user-stow, $@)

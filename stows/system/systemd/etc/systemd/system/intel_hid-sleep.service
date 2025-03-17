@@ -1,0 +1,17 @@
+# Workaround to kernel issue causing immediate wake from hibernation
+# https://bugzilla.kernel.org/show_bug.cgi?id=218634#c42
+# https://wiki.archlinux.org/title/Power_management/Suspend_and_hibernate#Combined_sleep/resume_unit
+
+[Unit]
+Description=Intel HID module unloading to prevent it interrupting hibernation
+Before=sleep.target
+StopWhenUnneeded=yes
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=-/usr/bin/rmmod intel_hid
+ExecStop=-/usr/bin/modprobe intel_hid
+
+[Install]
+WantedBy=sleep.target
