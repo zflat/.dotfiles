@@ -2,4 +2,4 @@
 # name: commitizen_type_prefix
 # key: zz
 # --
-${1:$$(yas-choose-value '("feat: " "right: " "build: " "ci: " "chore: " "docs: " "fix: " "perf: " "refactor: " "style: " "test: "))}$0
+${1:$$(yas-choose-value '("feat: " "rework: " "build: " "ci: " "chore: " "docs: " "right: " "fix: " "perf: " "refactor: " "style: " "test: "))}$0
