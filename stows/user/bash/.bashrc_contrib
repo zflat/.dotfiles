@@ -47,6 +47,10 @@ if [[ -d "$HOME/.cargo" ]]; then
     . "$HOME/.cargo/env"
 fi
 
+if [[ -x "$(command -v sccache)" ]]; then
+    export RUSTC_WRAPPER="$(command -v sccache)"
+fi
+
 # clyde, A cross-platform package manager for prebuilt applications
 # See available packages at https://github.com/agateau/clyde-store
 if [[ -d "${HOME}/.cache/clyde" ]]; then

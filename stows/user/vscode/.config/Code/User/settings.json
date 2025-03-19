@@ -25,5 +25,9 @@
     "workbench.iconTheme": null,
     "php-cs-fixer.lastDownload": 1560452537894,
     "editor.multiCursorModifier": "ctrlCmd",
-    "workbench.statusBar.feedback.visible": false
+    "workbench.statusBar.feedback.visible": false,
+    "cmake.configureOnOpen": false,
+    "files.associations": {
+        "*.cpp": "cpp"
+    }
 }
