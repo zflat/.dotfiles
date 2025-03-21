@@ -6,6 +6,11 @@ TIMING:
 # xev
 # sudo libinput debug-events --show-keycodes
 
+# Input codes defined at
+# libevdev/include/linux/linux/input-event-codes.h
+# List of cross-platform supported keycodes:
+# https://sharphook.tolik.io/v5.1.1/articles/keycodes.html
+
 MAPPINGS:
   - KEY: KEY_SPACE
     TAP: KEY_SPACE
@@ -21,9 +26,3 @@ MAPPINGS:
   - KEY: KEY_LEFTSHIFT
     TAP: KEY_HOME
     HOLD: KEY_LEFTSHIFT
-  # Capslock key_leftshift
-  - KEY: KEY_CAPSLOCK
-    TAP: [KEY_CAPSLOCK, KEY_F6] # Still send capslock so that it can be modified by XKB for level 2 when holding shift
-    HOLD: [KEY_LEFTCTRL, KEY_F6]
-    HOLD_START: BEFORE_CONSUME
-

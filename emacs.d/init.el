@@ -449,6 +449,7 @@
 (global-set-key [f9] 'ag-project)
 (global-set-key (kbd "C-<f9>") 'ag-project-regexp)
 (global-set-key (kbd "C-<f6> s") 'my-projectile-ripgrep)
+(global-set-key (kbd "<pause>") 'my-projectile-ripgrep)
 (global-set-key (kbd "s-<f6> s") 'my-projectile-ripgrep)
 (setq counsel-grep-base-command
  "rg -i -M 120 --no-heading --line-number --color never '%s' %s")
@@ -457,6 +458,7 @@
   ;; (global-set-key [f8] 'helm-projectile-find-file)
   ;(global-set-key (kbd "C-<f6> f") 'projectile-find-file-dwim)
 (global-set-key (kbd "C-<f6> f") 'counsel-projectile-find-file)
+(global-set-key (kbd "C-<f6> C-<f6>") 'counsel-projectile-find-file)
 (global-set-key (kbd "s-<f6> f") 'counsel-projectile-find-file)
 
 ; TODO find a better keybinding than C-x b to swith buffer to buffer
@@ -945,7 +947,6 @@
   (if god-local-mode
       (or (god-local-mode-pause) (god-local-mode-resume))
     (god-local-mode)))
-(global-set-key (kbd "<pause>") 'god-mode-toggle)
 (global-set-key (kbd "<end>") 'god-mode-toggle);
 (define-key god-local-mode-map (kbd "i") (lambda () (interactive) (god-local-mode-pause)))
 (define-key god-local-mode-map (kbd ".") #'repeat)
