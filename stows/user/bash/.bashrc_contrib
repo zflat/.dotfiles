@@ -85,3 +85,15 @@ export PATH="$PNPM_HOME:$PATH"
 
 # Qt
 export QT_LOGGING_RULES="kwin_*.debug=true"
+
+# Enable gpg-agent as the ssh-agent.
+# This is needed when SSH_AUTH_SOCK is not set in service.
+# For example it is not set in Arch linux https://gitlab.archlinux.org/archlinux/packaging/packages/gnupg/-/blob/main/gpg-agent-ssh.socket
+# But it is set in Ubuntu via gpg-agent.gpg-agent-ssh.user.socket in the gpg-agent debian
+# See https://wiki.archlinux.org/title/GnuPG#SSH_agent
+#
+# Note: use `ssh-add` to add private keys to the agent
+if [[ -z "${SSH_AUTH_SOCK}" ]]; then
+   unset SSH_AGENT_PID
+   export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/gnupg/S.gpg-agent.ssh"
+fi

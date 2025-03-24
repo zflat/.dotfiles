@@ -1,3 +1,8 @@
 if [[ -d "$HOME/.asdf" ]]; then
     export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 fi
+
+if [[ -z "${SSH_AUTH_SOCK}" ]]; then
+   unset SSH_AGENT_PID
+   export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/gnupg/S.gpg-agent.ssh"
+fi
