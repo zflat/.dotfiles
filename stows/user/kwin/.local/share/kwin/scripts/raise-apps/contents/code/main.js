@@ -39,13 +39,15 @@ if (isKDE6) {
 }
 
 // Note: would be nice if this could query xdg-settings get default-web-browser when the function is invoked instead of use a list of browsers
-registerShortcut("RaiseApp-Browser", "Bring the browser application to the front", "Ctrl+Alt+B", () => {raiseApplication(["firefox", "brave"]);});
+registerShortcut("RaiseApp-Browser", "Bring the browser application to the front", "Ctrl+Alt+B", () => {raiseApplication(["firefox", "brave"], false);});
 
-registerShortcut("RaiseApp-Emacs", "Bring the Emacs frame to the front", "Ctrl+Alt+K", () => {raiseApplication(["-emacs-"]);});
+registerShortcut("RaiseApp-Emacs", "Bring the Emacs frame to the front", "Ctrl+Alt+K", () => {raiseApplication(["-emacs-"], false);});
+registerShortcut("RaiseApp-Emacs-Active", "Bring the Emacs frame to the front of the active window", "Ctrl+Alt+Shift+K", () => {raiseApplication(["-emacs-"], true);});
 
-registerShortcut("RaiseApp-Terminal", "Bring the terminal application to the front", "Ctrl+Alt+O", () => {raiseApplication(["— konsole"]);});
+registerShortcut("RaiseApp-Terminal", "Bring the terminal application to the front", "Ctrl+Alt+O", () => {raiseApplication(["— konsole", false]);});
+registerShortcut("RaiseApp-Terminal-Active", "Bring the terminal application to the front of the active window", "Ctrl+Alt+Shift+O", () => {raiseApplication(["— konsole", false]);});
 
-function raiseApplication(names) {
+function raiseApplication(names, move_to_active) {
   // See also code in https://github.com/eddy-geek/kwinactivate/blob/master/winactivate.kwinscript
   const clients = windowList();
   for (var i = 0; i < clients.length; i++) {
@@ -54,7 +56,7 @@ function raiseApplication(names) {
       (name) => (clients[i].caption.toLocaleLowerCase('en-US').indexOf(name) >= 0)
     ) >= 0;
     if(is_target) {
-      toggle(clients[i]);
+      toggle(clients[i], move_to_active);
       console.info(`Activated client: ${clients[i].active ? "true" : "false"}`);
       return;
     }
@@ -62,13 +64,13 @@ function raiseApplication(names) {
   console.info("Client not found");
 }
 
-function toggle(window) {
+function toggle(window, move_to_active) {
   const windowWasOnAllDesktops = window.onAllDesktops;
-  if (window == activeWindow()) {
+  if (window == activeWindow() && !move_to_active) {
     window.minimized = true;
   } else {
-    if (window.minimized == true) {
-      // Only change the screen for the window if it is minimized
+    if (move_to_active == true) {
+      // Only change the screen for the window if we want it to move to the active screen
       workspace.sendClientToScreen(window, workspace.activeScreen);
     }
     window.onAllDesktops = true;
