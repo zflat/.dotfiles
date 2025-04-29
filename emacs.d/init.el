@@ -380,13 +380,18 @@
 
 (add-to-list 'ripgrep-arguments "-M 120")
 (defun my-projectile-ripgrep (regexp)
-  "Run a Ripgrep search with `REGEXP' rooted at the current projectile project root. Copied from projectile-ripgrep."
+  "Run a Ripgrep search with `REGEXP' rooted at the current projectile
+project root. Copied from projectile-ripgrep. Searches hidden dotfiles
+when the prefix argument is given."
   (interactive
    (list
     (read-from-minibuffer "Ripgrep search for: " (thing-at-point 'symbol))))
   (ripgrep-regexp regexp
                   (projectile-project-root)
-                  (mapcar (lambda (val) (concat "--no-require-git --glob \!" val))
+                  (mapcar (lambda (val)
+                            (concat
+                             (if (not (equal current-prefix-arg nil)) "--hidden " : "") ; C-u argument given
+                             "--no-require-git --glob \!" val))
                           (append projectile-globally-ignored-files
                                   projectile-globally-ignored-directories
                                   (projectile-project-ignored)
@@ -436,7 +441,7 @@
 ;; command used to get the file for projectile
 ;; also consider https://www.emacswiki.org/emacs/FileSets
 ;; (defun projectile-get-ext-command () "find . -type f -print0")
-(defun projectile-get-ext-command (&optional arg) "rg . --no-require-git --null --files") ;; See https://emacs.stackexchange.com/a/29200
+(defun projectile-get-ext-command (&optional arg) "rg . --hidden --no-require-git --null --files") ;; See https://emacs.stackexchange.com/a/29200
 ;; note that I added the optional arg to projectile-get-ext-command after upgrading ?
 
 ;; Speed up? find-file
