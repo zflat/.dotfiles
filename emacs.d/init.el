@@ -287,6 +287,8 @@
 ;; (setq ido-auto-merge-work-directories-length -1)
 
 (straight-use-package 'neotree)
+(require 'neotree)
+(setq neo-window-fixed-size nil)
 ;; Set the neo-window-width to the current width of the
 ;; neotree window, to trick neotree into resetting the
 ;; width back to the actual window width.
@@ -297,7 +299,6 @@
                   (let ((neo-window (neo-global--get-window)))
                     (unless (null neo-window)
                       (setq neo-window-width (window-width neo-window)))))))
-(require 'neotree)
 (global-set-key [f7] 'neotree-find)
 (global-set-key (kbd "<S-f7>") 'neotree-toggle)
 
@@ -337,11 +338,13 @@
 
 (straight-use-package 'zoom)
 (require 'zoom)
+
+(setq zoom-size '(0.618 . 0.618))
+;; TODO customize '(zoom-ignored-major-modes '(neotree-mode))
 (zoom-mode 1)
-(setq zoom-size '(0.666 . 0.666))
 
  ; Toggle zoom and auto-save-visited modes. Having zoom mode disabled is a
- ; vidual reminder that auto-save-visited-mode is not enabled
+ ; visual reminder that auto-save-visited-mode is not enabled
 (global-set-key (kbd "C-<f1>")
                 (lambda ()
                   (interactive)
