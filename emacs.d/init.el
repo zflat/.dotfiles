@@ -532,13 +532,14 @@ when the prefix argument is given."
 (gethash 'ccls lsp-clients)
 (gethash 'ccls-docker lsp-clients)
 
-;; Force c++ to use the ccls-docker client
-;; Force python to use pyls-docker-xxx client(s)
-(setq lsp-disabled-clients '(clangd ccls pyls pylsp))
+;; Prevent semgrep-ls and pyls from being used
+(setq lsp-disabled-clients '(pyls pylsp semgrep-ls))
 ;; Other examples are:
 ;; (setq lsp-enabled-clients '(foo-bar)) will run only client foo-bar
 ;; (setq lsp-disabled-clients '(foo-bar)) will disable client foo-bar
 ;; (setq lsp-client-packages '(lsp-foo-bar)) will load only the definition for foo-bar.
+;; Note: May also want to force c++ to use the ccls-docker client, disable clangd
+;;       and ccls and to force python to use pyls-docker-xxx client(s)
 
 ; (setq lsp-file-watch-threshold 3000)
 (setq lsp-enable-file-watchers nil)
