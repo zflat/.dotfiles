@@ -185,6 +185,21 @@
 (global-set-key (kbd "<home>") 'avy-goto-char-timer)
 (setq avy-background t)
 
+;; Preview line numbers when running interactive goto-line
+;; http://whattheemacsd.com/key-bindings.el-01.html
+(global-set-key [remap goto-line] 'goto-line-with-feedback)
+(defun goto-line-with-feedback ()
+  "Show line numbers temporarily, while prompting for the line number input"
+  (interactive)
+  (let ((keep-line-numbers display-line-numbers-mode)
+        (inhibit-quit t))
+    (unwind-protect
+        (progn
+          (display-line-numbers-mode 1)
+          (with-local-quit (goto-line (read-number "Goto line: ")))))
+    (unless keep-line-numbers (display-line-numbers-mode -1))))
+
+
 ;; Smart move to the beginning or end of lines and top of buffer
 (require 'mwim)
 (global-set-key (kbd "C-a") 'mwim-beginning)
