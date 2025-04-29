@@ -168,6 +168,7 @@
               :repo "https://codeberg.org/akib/emacs-gc-buffers.git"))
 (straight-use-package 'magit)
 (straight-use-package 'modern-cpp-font-lock)
+(straight-use-package 'modus-themes)
 (straight-use-package 'move-dup)
 (straight-use-package 'multiple-cursors)
 (straight-use-package 'mwim)
@@ -328,6 +329,26 @@
 (set-face-attribute 'default nil :height 130)
 
 (gc-buffers-mode)
+
+(defun load-theme-modus-dark ()
+  ;; NOTE: Preview modus theme color pallets to modify and tweak
+  ;; (modus-themes-list-colors 'modus-vivendi-tinted)
+  (interactive)
+  (progn
+    (require 'modus-themes)
+    (load-theme 'modus-vivendi-tinted :no-confirm))
+    (setq beacon-color (modus-themes-get-color-value 'rust))
+    (face-spec-set 'bm-face '((t (:foreground "gold" :overline nil))))
+    (when (fboundp 'sml/setup) (sml/setup)))
+
+(defun load-theme-modus-light ()
+  (interactive)
+  (progn
+    (require 'modus-themes)
+    (load-theme 'modus-operandi-tinted :no-confirm)
+    (setq beacon-color (modus-themes-get-color-value 'rust))
+    (face-spec-set 'bm-face '((t (:foreground "gold" :overline nil)))))
+  (when (fboundp 'sml/setup) (sml/setup)))
 
 (defun load-theme-solarized-dark ()
   (interactive)
