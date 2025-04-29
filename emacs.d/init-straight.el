@@ -76,6 +76,9 @@
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 
+;; Automatically make scripts executable
+(add-hook 'after-save-hook
+          #'executable-make-buffer-file-executable-if-script-p)
 
 ;; Making buffer names unique
 ;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Uniquify.html
