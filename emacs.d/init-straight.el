@@ -191,7 +191,7 @@
 (defun goto-line-with-feedback ()
   "Show line numbers temporarily, while prompting for the line number input"
   (interactive)
-  (let ((keep-line-numbers display-line-numbers-mode)
+  (let ((keep-line-numbers (bound-and-true-p display-line-numbers-mode))
         (inhibit-quit t))
     (unwind-protect
         (progn
