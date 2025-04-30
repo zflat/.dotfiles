@@ -226,10 +226,13 @@
 (require 'ctrlxo)
 (global-set-key (kbd "C-<tab>") #'ctrlxo)
 
+;; Dired replacement/augmentation
+;(global-set-key [remap dired] 'ranger)
 ;; Dirvish as a replacement to dired
-(dirvish-override-dired-mode)
-(dirvish-side-follow-mode)
-(setq dirvish-hide-cursor nil)
+;;(dirvish-override-dired-mode)
+;;(dirvish-side-follow-mode)
+
+
 
 ;; Muliple cursors
 (require 'multiple-cursors)
