@@ -16,6 +16,11 @@
 
 ;;; Code:
 
+;; Prevent *Compile-Log* warnings during package loading
+(setq byte-compile-warnings nil)
+;; For good measure, also silence comp async warnings
+(setq native-comp-async-report-warnings-errors 'silent)
+
 ;; TODO http://cachestocaches.com/2015/8/getting-started-use-package/
 
 (setq load-prefer-newer t)
@@ -1354,7 +1359,16 @@ when the prefix argument is given."
 ;; Note: Change theme with M-x load-theme RET {themename}
 
 
+(defun quit-compile-log ()
+  (interactive)
+  (progn
+    (quit-window nil (get-buffer-window "*Compile-Log*" 'visible))
+    ;; Restore *Compile-Log* warnings
+    (setq byte-compile-warnings t)))
+(add-hook 'after-init-hook 'quit-compile-log)
+
 (message "load_end")
+
 
 ; (provide 'init)
 ;;; init.el ends here
