@@ -429,9 +429,9 @@ when the prefix argument is given."
   ;; Only apply to the *compilation* buffer
   (if (string-equal (buffer-name) "*compilation*")
       (progn
-        (toggle-read-only)
-        (ansi-color-apply-on-region (point-min) (point-max))
-        (toggle-read-only))))
+           (read-only-mode nil)
+           (ansi-color-apply-on-region (point-min) (point-max))
+           (read-only-mode t))))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 ;; Follow compilation output
 ;; See https://zeekat.nl/articles/making-emacs-work-for-me.html
