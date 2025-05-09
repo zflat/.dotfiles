@@ -745,6 +745,23 @@ when the prefix argument is given."
        '(("CMakeLists\\.txt\\'" . cmake-mode))
        '(("\\.cmake\\'" . cmake-mode))
        auto-mode-alist))
+(require 'cycle-at-point-find-alphabet)
+;; (setopt cycle-at-point-preset-override nil)
+(defun cycle-at-point-preset-cmake-mode-custom ()
+  "Return a preset list compatible with `cycle-at-point-list'."
+  (declare (important-return-value t))
+  ;; Note that CMAKE is case insensitive.
+  (list
+   (list :data (list "hpp" "cpp") :case-fold t)
+   (list :data (list "TRUE" "FALSE") :case-fold t)
+   (list :data (list "ON" "OFF") :case-fold t)
+   (list :data (list "AND" "OR") :case-fold t)
+   (list :data (list "VERSION_LESS" "VERSION_GREATER") :case-fold t)
+   (list :data (list "VERSION_LESS_EQUAL" "VERSION_GREATER_EQUAL") :case-fold t)
+   (lambda () (cycle-at-point-find-alphabet-ascii))))
+(provide 'cycle-at-point-preset-cmake-mode-custom)
+(add-hook 'cmake-mode-hook '(lambda ()
+                              (setq-local cycle-at-point-preset-override "cmake-mode-custom")))
 
 ;; See ROSmacs
 ;; https://wiki.ros.org/rosemacs

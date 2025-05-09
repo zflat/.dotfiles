@@ -150,6 +150,7 @@
 (straight-use-package 'cmake-font-lock)
 (straight-use-package 'counsel)
 (straight-use-package 'ctrlxo)
+(straight-use-package 'cycle-at-point)
 (straight-use-package 'dirvish)
 (straight-use-package 'docker)
 (straight-use-package 'dockerfile-mode)
@@ -250,6 +251,9 @@
 (global-set-key (kbd "C-=") 'er/expand-region)
 (global-set-key (kbd "C-+") 'er/contract-region) ;; Also can use minus to contract
 
+
+(require 'cycle-at-point)
+(global-set-key (kbd "M-p") 'cycle-at-point)
 
 ;; Line duplication
 (require 'move-dup)
