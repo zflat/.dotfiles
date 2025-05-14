@@ -26,10 +26,18 @@ export TOOLS_HOME="${HOME}/.tools"
 # asdf install pnpm latest
 # asdf global pnpm latest
 if [[ -z "${ASDF_DIR}" && -d "$HOME/.asdf" ]]; then
-  . "$HOME/.asdf/asdf.sh"
-  if [[ -n "${BASH_VERSINFO}"  ]]; then
-    . "$HOME/.asdf/completions/asdf.bash"
-  fi
+    if [[ -f "$HOME/.asdf/asdf.sh"  ]]; then
+        # Older version of asdf is bash based and set up by sourcing
+        . "$HOME/.asdf/asdf.sh"
+        if [[ -n "${BASH_VERSINFO}"  ]]; then
+            . "$HOME/.asdf/completions/asdf.bash"
+        fi
+    else
+        # Newer version of asdf just needs to have path setup and then
+        # can be integrated with bash completions
+        export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+        . <(asdf completion bash)
+    fi
 fi
 
 # Helper to disable asdf for a tool in the current shell
@@ -93,6 +101,8 @@ export QT_LOGGING_RULES="kwin_*.debug=true"
 # See https://wiki.archlinux.org/title/GnuPG#SSH_agent
 #
 # Note: use `ssh-add` to add private keys to the agent
+#
+# Also, update /etc/X11/Xsession.options and remove use-ssh-agent option as needed
 if [[ -z "${SSH_AUTH_SOCK}" ]]; then
    unset SSH_AGENT_PID
    export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/gnupg/S.gpg-agent.ssh"
