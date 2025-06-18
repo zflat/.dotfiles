@@ -903,9 +903,11 @@ when the prefix argument is given."
 
 (straight-use-package 'string-inflection)
 (require 'string-inflection)
+(global-set-key (kbd "ESC M-p") 'string-inflection-cycle)
 (straight-use-package 'yasnippet)
 (straight-use-package 'yasnippet-snippets)
 (require 'yasnippet)
+(require 'string-inflection) ;; string-inflection is used for some advanced snippets
 (yas-global-mode 1)
 (setq yas-snippet-dirs
       '("~/.emacs.d/snippets"                 ;; personal snippets
