@@ -39,13 +39,20 @@
         debug-on-signal nil
         debug-on-quit nil))
 
+;; Profile expressions to evaluate via C-x C-e to help with badly
+;; hanging emacs. Start the profiler, switch to the problem buffer,
+;; then switch back and stop the profiler.
+;;
+;; (profiler-start 'cpu)
+;; (profiler-stop)
 
 ;; slow-down due to TRAMP bug: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=810640
 (setq tramp-ssh-controlmaster-options nil)
 
 (setq-default gc-cons-threshold 100000000)
+(setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
-(setq lsp-idle-delay 0.500)
+
 
 (add-to-list 'load-path "~/.emacs.d/elisp/")
 (let ((default-directory  "~/.emacs.d/elisp/"))
@@ -498,8 +505,13 @@ when the prefix argument is given."
 
 (straight-use-package 'lsp-mode)
 (with-eval-after-load 'lsp-mode
-  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\build\\'")
-  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\logs\\'"))
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]build\\'")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]install\\'")
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]logs\\'")
+  ;; Do not load lsp-lense because it is slow on large files. Also not helpful
+  (setq lsp-lens-enable nil))
+(setq lsp-idle-delay 0.500)
+(setq lsp-lens-enable nil)
 (require 'lsp-mode)
 
 ;; LSP over Tramp
