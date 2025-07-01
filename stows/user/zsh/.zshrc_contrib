@@ -6,3 +6,21 @@ if [[ -z "${SSH_AUTH_SOCK}" ]]; then
    unset SSH_AGENT_PID
    export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/gnupg/S.gpg-agent.ssh"
 fi
+
+# clyde, A cross-platform package manager for prebuilt applications
+# See available packages at https://github.com/agateau/clyde-store
+if [[ -d "${HOME}/.cache/clyde" ]]; then
+    . "${HOME}/.cache/clyde/scripts/activate.sh"
+fi
+
+if [[ -x "$(command -v fzf)" ]]; then
+    eval "$(fzf --zsh)"
+    # Tools used with fzf (https://github.com/junegunn/fzf/wiki/Related-projects)
+    # - https://github.com/ajeetdsouza/zoxide
+    # - https://github.com/lebr0nli/GEP
+fi
+
+# zoxide / z - jump around
+if [[ -x "$(command -v zoxide)" ]]; then
+    eval "$(zoxide init zsh)"
+fi
