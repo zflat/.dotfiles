@@ -25,6 +25,7 @@
 /emacs.d/local.el
 /emacs.d/lsp_docker_client_config.el
 /emacs.d/projectile*
+/emacs.d/projects
 /emacs.d/recentf
 /emacs.d/semanticdb
 /emacs.d/session.*
