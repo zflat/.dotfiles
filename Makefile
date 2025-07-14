@@ -95,10 +95,16 @@ uninstall-user: $(UNSTOW_USER_TARGETS)
 # System level packages and configs
 # These are relative to the file sytem root
 
-STOW_SYSTEM_TARGETS = docker-system evdev xkb
+STOW_SYSTEM_TARGETS = docker-system evdev
 .PHONEY: $(STOW_SYSTEM_TARGETS)
 $(STOW_SYSTEM_TARGETS):
 	cd ${ROOT_DIR}stows/system && sudo stow -v --target=/ $@
+
+# Since /usr/share/X11/xkb may be a symlink managed by package manager
+# (Arch linux) do a deeper stow to within the xkb package location
+.PHONEY: xkb
+xkb:
+	cd ${ROOT_DIR}stows/system && sudo stow -v --target=/usr/share/X11/xkb/symbols $@-symbols
 
 UNSTOW_SYSTEM_TARGETS = $(foreach target,$(STOW_SYSTEM_TARGETS),unstow-system-$(target))
 .PHONEY: $(UNSTOW_SYSTEM_TARGETS)
@@ -110,6 +116,7 @@ xkb-edits: xkb
 	grep modremap /usr/share/X11/xkb/symbols/us || sudo sed --in-place=.old \
 	  's/xkb_symbols "basic" {/xkb_symbols "basic" {\n\n    include "modremap(mods-cstgr)"/' \
 	  /usr/share/X11/xkb/symbols/us
+	setxkbmap -layout us
 .PHONEY: restore-xkb-edits
 restore-xkb-edits:
 	sudo mv /usr/share/X11/xkb/symbols/us.old /usr/share/X11/xkb/symbols/us
