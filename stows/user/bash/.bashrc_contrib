@@ -94,6 +94,9 @@ export PATH="$PNPM_HOME:$PATH"
 # Qt
 export QT_LOGGING_RULES="kwin_*.debug=true"
 
+# export QT_AUTO_SCREEN_SCALE_FACTOR=0
+export QT_SCALE_FACTOR=1.0
+
 # Enable gpg-agent as the ssh-agent.
 # This is needed when SSH_AUTH_SOCK is not set in service.
 # For example it is not set in Arch linux https://gitlab.archlinux.org/archlinux/packaging/packages/gnupg/-/blob/main/gpg-agent-ssh.socket
