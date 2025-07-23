@@ -875,9 +875,8 @@ when the prefix argument is given."
                 (add-face-text-property
                  (match-beginning 1) (match-end 1) props)))))))))
 
-(advice-add 'magit-status :after 'add-magit-faces)
-(advice-add 'magit-refresh-buffer :after 'add-magit-faces)
-
+;; (advice-add 'magit-status :after 'add-magit-faces)
+;; (advice-add 'magit-refresh-buffer :after 'add-magit-faces)
 
 (setq use-magit-commit-prompt-p nil)
 (defun use-magit-commit-prompt (&rest args)
