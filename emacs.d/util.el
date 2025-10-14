@@ -52,7 +52,9 @@
                   (dired-get-filename)
                 (file-truename (or (buffer-file-name) ""))))
         (directory (file-name-directory name))
-        (nondir (file-name-nondirectory name))
+        (nondir (if (not (equal current-prefix-arg nil)) ; C-u argument given
+                    (file-name-base name)
+                  (file-name-nondirectory name)))
         (project-full-relative-name
          (if (and (fboundp 'projectile-project-root)
                   (projectile-project-root))
