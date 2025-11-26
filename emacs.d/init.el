@@ -190,13 +190,20 @@
 ; (global-set-key (kbd "M-p") 'git-gutter:previous-hunk)
 ; (global-set-key (kbd "M-n") 'git-gutter:next-hunk)
 
+(defun ws-precedes-point-p()
+  "Checks if the cursor is immediately preceded by whitespace on the current line"
+  (let* ((last-char (+ (point) -1))
+         (last-nonw (save-excursion (re-search-backward "[^ \t]" (line-beginning-position) t)))
+         (at-line-start (eq (line-beginning-position) (point))))
+    (not (or at-line-start (eq last-char last-nonw)))))
+
 (setq auto-save-visited-interval 30)
 (setq auto-save-visited-file-name nil) ; explicitly disable a setting which would disable in-place autosaving.
 (auto-save-visited-mode 1)
 ;; Automatically save files on lose focus in Emacs
 (add-function :after after-focus-change-function
               (lambda ()
-                (unless (frame-focus-state) (save-some-buffers t nil))))
+                (unless (or (frame-focus-state) (ws-precedes-point-p)) (save-some-buffers t nil))))
 
 (when (fboundp 'winner-mode)
   (winner-mode 1)) ; C-c <left> ; for prev window layout
