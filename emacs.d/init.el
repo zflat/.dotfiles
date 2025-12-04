@@ -118,6 +118,8 @@
  '(warning-suppress-types '(((package reinitialization)))))
 
 
+(customize-set-variable 'compilation-ask-about-save nil) ;; Always auto-save files before recompile
+
 ;;;;;;;;;;;;;;
 ;; All indentation made with spaces
 (setq-default indent-tabs-mode nil)
