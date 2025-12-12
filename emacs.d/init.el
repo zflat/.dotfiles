@@ -118,8 +118,6 @@
  '(warning-suppress-types '(((package reinitialization)))))
 
 
-(customize-set-variable 'compilation-ask-about-save nil) ;; Always auto-save files before recompile
-
 ;;;;;;;;;;;;;;
 ;; All indentation made with spaces
 (setq-default indent-tabs-mode nil)
@@ -422,20 +420,17 @@ when the prefix argument is given."
                                   ; (projectile-paths-to-ignore)
                                   ))))
 
-;; Open search result in the same window
-;; https://emacs.stackexchange.com/a/33908
-(defun my-compile-goto-error-same-window ()
-  (interactive)
-  (let ((display-buffer-overriding-action
-         '((display-buffer-reuse-window
-            display-buffer-same-window)
-           (inhibit-same-window . nil))))
-    (call-interactively #'compile-goto-error)))
-(defun my-compilation-mode-hook ()
-  (local-set-key (kbd "o") #'my-compile-goto-error-same-window))
-(add-hook 'compilation-mode-hook #'my-compilation-mode-hook)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Improve on the compile command and compilation defaults
+;; See https://endlessparentheses.com/better-compile-command.html for more tips.
+;; Glad I'm not the only one not afraid of saving everything!
+(customize-set-variable 'compilation-ask-about-save nil) ;; Always auto-save files before recompile
+(setq compilation-skip-threshold 2) ;; Don't stop on info or warnings. Use (compilation-next-error) to navigate
 
-(setq compilation-always-kill t)
+;; Can also follow compilation output when set to t
+;; See https://zeekat.nl/articles/making-emacs-work-for-me.html
+(setq compilation-scroll-output 'first-error) ;; Stop on the first error, or t to scroll
+
 
 ;; Color output from compilation
 ;; See https://zeekat.nl/articles/making-emacs-work-for-me.html
@@ -449,9 +444,22 @@ when the prefix argument is given."
            (ansi-color-apply-on-region (point-min) (point-max))
            (read-only-mode t))))
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
-;; Follow compilation output
-;; See https://zeekat.nl/articles/making-emacs-work-for-me.html
-(setq compilation-scroll-output t)
+
+(setq compilation-always-kill t)
+
+;; Open search result in the same window
+;; https://emacs.stackexchange.com/a/33908
+(defun my-compile-goto-error-same-window ()
+  (interactive)
+  (let ((display-buffer-overriding-action
+         '((display-buffer-reuse-window
+            display-buffer-same-window)
+           (inhibit-same-window . nil))))
+    (call-interactively #'compile-goto-error)))
+(defun my-compilation-mode-hook ()
+  (local-set-key (kbd "o") #'my-compile-goto-error-same-window))
+(add-hook 'compilation-mode-hook #'my-compilation-mode-hook)
+
 
 ;; Enable Projectile
 ;;
