@@ -15,6 +15,12 @@
     (async-shell-command command)))
 
 
+;; Helper to find and open the .dir-locals.el file for the currently visited buffer
+(defun open-file-local-dir-locals-file (&optional file)
+  (interactive
+   (list (read-dir-locals-file)))
+  (find-file file))
+
 (defun window-and-buffer-kill ()
   "Kill the active buffer and its window pane"
   (interactive)
