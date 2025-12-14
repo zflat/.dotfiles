@@ -288,6 +288,20 @@ Version 2018-09-29"
 (current-time-string)
 (generate-time-string-now)
 
+;; Change character at point to uppercase (or lowecase) to help with
+;; writing snake case code.
+;;
+;; Inspired by https://mbork.pl/2025-12-01_Uppercasing_a_single_letter
+(defun toggle-char-case ()
+  "Change case of character at point"
+  (interactive)
+  (let ((as-upercase (upcase (char-after)))
+        (as-downcase (downcase (char-after))))
+    (if (eq (char-after) as-downcase)
+        (upcase-char 1)
+      (save-excursion
+        (downcase-region (point) (progn (forward-char 1) (point)))))))
+(global-set-key (kbd "C-c C-c") 'toggle-char-case)
 
 ;; Some emacs-fu
 ;; Insert a column of incrementing numbers in emacs
