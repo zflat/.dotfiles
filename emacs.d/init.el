@@ -195,7 +195,7 @@
   (let* ((last-char (+ (point) -1))
          (last-nonw (save-excursion (re-search-backward "[^ \t]" (line-beginning-position) t)))
          (at-line-start (eq (line-beginning-position) (point))))
-    (not (or at-line-start (eq last-char last-nonw)))))
+    (not (or at-line-start (eq last-char last-nonw))))) ;; Fails for a line like " test \" with cursor at the last character "\"
 
 (setq auto-save-visited-interval 30)
 (setq auto-save-visited-file-name nil) ; explicitly disable a setting which would disable in-place autosaving.
@@ -429,7 +429,7 @@ when the prefix argument is given."
 
 ;; Can also follow compilation output when set to t
 ;; See https://zeekat.nl/articles/making-emacs-work-for-me.html
-(setq compilation-scroll-output 'first-error) ;; Stop on the first error, or t to scroll
+(setq compilation-scroll-output t) ;; 'first-error to Stop on the first error, or t to scroll
 
 
 ;; Color output from compilation
