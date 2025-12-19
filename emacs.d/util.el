@@ -301,7 +301,7 @@ Version 2018-09-29"
         (upcase-char 1)
       (save-excursion
         (downcase-region (point) (progn (forward-char 1) (point)))))))
-(global-set-key (kbd "C-c C-c") 'toggle-char-case)
+(global-set-key (kbd "C-S-c t") 'toggle-char-case)
 
 ;; Some emacs-fu
 ;; Insert a column of incrementing numbers in emacs
