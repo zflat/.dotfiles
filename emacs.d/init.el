@@ -191,11 +191,14 @@
 ; (global-set-key (kbd "M-n") 'git-gutter:next-hunk)
 
 (defun ws-precedes-point-p()
-  "Checks if the cursor is immediately preceded by whitespace on the current line"
-  (let* ((last-char (+ (point) -1))
-         (last-nonw (save-excursion (re-search-backward "[^ \t]" (line-beginning-position) t)))
-         (at-line-start (eq (line-beginning-position) (point))))
-    (not (or at-line-start (eq last-char last-nonw))))) ;; Fails for a line like " test \" with cursor at the last character "\"
+  "Checks if the cursor is at the end of the line and immediately preceded by whitespace"
+  (let* ((at-line-start (eq (line-beginning-position) (point)))
+         (at-line-end (eq (line-end-position) (point)))
+         (prior-char (+ (point) -1))
+         (prior-nonw (save-excursion (re-search-backward "[^ \t]" (line-beginning-position) t)))
+         ;; Have any whitespace in front of point
+         (prior-ws (not (eq prior-char prior-nonw))))
+    (and (not at-line-start) at-line-end prior-ws)))
 
 (setq auto-save-visited-interval 30)
 (setq auto-save-visited-file-name nil) ; explicitly disable a setting which would disable in-place autosaving.
