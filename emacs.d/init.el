@@ -431,6 +431,9 @@ when the prefix argument is given."
 ;; See https://zeekat.nl/articles/making-emacs-work-for-me.html
 (setq compilation-scroll-output t) ;; 'first-error to Stop on the first error, or t to scroll
 
+;; Note: for troubleshooting compilation mode finding files, adding to
+;; 'compilation-search-path may be a [solution](https://emacs.stackexchange.com/a/10248)
+;; (add-to-list 'compilation-search-path "/path/to/build")
 
 ;; Color output from compilation
 ;; See https://zeekat.nl/articles/making-emacs-work-for-me.html
