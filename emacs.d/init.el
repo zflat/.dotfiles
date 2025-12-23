@@ -583,7 +583,10 @@ when the prefix argument is given."
 
 ; (setq lsp-file-watch-threshold 3000)
 (setq lsp-enable-file-watchers nil)
-(add-hook 'c++-mode-hook #'lsp-deferred)
+
+; Enable lsp-mode for c++ only if the lang server is installed
+(if (locate-file "ccls" exec-path)
+    (add-hook 'c++-mode-hook #'lsp-deferred))
 
 
 (straight-use-package 'docker)
