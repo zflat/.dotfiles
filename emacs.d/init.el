@@ -203,6 +203,11 @@
 (setq auto-save-visited-interval 30)
 (setq auto-save-visited-file-name nil) ; explicitly disable a setting which would disable in-place autosaving.
 (auto-save-visited-mode 1)
+;; Not autosaving files opened as sudo
+(setq auto-save-visited-predicate
+      (lambda () (not (string-match "^/sudo:" buffer-file-name))))
+
+
 ;; Automatically save files on lose focus in Emacs
 (add-function :after after-focus-change-function
               (lambda ()
