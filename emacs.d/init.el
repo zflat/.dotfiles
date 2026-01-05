@@ -1249,6 +1249,8 @@ when the prefix argument is given."
 (dolist (mode (cons 'beginend-global-mode (mapcar #'cdr beginend-modes)))
   (diminish mode))
 (diminish 'zoom-mode)
+; Hide all minor modes in the modeline (requires emacs >= 31)
+(setq mode-line-collapse-minor-modes '(not))
 
 ;; Speed up emacs start:
 ;; https://www.reddit.com/r/emacs/comments/3kqt6e/2_easy_little_known_steps_to_speed_up_emacs_start/
