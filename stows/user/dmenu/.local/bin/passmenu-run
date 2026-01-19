@@ -6,5 +6,12 @@ else
   passmenu=$(dpkg -L pass | grep passmenu)
 fi
 
+# Setup notes: detect bemenu and then symlink dmenu-wl -> bemenu
+# Run notes:
+# bmenu args to use:
+# -l 20 --fn "Noto Sans 18"
+# Else, use dmenu args as below
+
+
 # Set the font size in pixels since the -h option is actually a patch https://tools.suckless.org/dmenu/patches/line-height/
 timeout 30s "$passmenu" -fn 'Noto Sans:pixelsize=50' -l 5
