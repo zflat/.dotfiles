@@ -132,6 +132,11 @@
     ```bash
     npm install -g @devcontainers/cli
     ```
+  * Browser extensions
+    - Privacy Badger
+    - uBlock Origin
+    - CanvasBlocker
+    - [User Agent Switcher and Manager](https://webextension.org/listing/useragent-switcher.html)
 
 ## Desktop environment specifics:
 
