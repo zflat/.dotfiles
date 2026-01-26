@@ -38,6 +38,13 @@ if [[ -z "${ASDF_DIR}" && -d "$HOME/.asdf" ]]; then
         export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
         . <(asdf completion bash)
     fi
+elif [[ -x "$(command -v mise)"  ]]; then
+    # mise tool setup
+    #
+    # Ruby:
+    # - Install dependencies (https://github.com/rbenv/ruby-build/wiki#ubuntudebianmint)
+    # - mise use -g ruby@3.2
+    eval "$(mise activate bash)"
 fi
 
 # Helper to disable asdf for a tool in the current shell
