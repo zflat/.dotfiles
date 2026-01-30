@@ -102,6 +102,13 @@
           }
         }
         ```
+  * RawTherapee
+    * Install as a flatpak
+      * Allow access to files in different partition
+        ```
+        sudo flatpak override com.rawtherapee.RawTherapee --filesystem=host
+        ```
+      * Run as flatpak: `flatpak run com.rawtherapee.RawTherapee`
   * asdf
     * Install `asdf` following [instructions](https://asdf-vm.com/guide/getting-started.html)
       ```bash
