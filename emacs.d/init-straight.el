@@ -173,9 +173,9 @@
 (straight-use-package 'move-dup)
 (straight-use-package 'multiple-cursors)
 (straight-use-package 'mwim)
-(straight-use-package 'neotree)
 (straight-use-package 'solarized-theme)
 (straight-use-package 'swiper)
+(straight-use-package 'treemacs)
 (straight-use-package 'yaml-mode)
 (straight-use-package 'vlf) ; very large file
 (straight-use-package 'web-mode)
@@ -233,6 +233,9 @@
 ;;(dirvish-override-dired-mode)
 ;;(dirvish-side-follow-mode)
 
+(require 'treemacs)
+(global-set-key [f7] 'treemacs)
+(global-set-key (kbd "<S-f7>") 'treemacs-find-file) ; Usefull if treemacs-follow-mode is not active
 
 
 ;; Muliple cursors
@@ -357,15 +360,22 @@
   ;; (modus-themes-list-colors 'modus-vivendi-tinted)
   (interactive)
   (progn
+    (mapcar 'disable-theme custom-enabled-themes)
     (require 'modus-themes)
+    ;; (setq modus-vivendi-tinted-palette-overrides nil)
+    (setq modus-vivendi-tinted-palette-overrides
+           '((bg-main "#151826")))
     (load-theme 'modus-vivendi-tinted :no-confirm))
     (setq beacon-color (modus-themes-get-color-value 'rust))
     (face-spec-set 'bm-face '((t (:foreground "gold" :overline nil))))
     (when (fboundp 'sml/setup) (sml/setup)))
 
 (defun load-theme-modus-light ()
+  ;; NOTE: Preview modus theme color pallets to modify and tweak
+  ;; M-x modus-themes-list-colors
   (interactive)
   (progn
+    (mapcar 'disable-theme custom-enabled-themes)
     (require 'modus-themes)
     (load-theme 'modus-operandi-tinted :no-confirm)
     (setq beacon-color (modus-themes-get-color-value 'rust))
@@ -375,6 +385,7 @@
 (defun load-theme-solarized-dark ()
   (interactive)
   (progn
+    (mapcar 'disable-theme custom-enabled-themes)
     (require `solarized-theme)
     (load-theme 'solarized-dark-high-contrast t)
 
@@ -390,6 +401,7 @@
 (defun load-theme-solarized-light ()
   (interactive)
   (progn
+    (mapcar 'disable-theme custom-enabled-themes)
     (require `solarized-theme)
     (load-theme 'solarized-light t)
 

@@ -81,39 +81,37 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector
-   ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#657b83"])
+   ["#01323d" "#ec423a" "#93a61a" "#c49619" "#3c98e0" "#e2468f" "#3cafa5"
+    "#60767e"])
  '(company-quickhelp-color-background "#4F4F4F")
  '(company-quickhelp-color-foreground "#DCDCCC")
  '(custom-safe-themes
-   '("eab123a5ed21463c780e17fc44f9ffc3e501655b966729a2d5a2072832abd3ac" "2809bcb77ad21312897b541134981282dc455ccd7c14d74cc333b6e549b824f3" "830877f4aab227556548dc0a28bf395d0abe0e3a0ab95455731c9ea5ab5fe4e1" "51ec7bfa54adf5fff5d466248ea6431097f5a18224788d0bd7eb1257a4f7b773" "13a8eaddb003fd0d561096e11e1a91b029d3c9d64554f8e897b2513dbf14b277" "70f5a47eb08fe7a4ccb88e2550d377ce085fedce81cf30c56e3077f95a2909f2" "c3e6b52caa77cb09c049d3c973798bc64b5c43cc437d449eacf35b3e776bf85c" "5a0eee1070a4fc64268f008a4c7abfda32d912118e080e18c3c865ef864d1bea" default))
+   '("eab123a5ed21463c780e17fc44f9ffc3e501655b966729a2d5a2072832abd3ac"
+     "2809bcb77ad21312897b541134981282dc455ccd7c14d74cc333b6e549b824f3"
+     "830877f4aab227556548dc0a28bf395d0abe0e3a0ab95455731c9ea5ab5fe4e1"
+     "51ec7bfa54adf5fff5d466248ea6431097f5a18224788d0bd7eb1257a4f7b773"
+     "13a8eaddb003fd0d561096e11e1a91b029d3c9d64554f8e897b2513dbf14b277"
+     "70f5a47eb08fe7a4ccb88e2550d377ce085fedce81cf30c56e3077f95a2909f2"
+     "c3e6b52caa77cb09c049d3c973798bc64b5c43cc437d449eacf35b3e776bf85c"
+     "5a0eee1070a4fc64268f008a4c7abfda32d912118e080e18c3c865ef864d1bea"
+     default))
  '(ediff-diff-options "-w")
  '(ediff-split-window-function 'split-window-horizontally)
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
- '(fci-rule-color "#073642" t)
+ '(fci-rule-color "#01323d" t)
  '(inhibit-startup-screen t)
  '(nrepl-message-colors
-   '("#dc322f" "#cb4b16" "#b58900" "#5b7300" "#b3c34d" "#0061a8" "#2aa198" "#d33682" "#6c71c4") t)
+   '("#ec423a" "#db5823" "#c49619" "#687f00" "#c3d255" "#0069b0"
+     "#3cafa5" "#e2468f" "#7a7ed2") t)
  '(pdf-view-midnight-colors '("#DCDCCC" . "#383838"))
  '(vc-annotate-background nil t)
  '(vc-annotate-color-map
-   '((20 . "#dc322f")
-     (40 . "#cb4466ec20b5")
-     (60 . "#c11679431550")
-     (80 . "#b58900")
-     (100 . "#a6ae8f7c0000")
-     (120 . "#9ed992380000")
-     (140 . "#96bf94d00000")
-     (160 . "#8e5497440000")
-     (180 . "#859900")
-     (200 . "#77689bfc4636")
-     (220 . "#6d449d475bfe")
-     (240 . "#5fc09ea47093")
-     (260 . "#4c69a01784aa")
-     (280 . "#2aa198")
-     (300 . "#303598e7affc")
-     (320 . "#2fa1947dbb9b")
-     (340 . "#2c889009c736")
-     (360 . "#268bd2")) t)
+   '((20 . "#BC8383") (40 . "#CC9393") (60 . "#DFAF8F") (80 . "#D0BF8F")
+     (100 . "#E0CF9F") (120 . "#F0DFAF") (140 . "#5F7F5F")
+     (160 . "#7F9F7F") (180 . "#8FB28F") (200 . "#9FC59F")
+     (220 . "#AFD8AF") (240 . "#BFEBBF") (260 . "#93E0E3")
+     (280 . "#6CA0A3") (300 . "#7CB8BB") (320 . "#8CD0D3")
+     (340 . "#94BFF3") (360 . "#DC8CC3")) t)
  '(vc-annotate-very-old-color nil t)
  '(warning-suppress-types '(((package reinitialization)))))
 
@@ -312,22 +310,6 @@
 ;;
 ;; Completely disable automatic find file
 ;; (setq ido-auto-merge-work-directories-length -1)
-
-(straight-use-package 'neotree)
-(require 'neotree)
-(setq neo-window-fixed-size nil)
-;; Set the neo-window-width to the current width of the
-;; neotree window, to trick neotree into resetting the
-;; width back to the actual window width.
-;; Fixes: https://github.com/jaypei/emacs-neotree/issues/262
-(eval-after-load "neotree"
-  '(add-to-list 'window-size-change-functions
-                (lambda (frame)
-                  (let ((neo-window (neo-global--get-window)))
-                    (unless (null neo-window)
-                      (setq neo-window-width (window-width neo-window)))))))
-(global-set-key [f7] 'neotree-find)
-(global-set-key (kbd "<S-f7>") 'neotree-toggle)
 
 ;; Visual Bookmarks
 (straight-use-package 'bm)
@@ -1299,42 +1281,18 @@ when the prefix argument is given."
 (straight-use-package 'package-lint)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Color Themes
+;; Color Themes (an addition to ones in init-straight.el)
 ;;
-
-;; (defun load-theme-solarized-dark ()
-;;   (interactive)
-;;   (progn
-;;     (require `solarized-theme)
-;;     (load-theme 'solarized-dark t)
-
-;;     (face-spec-set 'bm-face '((t (:foreground "gold" :overline nil))))
-
-;;     (setq beacon-color "LightGoldenrod3")
-
-;;     (set-face-background 'avy-goto-char-timer-face (face-background 'menu))
-;;     (set-face-foreground 'avy-goto-char-timer-face (face-foreground 'link)))
-;;   (when (fboundp 'sml/setup) (sml/setup)))
-
-;; (defun load-theme-solarized-light ()
-;;   (interactive)
-;;   (progn
-;;     (require `solarized-theme)
-;;     (load-theme 'solarized-light t)
-
-;;     (face-spec-set 'bm-face '((t (:foreground "maroon" :overline nil))))
-
-;;     (setq beacon-color (face-foreground 'menu))
-
-;;     (set-face-background 'avy-goto-char-timer-face (face-background 'menu))
-;;     (set-face-foreground 'avy-goto-char-timer-face (face-foreground 'link)))
-;;   (when (fboundp 'sml/setup) (sml/setup)))
+;; For changing themes the old one needs to be unloaded
+;; (mapcar 'disable-theme custom-enabled-themes)
+;; See https://emacsredux.com/blog/2025/02/03/clean-unloading-of-emacs-themes/
 
 (straight-use-package 'zenburn-theme)
 (defun load-theme-zenburn ()
   (interactive)
   (progn
     (require `zenburn-theme)
+    (mapcar 'disable-theme custom-enabled-themes)
     (load-theme 'zenburn t)
 
     (setq beacon-color "LightGoldenrod3")
