@@ -117,6 +117,14 @@ xkb-edits: xkb
 	  's/xkb_symbols "basic" {/xkb_symbols "basic" {\n\n    include "modremap(mods-cstgr)"/' \
 	  /usr/share/X11/xkb/symbols/us
 	setxkbmap -layout us
+# Load layout in KDE wayland
+# Settings > Keyboard > Layouts > Add English (us), Enable ... Apply
+# CLI:
+# - https://askubuntu.com/a/1510142
+# - https://discuss.kde.org/t/re-read-configuration-after-setting-change/15008/2
+#   `dbus-send --session --type=signal --reply-timeout=100 --dest=org.kde.keyboard /Layouts org.kde.keyboard.reloadConfig`
+
+
 .PHONEY: restore-xkb-edits
 restore-xkb-edits:
 	sudo mv /usr/share/X11/xkb/symbols/us.old /usr/share/X11/xkb/symbols/us
