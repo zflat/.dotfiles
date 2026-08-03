@@ -3,21 +3,41 @@
 
 ROOT_DIR := $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
 
-.PHONEY: list
-list:
-	@echo "Tasks to set up dotfiles. Available actions:"
-	@echo "  make install"
-	@echo "  make uninstall"
-	@echo "  make user - packages relative to the home folder"
-	@echo "  make system - packages relative to the system root"
-	@echo "  make uninstall-user"
-	@echo "  make uninstall-system"
+# Print all documented build targets. A target is documented by adding a
+# `## description` comment on its rule line; keep this the single source of
+# truth for what each target does.
+# See https://embeddedartistry.com/blog/2026/07/24/adding-a-makefile-help-target/
+.PHONY: help
+help: ## Show this help
+	@echo "Tasks to set up dotfiles."
+	@echo
+	@echo "Usage: make [TASK]"
+	@echo
+	@echo "Primary tasks:"
+	@grep -hE '^[a-zA-Z0-9_-]+:.*?#1# .*$$' $(MAKEFILE_LIST) \
+	| sort \
+	| awk 'BEGIN {FS = ":.*?#1# "}; {printf "  %-20s %s\n", $$1, $$2}'
+	@echo
+	@echo "  Install tasks:"
+	@grep -hE '^[a-zA-Z0-9_-]+:.*?#2# .*$$' $(MAKEFILE_LIST) \
+	| sort \
+	| awk 'BEGIN {FS = ":.*?#2# "}; {printf "    %-18s %s\n", $$1, $$2}'
+	@echo
+	@echo "  Uninstall tasks:"
+	@grep -hE '^[a-zA-Z0-9_-]+:.*?#3# .*$$' $(MAKEFILE_LIST) \
+	| sort \
+	| awk 'BEGIN {FS = ":.*?#3# "}; {printf "    %-18s %s\n", $$1, $$2}'
+	@echo
+	@echo "Sub-tasks:"
+	@grep -hE '^[a-zA-Z0-9_-]+:.*?#4# .*$$' $(MAKEFILE_LIST) \
+	| sort \
+	| awk 'BEGIN {FS = ":.*?#4# "}; {printf "  %-20s %s\n", $$1, $$2}'
 
 .PHONEY: install
-install: user system
+install: user system #1# Install user and system packages
 
 .PHONEY: uninstall
-uninstall: uninstall-user uninstall-system
+uninstall: uninstall-user uninstall-system #1# Remove previously installed user and system packages
 
 ###########################################
 # User level packages and configs
@@ -85,10 +105,10 @@ $(UNSTOW_USER_TARGETS):
 	$(call run-user-stow, -D, $(subst unstow-user-,,$@))
 
 .PHONEY: user
-user: $(STOW_USER_TARGETS) ${HOME}/.emacs.d ${HOME}/.docker/config.json
+user: $(STOW_USER_TARGETS) ${HOME}/.emacs.d ${HOME}/.docker/config.json #2# Install configs in the user HOME directory
 
 .PHONEY: uninstall-user
-uninstall-user: $(UNSTOW_USER_TARGETS)
+uninstall-user: $(UNSTOW_USER_TARGETS) #3# Unstow configs previously stowed in the user HOME directory
 	[ -L ${HOME}/.emacs.d ] && rm -f ${HOME}/.emacs.d
 
 ###########################################
@@ -103,7 +123,7 @@ $(STOW_SYSTEM_TARGETS):
 # Since /usr/share/X11/xkb may be a symlink managed by package manager
 # (Arch linux) do a deeper stow to within the xkb package location
 .PHONEY: xkb
-xkb:
+xkb: #4# Install xcb symbols file under /user/share/X11/xkb/symbols
 	cd ${ROOT_DIR}stows/system && sudo stow -v --target=/usr/share/X11/xkb/symbols $@-symbols
 
 UNSTOW_SYSTEM_TARGETS = $(foreach target,$(STOW_SYSTEM_TARGETS),unstow-system-$(target))
@@ -112,7 +132,7 @@ $(UNSTOW_SYSTEM_TARGETS):
 	cd ${ROOT_DIR}stows/system && sudo stow -v --target=/ -D $(subst unstow-system-,,$@)
 
 .PHONEY: xkb
-xkb-edits: xkb
+xkb-edits: xkb #4# xcb customizations to the US symbols file
 	grep modremap /usr/share/X11/xkb/symbols/us || sudo sed --in-place=.old \
 	  's/xkb_symbols "basic" {/xkb_symbols "basic" {\n\n    include "modremap(mods-cstgr)"/' \
 	  /usr/share/X11/xkb/symbols/us
@@ -126,11 +146,11 @@ xkb-edits: xkb
 
 
 .PHONEY: restore-xkb-edits
-restore-xkb-edits:
+restore-xkb-edits: #4# Reverse xcb customizations to the US symbols file
 	sudo mv /usr/share/X11/xkb/symbols/us.old /usr/share/X11/xkb/symbols/us
 
 .PHONEY: system
-system: $(STOW_SYSTEM_TARGETS) xkb-edits
+system: $(STOW_SYSTEM_TARGETS) xkb-edits #2# Install system configuration packages relative to the system root
 
 .PHONEY: uninstall-system
-uninstall-system: $(UNSTOW_SYSTEM_TARGETS) restore-xkb-edits
+uninstall-system: $(UNSTOW_SYSTEM_TARGETS) restore-xkb-edits #3# Restore previously set up system configuration
