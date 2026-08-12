@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: dbgrecthalign - Debug rectangle center in parent with line through the horizontal center
+# key: dbgrecthalign
+# --
+Rectangle {
+  anchors.fill: parent
+  color: "#22000077"
+  Rectangle {
+    width: parent.width
+    height: 1
+    anchors.centerIn: parent
+  }
+}
