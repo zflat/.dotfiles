@@ -940,6 +940,12 @@ when the prefix argument is given."
 (straight-use-package 'protobuf-mode)
 (require 'protobuf-mode)
 
+(setq plantuml-default-exec-mode 'executable)
+(straight-use-package 'plantuml-mode)
+(require 'plantuml-mode)
+(add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
+(customize-set-variable 'plantuml-indent-level 2)
+
 (setq clang-format-executable (locate-file "clang-format-11" exec-path))
 (straight-use-package 'clang-format)
 (require 'clang-format)
