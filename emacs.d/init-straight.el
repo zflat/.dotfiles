@@ -1,4 +1,6 @@
-;; (setq package-enable-at-startup nil) ;; emacs.d/early-init.el
+;; emacs.d/early-init.el  -*- lexical-binding: t; -*-
+
+;; (setq package-enable-at-startup nil)
 ;; emacs -q -l ~/.emacs.d/init-straight.el
 
 ;; emacs --script ~/.emacs.d/init-straight.el

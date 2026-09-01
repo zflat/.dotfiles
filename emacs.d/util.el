@@ -1,3 +1,6 @@
+;; -*- lexical-binding: t; -*-
+
+
 ;; Utility functions
 
 ;; Pull from PRIMARY (same as middle mouse click)
