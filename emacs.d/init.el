@@ -392,25 +392,25 @@
 (straight-use-package 'ripgrep)
 (require 'ripgrep)
 
-(add-to-list 'ripgrep-arguments "-M 120")
-(defun my-projectile-ripgrep (regexp)
-  "Run a Ripgrep search with `REGEXP' rooted at the current projectile
-project root. Copied from projectile-ripgrep. Searches hidden dotfiles
-when the prefix argument is given."
-  (interactive
-   (list
-    (read-from-minibuffer "Ripgrep search for: " (thing-at-point 'symbol))))
-  (ripgrep-regexp regexp
-                  (projectile-project-root)
-                  (mapcar (lambda (val)
-                            (concat
-                             (if (not (equal current-prefix-arg nil)) "--hidden " : "") ; C-u argument given
-                             "--no-require-git --glob \!" val))
-                          (append projectile-globally-ignored-files
-                                  projectile-globally-ignored-directories
-                                  (projectile-project-ignored)
-                                  ; (projectile-paths-to-ignore)
-                                  ))))
+;; (add-to-list 'ripgrep-arguments "-M 120")
+;; (defun my-projectile-ripgrep (regexp)
+;;   "Run a Ripgrep search with `REGEXP' rooted at the current projectile
+;; project root. Copied from projectile-ripgrep. Searches hidden dotfiles
+;; when the prefix argument is given."
+;;   (interactive
+;;    (list
+;;     (read-from-minibuffer "Ripgrep search for: " (thing-at-point 'symbol))))
+;;   (ripgrep-regexp regexp
+;;                   (projectile-project-root)
+;;                   (mapcar (lambda (val)
+;;                             (concat
+;;                              (if (not (equal current-prefix-arg nil)) "--hidden " : "") ; C-u argument given
+;;                              "--no-require-git --glob \!" val))
+;;                           (append projectile-globally-ignored-files
+;;                                   projectile-globally-ignored-directories
+;;                                   ; (projectile-project-ignored)
+;;                                   ; (projectile-paths-to-ignore)
+;;                                   ))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Improve on the compile command and compilation defaults
@@ -462,14 +462,14 @@ when the prefix argument is given."
 (straight-use-package 'projectile)
 (straight-use-package 'counsel-projectile)
 (require 'projectile)
-(require 'counsel-projectile)
-(counsel-projectile-mode)
+;; (require 'counsel-projectile)
+;; (counsel-projectile-mode)
 (setq projectile-completion-system 'ivy)
 ;; command used to get the file for projectile
 ;; also consider https://www.emacswiki.org/emacs/FileSets
-;; (defun projectile-get-ext-command () "find . -type f -print0")
-(defun projectile-get-ext-command (&optional arg) "rg . --hidden --no-require-git --null --files") ;; See https://emacs.stackexchange.com/a/29200
-;; note that I added the optional arg to projectile-get-ext-command after upgrading ?
+; (defun projectile-get-ext-command () "find . -type f -print0")
+; (defun projectile-get-ext-command (&optional arg) "rg . --hidden --no-require-git --null --files") ;; See https://emacs.stackexchange.com/a/29200
+;; note that I added the optional arg to projectile-get-ext-command after upgrading ? Now not working after upgrading to emacs 31?
 
 ;; Speed up? find-file
 ;; See https://github.com/syl20bnr/spacemacs/issues/4207
@@ -477,12 +477,21 @@ when the prefix argument is given."
 
 (projectile-mode)
 (setq projectile-enable-caching t)
+
+;; Wrap projectile-ripgrep in a function that always set the prefix
+;; arg so that the search term is interpreted as a regular expression
+(defun projectile-ripgrep-with-prefix-arg ()
+  (interactive)
+  (let ((current-prefix-arg t)) ; C-u
+    (call-interactively 'projectile-ripgrep)))
+
+    ; (let ((current-prefix-arg '(4))) (call-interactively 'grep))
 ;; (setq helm-projectile-fuzzy-match nil)
 (global-set-key [f9] 'ag-project)
 (global-set-key (kbd "C-<f9>") 'ag-project-regexp)
-(global-set-key (kbd "C-<f6> s") 'my-projectile-ripgrep)
-(global-set-key (kbd "<pause>") 'my-projectile-ripgrep)
-(global-set-key (kbd "s-<f6> s") 'my-projectile-ripgrep)
+(global-set-key (kbd "C-<f6> s") 'projectile-ripgrep-with-prefix-arg)
+(global-set-key (kbd "<pause>") 'projectile-ripgrep-with-prefix-arg)
+(global-set-key (kbd "s-<f6> s") 'projectile-ripgrep-with-prefix-arg)
 (setq counsel-grep-base-command
  "rg -i -M 120 --no-heading --line-number --color never '%s' %s")
 (global-set-key (kbd "C-s") 'counsel-grep-or-swiper)
@@ -979,7 +988,7 @@ when the prefix argument is given."
 ;;   always split horizontal: 0
 
 ;; Use dimmer with god-mode for visual cue of editing mode
-(straight-use-package '(dimmer :host github :repo "emacsmirror/dimmer" :branch "master"))
+(straight-use-package 'dimmer)
 (require 'dimmer)
 
 ; Set up god-mode for modal editing
@@ -1002,7 +1011,6 @@ when the prefix argument is given."
 (add-hook 'god-mode-disabled-hook '(lambda ()
                                      (progn
                                        (dimmer-mode t)
-                                       ;; (dimmer-dim-all)
                                        (dimmer-process-all)
                                        (setq cursor-type 'box))))
 ;; Toggle (god-local-mode)
