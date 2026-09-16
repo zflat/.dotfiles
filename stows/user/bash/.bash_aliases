@@ -1,21 +1,5 @@
 #!/usr/bin/env bash
 
-########################################
-# Bash customization to add to a .bashrc
-########################################
-
-# Set up common tools and environment variables
-if [[ -f "$HOME/.bashrc_contrib" ]]; then
-    . "$HOME/.bashrc_contrib"
-fi
-
-# Set up tech-stack specific environment
-if [[ -f "$HOME/.bashrc_devenv" ]]; then
-    . "$HOME/.bashrc_devenv"
-fi
-
-#######################################
-# Functions used with aliases
 #######################################
 
 # Starts and runs a devcontiner and attaches to it
@@ -47,6 +31,24 @@ function devcontainer-project-full () {
 function devcontainer-project () {
   devcontainer exec --workspace-folder "$(pwd)" bash
 };
+
+
+########################################
+# Bash customization to add to a .bashrc
+########################################
+
+# Set up common tools and environment variables
+if [[ -f "$HOME/.bashrc_contrib" ]]; then
+    . "$HOME/.bashrc_contrib"
+fi
+
+# Set up tech-stack specific environment
+if [[ -f "$HOME/.bashrc_devenv" ]]; then
+    . "$HOME/.bashrc_devenv"
+fi
+
+#######################################
+# Functions used with aliases
 
 ########################################
 # Aliases
