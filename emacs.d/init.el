@@ -209,6 +209,7 @@
 
 
 ;; Automatically save files on lose focus in Emacs
+;; See also https://github.com/jamescherti/buffer-guardian.el
 (add-function :after after-focus-change-function
               (lambda ()
                 (unless (or (frame-focus-state) (ws-precedes-point-p)) (save-some-buffers t nil))))

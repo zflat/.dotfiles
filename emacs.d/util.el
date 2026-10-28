@@ -259,6 +259,7 @@ Version 2018-09-29"
 (find-file tramp-file-name)))
 
 ; TODO function to copy a region without indentation for pasting into code snippets
+; https://github.com/jamescherti/wizard.el#smart-text-manipulation
 ; https://emacs.stackexchange.com/questions/34966/copy-region-without-leading-indentation
 
 
