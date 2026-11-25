@@ -1,0 +1,8 @@
+{
+  "uuid": "raise-apps@dotfiles.repo",
+  "name": "Raise Apps",
+  "description": "Raise or minimize applications using keyboard shortcuts",
+  "version": 1,
+  "shell-version": ["46", "47", "48"],
+  "settings-schema": "org.gnome.shell.extensions.raise-apps"
+}

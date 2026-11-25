@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.raise-apps" path="/org/gnome/shell/extensions/raise-apps/">
+    <key name="raise-browser" type="as">
+      <default>['&lt;Ctrl&gt;&lt;Alt&gt;b']</default>
+    </key>
+    <key name="raise-emacs" type="as">
+      <default>['&lt;Ctrl&gt;&lt;Alt&gt;k']</default>
+    </key>
+    <key name="raise-emacs-here" type="as">
+      <default>['&lt;Ctrl&gt;&lt;Alt&gt;&lt;Shift&gt;k']</default>
+    </key>
+    <key name="raise-terminal" type="as">
+      <default>['&lt;Ctrl&gt;&lt;Alt&gt;o']</default>
+    </key>
+    <key name="raise-terminal-here" type="as">
+      <default>['&lt;Ctrl&gt;&lt;Alt&gt;&lt;Shift&gt;o']</default>
+    </key>
+    <key name="browser-classes" type="as">
+      <default>
+        ['firefox']
+      </default>
+    </key>
+    <key name="emacs-classes" type="as">
+      <default>
+        ['emacs']
+      </default>
+    </key>
+    <key name="terminal-classes" type="as">
+      <default>
+        ['org.gnome.Console',
+         'gnome-terminal',
+         'kitty',
+         'Alacritty',
+          'terminator']
+      </default>
+    </key>
+    <key name="move-to-active-workspace" type="b">
+      <default>false</default>
+    </key>
+  </schema>
+</schemalist>
