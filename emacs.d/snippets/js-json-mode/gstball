@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: gstball
+# key: gstball
+# --
+"src_str": "videotestsrc pattern=ball is-live=true ! video/x-raw,width=1920,height=1080,framerate=24/1 ! videoflip method=vertical-flip ! coloreffects preset=heat"
