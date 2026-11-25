@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: dbgrect - Debug rectangle center in parent with line through the horizontal center
+# key: dbgrect
+# --
+Rectangle {objectName: "dbgrect"; anchors.fill: parent; color: "#22000077"; Rectangle {width: parent.width; height: 1; anchors.centerIn: parent;}}
